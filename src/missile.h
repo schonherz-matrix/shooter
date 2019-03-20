@@ -11,9 +11,11 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
+    void advance(int phase) override;
 
 private:
     bool direction_down;
+    QPoint position;
     QColor color = Qt::magenta;
 };
 

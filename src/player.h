@@ -22,16 +22,15 @@ class Player : public QGraphicsItem
      */
     const bool upper;
     QColor color;
-
     size_t life;
 
 public:
     Player(bool upper);
 
-    // QGraphicsItem interface
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void advance(int phase) override;
 
     size_t getLife() {
         return this->life;

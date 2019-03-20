@@ -6,19 +6,18 @@
 PowerUp::PowerUp(){
     QRandomGenerator generator;
 
-    size_t random_type_num = generator.QRandomGenerator::generate() % PowerUp::number_of_types;
+    size_t random_type_num = generator.generate() % PowerUp::number_of_types;
 
     color = PowerUp::types[random_type_num].second;
     power = PowerUp::types[random_type_num].first;
 
-    int random_move_direction_temp = ;
-    double random_move_direction = (random_move_direction_temp) / ;
+    speed.move_in_y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.move_in_x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
 
-    speed.move_in_y = 1.0 * generator.QRandomGenerator::bounded(-10,10) / (generator.QRandomGenerator::bounded(1000));
-    speed.move_in_x = 1.0 * generator.QRandomGenerator::bounded(-10,10) / (generator.QRandomGenerator::bounded(1000));
-
-    if (speed.move_in_x < 0) {
+    bool dir = generator.generate() % 2 ? true : false;
+    if (dir) {
         position.x = 32;
+	speed.move_in_x*=-1;
     } else {
         position.x = 0;
     }

@@ -23,12 +23,12 @@ QPainterPath Player::shape() const
     QPainterPath path;
 
     if(upper) {
-        path.addRect(0,0,2,1);
-        path.addRect(1,1,1,1);
+        path.addRect(0,0,3,1);
+        path.addRect(0,1,1,1);
     }
     else {
-        path.addRect(0,0,2,1);
-        path.addRect(1,1,1,1);
+        path.addRect(1,0,1,1);
+        path.addRect(0,1,3,1);
     }
 
     return path;

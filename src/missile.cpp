@@ -1,8 +1,8 @@
 #include "missile.h"
 #include <QPainter>
 
-Missile::Missile(QPointF position) {
-    if (direction_down) {
+Missile::Missile(QPointF position, bool direction_down) {
+    if (direction_down == true) {
         position.setX(position.y() + 1);
     } else {
         position.setY(position.y() - 1);
@@ -27,7 +27,4 @@ void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWi
 
 }
 
-void Missile::setDirectionDown(bool direction_down){
-    this->direction_down = direction_down;
-}
 

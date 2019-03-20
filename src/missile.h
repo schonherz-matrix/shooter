@@ -7,11 +7,10 @@
 
 class Missile : public QGraphicsItem {
 public:
-    Missile(QPointF);
+    Missile(QPointF position, bool direction_down);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
-    void setDirectionDown(bool direction_down);
 
 private:
     bool direction_down;

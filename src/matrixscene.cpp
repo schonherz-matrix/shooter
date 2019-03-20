@@ -1,6 +1,5 @@
 #include "matrixscene.h"
-#include "player.h"
-#include "asteroid.h"
+#include "bar.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -24,11 +23,17 @@ MatrixScene::MatrixScene(QObject *parent)
 
   connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
 
-  Player* upperPlayer = new Player(true);
-  Player* lowerPlayer = new Player(false);
+  auto upperBarOnRight = new Bar(Qt::red, 1);
+  auto lowerBarOnLeft = new Bar(Qt::red, 1);
+
+  upperPlayer = new Player(true, upperBarOnRight);
+  lowerPlayer = new Player(false, lowerBarOnLeft);
 
   addItem(upperPlayer);
   addItem(lowerPlayer);
+
+  addItem(upperBarOnRight);
+  addItem(lowerBarOnLeft);
 
   Asteroid *a1 = new Asteroid();
   Asteroid *a2 = new Asteroid();

@@ -6,6 +6,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QColor>
 
+#include "bar.h"
+
 constexpr size_t max_life = 100;
 
 class Player : public QGraphicsItem
@@ -20,12 +22,14 @@ class Player : public QGraphicsItem
      *   X
      *  XXX
      */
+    Bar *bar;
+
     const bool upper;
     QColor color;
     size_t life;
 
 public:
-    Player(bool upper);
+    Player(bool upper, Bar *bar);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;

@@ -8,6 +8,9 @@
 #include <QObject>
 #include <QPainter>
 
+#include "player.h"
+#include "asteroid.h"
+
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
 
@@ -22,6 +25,9 @@ class MatrixScene : public QGraphicsScene {
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;
+
+  Player* upperPlayer;
+  Player* lowerPlayer;
 };
 
 #endif  // MATRIXSCENE_H

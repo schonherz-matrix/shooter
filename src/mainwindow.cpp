@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
   ui->graphicsView->setScene(&scene);
   ui->graphicsView->scale(10, 10);
-  auto bar = new Bar(Qt::red, 1);
-  bar->setPos(0, 0);
-  scene.addItem(bar);
 }
 
 MainWindow::~MainWindow() { delete ui; }

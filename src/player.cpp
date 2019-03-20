@@ -21,7 +21,6 @@ QRectF Player::boundingRect() const
 QPainterPath Player::shape() const
 {
     QPainterPath path;
-    //TODO implement this
 
     if(upper) {
         path.addRect(0,0,2,1);

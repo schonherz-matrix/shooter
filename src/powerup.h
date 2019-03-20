@@ -14,16 +14,16 @@ public:
     QPainterPath shape() const override;
     
     void advance(int phase) override;
-
-private:
-    QColor color;
-
+	
     enum type{
       HEALTH,
       DOUBLE_SHOOT,
       TRIPLE_SHOOT,
       LASER
     } power;
+
+private:
+    QColor color;
 
     QPointF speed;
 

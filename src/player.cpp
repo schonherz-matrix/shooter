@@ -58,5 +58,21 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 void Player::advance(int phase)
 {
     Q_UNUSED(phase);
+
     // TODO impelemnt this
+}
+
+void Player::hitBy(Asteroid &asteroid)
+{
+    asteroid.hit();
+    hurt(20);
+}
+
+void Player::hurt(size_t loss)
+{
+    if(loss >= life) {
+        //TODO: kill, end game
+        return;
+    }
+    life -= loss;
 }

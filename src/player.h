@@ -7,6 +7,7 @@
 #include <QColor>
 
 #include "bar.h"
+#include "asteroid.h"
 
 constexpr size_t max_life = 100;
 
@@ -35,6 +36,9 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
+
+    void hitBy(Asteroid& asteroid);
+    void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
 
     size_t getLife() {
         return this->life;

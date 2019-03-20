@@ -47,7 +47,9 @@ MatrixScene::MatrixScene(QObject *parent)
   lowerPlayer = new Player(false, &player2HPBar);
 
   addItem(upperPlayer);
+  players.push_back(upperPlayer);
   addItem(lowerPlayer);
+  players.push_back(lowerPlayer);
 }
 
 void MatrixScene::updateFrame() {
@@ -59,4 +61,17 @@ void MatrixScene::updateFrame() {
     }
   }
   transmitter.sendFrame(out);
+}
+
+void MatrixScene::advance()
+{
+    QGraphicsScene::advance();
+
+    for(auto player : players) {
+        for(auto aster : asteroids) {
+            if(player->collidesWithItem(aster)) {
+                player->hitBy(*aster);
+            }
+        }
+    }
 }

@@ -8,8 +8,9 @@
 #include <QObject>
 #include <QPainter>
 #include <QTimer>
-#include "bar.h"
+#include <QList>
 
+#include "bar.h"
 #include "player.h"
 #include "asteroid.h"
 
@@ -21,6 +22,7 @@ class MatrixScene : public QGraphicsScene {
 
  public slots:
   void updateFrame();
+  void advance();
 
  private:
   Frame out;
@@ -28,10 +30,15 @@ class MatrixScene : public QGraphicsScene {
   QPainter painter;
   MUEBTransmitter transmitter;
   QTimer timer;
+
+  QList<Player*> players;
+  QList<Asteroid*> asteroids;
+
   Bar player1HPBar;
   Bar player2HPBar;
   Bar player1PWBar;
   Bar player2PWBar;
+
   Player* upperPlayer;
   Player* lowerPlayer;
 };

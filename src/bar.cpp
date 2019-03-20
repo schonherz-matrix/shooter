@@ -19,7 +19,7 @@ float Bar::getValue()
     return m_value;
 }
 
-void Bar::setColor(QColor &color)
+void Bar::setColor(const QColor &color)
 {
     m_color = color;
 }
@@ -53,7 +53,7 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget
 
 QRectF Bar::boundingRect() const
 {
-    return QRectF(0, 0, 0, 25);
+    return QRectF(0, 0, 1, 26);
 }
 
 QPainterPath Bar::shape() const

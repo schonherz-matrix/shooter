@@ -27,6 +27,11 @@ class MatrixScene : public QGraphicsScene {
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;
+  QTimer timer;
+  Bar player1HPBar;
+  Bar player2HPBar;
+  Bar player1PWBar;
+  Bar player2PWBar;
   Player* upperPlayer;
   Player* lowerPlayer;
 };

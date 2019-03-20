@@ -48,6 +48,9 @@ public:
     size_t getLife() {
         return this->life;
     }
+
+private:
+    unsigned time_to_fire;
 };
 
 #endif // Player_H

@@ -3,6 +3,7 @@
 
 #include <QColor>
 #include <QGraphicsItem>
+#include <array>
 
 class PowerUp : public QGraphicsItem
 {

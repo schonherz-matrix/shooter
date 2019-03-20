@@ -34,11 +34,27 @@ HEADERS += \
         src/mainwindow.h \
     src/asteroid.h \
     src/player.h
+    src/matrixscene.cpp
 
 FORMS += \
         src/mainwindow.ui
+
+INCLUDEPATH += $$PWD/matrix-simple
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/matrix-simple/mueb/release/ -lmueb
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/matrix-simple/mueb/debug/ -lmueb
+else:unix: LIBS += -L$$PWD/matrix-simple/mueb/ -lmueb
+
+INCLUDEPATH += $$PWD/matrix-simple/mueb
+DEPENDPATH += $$PWD/matrix-simple/mueb
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/release/libmueb.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/debug/libmueb.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/release/mueb.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/debug/mueb.lib
+else:unix: PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/libmueb.a

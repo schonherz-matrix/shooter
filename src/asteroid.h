@@ -4,12 +4,15 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QRandomGenerator>
+#include <QObject>
 
-class Asteroid : public QGraphicsItem
+class Asteroid : public QGraphicsItem, public QObject
 {
     Q_OBJECT
     int m_x, m_y;
     int type;
+
+    static const int MAXLIFE = 3;
 
     Q_PROPERTY(int x MEMBER m_x READ getX WRITE setX)
     Q_PROPERTY(int y MEMBER m_y READ getY WRITE setY)

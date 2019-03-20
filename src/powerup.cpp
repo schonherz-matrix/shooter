@@ -3,21 +3,19 @@
 #include <QPainter>
 #include <QRandomGenerator>
 
-powerup::powerup()
-{
+powerup::powerup(){
     QRandomGenerator generator;
 
-    size_t random_type_num = generator.QRandomGenerator::generate() * 3;
-    random_type_num %= powerup::number_of_types;
+    size_t random_type_num = generator.QRandomGenerator::generate() % powerup::number_of_types;
 
     color = powerup::types[random_type_num].second;
     power = powerup::types[random_type_num].first;
 
-    int random_move_direction_temp = generator.QRandomGenerator::bounded(-1,1);
-    double random_move_direction = (random_move_direction_temp) / (generator.QRandomGenerator::bounded(1000));
+    int random_move_direction_temp = ;
+    double random_move_direction = (random_move_direction_temp) / ;
 
-    speed.move_in_y = random_move_direction;
-    speed.move_in_x = random_move_direction;
+    speed.move_in_y = 1.0 * generator.QRandomGenerator::bounded(-10,10) / (generator.QRandomGenerator::bounded(1000));
+    speed.move_in_x = 1.0 * generator.QRandomGenerator::bounded(-10,10) / (generator.QRandomGenerator::bounded(1000));
 
     if (speed.move_in_x < 0) {
         position.x = 32;
@@ -25,17 +23,10 @@ powerup::powerup()
         position.x = 0;
     }
 
-    position.y = 0;
+    position.y = 13;
+
+    setPos(position.x, position.y);
 }
-
-const std::array<std::pair<powerup::type, QColor>, powerup::number_of_types> powerup::types =
-{
-    std::make_pair(powerup::type::HEALTH, Qt::green),
-    std::make_pair(powerup::type::DOUBLE_SHOOT, Qt::yellow),
-    std::make_pair(powerup::type::TRIPLE_SHOOT, Qt::red),
-    std::make_pair(powerup::type::HEALTH, Qt::blue)
-};
-
 
 void powerup::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget){
     Q_UNUSED(item);
@@ -53,3 +44,13 @@ QPainterPath powerup::shape() const{
     QPainterPath path;
     path.addRect(0,0,1,1);
 }
+
+const std::array<std::pair<powerup::type, QColor>, powerup::number_of_types> powerup::types =
+{
+    std::make_pair(powerup::type::HEALTH, Qt::green),
+    std::make_pair(powerup::type::DOUBLE_SHOOT, Qt::yellow),
+    std::make_pair(powerup::type::TRIPLE_SHOOT, Qt::red),
+    std::make_pair(powerup::type::HEALTH, Qt::blue)
+};
+
+

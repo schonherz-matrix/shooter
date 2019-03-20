@@ -32,13 +32,16 @@ HEADERS += \
     src/player.h
 
 SOURCES += \
+    src/player.cpp \
+    src/powerup.cpp \
     src/asteroid.cpp \
     src/bar.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/matrixscene.cpp \
-    src/player.cpp
-
+    src/player.cpp \
+    src/powerup.cpp \
+    src/powerup.h
 FORMS += \
         src/mainwindow.ui \
     src/mainwindow.ui \

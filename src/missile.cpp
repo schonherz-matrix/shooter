@@ -1,8 +1,13 @@
 #include "missile.h"
 #include <QPainter>
 
-Missile::Missile(QPointF position, bool direction_down) : direction_down(direction_down) {
-
+Missile(const QPointF& start_position, QColor color, QGraphicsItem* parent, bool direction_down):
+    parent(parent),
+    color(color)
+{
+    speed = { 0.0, (direction_down ? 1 : -1) };
+    
+    setPos(start_position + speed);
 }
 
 QRectF Missile::boundingRect() const {
@@ -21,11 +26,30 @@ void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWi
 
     painter->setPen(QPen(color, 1));
     painter->drawPoint(0,0);
-
 }
 
 void Missile::advance(int phase) {
     if (phase == 0)
         return;
+    
+    setPos(start_position + (speed/20));
 }
 
+void meetWith(PowerUp& pu){
+    this->parent->applyPowerUp(pu.getPower());
+    
+    delete &pu;    
+    delete this;
+}
+
+void meetWith(Asteroid& as){
+    as.hit();
+    
+    delete this;
+}
+
+void meetWith(Player& p){
+    p.hit();
+    
+    delete this;
+}

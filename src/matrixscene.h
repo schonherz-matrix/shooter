@@ -14,6 +14,7 @@
 #include "player.h"
 #include "asteroid.h"
 #include "powerup.h"
+#include "missile.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
@@ -35,6 +36,7 @@ class MatrixScene : public QGraphicsScene {
   QList<Player*> players;
   QList<Asteroid*> asteroids;
   QList<PowerUp*> powerups;
+  QList<Missile*> missiles;
 
   Bar player1HPBar;
   Bar player2HPBar;

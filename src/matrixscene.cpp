@@ -80,7 +80,6 @@ void MatrixScene::advance()
     QGraphicsScene::advance();
 
     //collision detection
-    //TODO: do this for players and rockets, rockets and asteroids, rockets and powerups
     for(auto player : players) {
         for(auto aster : asteroids) {
             if(player->collidesWithItem(aster)) {
@@ -92,6 +91,27 @@ void MatrixScene::advance()
         for(auto powerup : powerups) {
             if(player->collidesWithItem(powerup)) {
                 player->hitBy(*powerup);
+            }
+        }
+    }
+    for(auto asteroid : asteroids) {
+        for(auto missile : missiles) {
+            if(asteroid->collidesWithItem(missile)) {
+                missile->meetWith(*asteroid);
+            }
+        }
+    }
+    for(auto powerup : powerups) {
+        for(auto missile : missiles) {
+            if(powerup->collidesWithItem(missile)) {
+                missile->meetWith(*powerup);
+            }
+        }
+    }
+    for(auto player : players) {
+        for(auto missile : missiles) {
+            if(player->collidesWithItem(missile)) {
+                missile->meetWith(*player);
             }
         }
     }

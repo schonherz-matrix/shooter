@@ -1,4 +1,5 @@
 #include "matrixscene.h"
+#include "bar.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -42,6 +43,11 @@ MatrixScene::MatrixScene(QObject *parent)
   addItem(&player2HPBar);
   addItem(&player1PWBar);
   addItem(&player2PWBar);
+  upperPlayer = new Player(true, &player1HPBar);
+  lowerPlayer = new Player(false, &player2HPBar);
+
+  addItem(upperPlayer);
+  addItem(lowerPlayer);
 }
 
 void MatrixScene::updateFrame() {

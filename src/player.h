@@ -6,11 +6,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <QWidget>
 #include <QColor>
-#include <QObject>
 
 constexpr size_t max_life = 100;
 
-class Player : public QGraphicsItem, public QObject
+class Player : public QGraphicsItem
 {
     Q_OBJECT
 
@@ -27,7 +26,6 @@ class Player : public QGraphicsItem, public QObject
     QColor color;
 
     size_t life;
-    Q_PROPERTY(size_t life MEMBER life READ getLife)
 
 public:
     Player(bool upper);

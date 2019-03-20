@@ -45,6 +45,19 @@ QPainterPath powerup::shape() const{
     path.addRect(0,0,1,1);
 }
 
+void powerup::advance(int phase){
+	if (phase == 0)
+		return;
+
+	moveBy(speed.move_in_x, speed.move_in_y);
+
+	if ( x() > 32 || x() < 0)
+		if( y() < 0 || y() > 26 )
+		{
+			delete this;
+		}
+}
+
 const std::array<std::pair<powerup::type, QColor>, powerup::number_of_types> powerup::types =
 {
     std::make_pair(powerup::type::HEALTH, Qt::green),

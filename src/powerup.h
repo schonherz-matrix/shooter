@@ -12,10 +12,12 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
+    
+    void advance(int phase) override;
 
 private:
     struct {
-        int x, y;
+        double x, y;
     } position;
 
     int x;

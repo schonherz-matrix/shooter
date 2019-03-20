@@ -54,3 +54,9 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         painter->drawPoint(2,1);
     }
 }
+
+void Player::advance(int phase)
+{
+    Q_UNUSED(phase);
+    // TODO impelemnt this
+}

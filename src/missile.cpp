@@ -39,7 +39,7 @@ void Missile::advance(int phase) {
 }
 
 void Missile::meetWith(PowerUp& pu){
-    //parent->applyPowerUp(pu.getPower());
+    parent->applyPowerUp(pu.getPower());
     
     delete &pu;    
     delete this;

@@ -20,7 +20,8 @@ public:
       HEALTH,
       DOUBLE_SHOOT,
       TRIPLE_SHOOT,
-      LASER
+      LASER,
+      NONE
     } power;
 
     void kill();

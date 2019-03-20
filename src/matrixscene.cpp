@@ -1,4 +1,5 @@
 #include "matrixscene.h"
+#include "player.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -21,6 +22,12 @@ MatrixScene::MatrixScene(QObject *parent)
   transmitter.sendFrame(out);
 
   connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
+
+  Player* upperPlayer = new Player(true);
+  Player* lowerPlayer = new Player(false);
+
+  addItem(upperPlayer);
+  addItem(lowerPlayer);
 }
 
 void MatrixScene::updateFrame() {

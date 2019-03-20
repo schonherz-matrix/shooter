@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QTimer>
+#include <QGamepadManager>
 #include "bar.h"
 
 #include "player.h"

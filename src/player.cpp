@@ -1,7 +1,9 @@
 #include "player.h"
 
-Player::Player(bool upper, Bar *bar) : bar(bar), upper(upper), life(max_life)
+Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp) :
+    gamepad(gamepad), healthBar(healthBar), powerUp(powerUp), upper(upper), life(max_life)
 {
+
     if(upper) {
         // lightpink	#FFB6C1	rgb(255,182,193)
         color = QColor(255,82,193);

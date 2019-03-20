@@ -1,6 +1,5 @@
 #include "matrixscene.h"
 #include "bar.h"
-#include <QtGamepad/qgamepad.h>
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -9,7 +8,8 @@ MatrixScene::MatrixScene(QObject *parent)
       player1HPBar(Qt::red, 1),
       player2HPBar(Qt::green, 1),
       player1PWBar(Qt::yellow, 0),
-      player2PWBar(Qt::yellow, 0) {
+      player2PWBar(Qt::yellow, 0)
+    {
     // set BG
     setBackgroundBrush(Qt::black);
 
@@ -35,9 +35,6 @@ MatrixScene::MatrixScene(QObject *parent)
         return;
     }
 
-    auto upperPlayerGamePad = gamepads.first();
-    auto lowerPlayerGamePad = gamepads.last();
-
     // init Timer
     connect(&timer, SIGNAL(timeout()), this, SLOT(advance()));
     timer.start(1000 / 33);
@@ -54,8 +51,9 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player2HPBar);
     addItem(&player1PWBar);
     addItem(&player2PWBar);
-    upperPlayer = new Player(true, &player1HPBar);
-    lowerPlayer = new Player(false, &player2HPBar);
+
+    upperPlayer = new Player(true, new QGamepad(gamepads.first(), this), &player1HPBar, &player1PWBar);
+    lowerPlayer = new Player(false, new QGamepad(gamepads.last(), this), &player2HPBar, &player2PWBar);
 
     addItem(upperPlayer);
     addItem(lowerPlayer);

@@ -65,8 +65,11 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 void Player::advance(int phase)
 {
-    if(phase == 0)
+    if(phase == 0){
+	if(time_to_fire)
+		time_to_fire--;
         return;
+    }
 
 //    qDebug() << gamepad->buttonLeft();
 
@@ -77,7 +80,15 @@ void Player::advance(int phase)
     else if(!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < 29){
         // go right
         moveBy(1,0);
-
+    }
+    else if(!gamepad->buttonL1() && time_to_fire == 0){
+	//FIRE
+	
+        QPointF start_point = { pos().x()+1, pos().y() + (upper ? -1 : 1) };
+	
+	parent->addItem( new Missile(start_point, color, this, upper) );
+	
+	time_to_fire = 300; //TODO if powerup is applyed this is less
     }
 
 }

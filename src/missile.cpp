@@ -33,6 +33,9 @@ void Missile::advance(int phase) {
         return;
     
     setPos(start_position + (speed/20));
+    
+    if( this->Pos()->y() < 0 || this->Pos()->y() > 26 )
+        delete this;
 }
 
 void meetWith(PowerUp& pu){

@@ -33,8 +33,6 @@ HEADERS += \
     src/powerup.h
 
 SOURCES += \
-    src/player.cpp \
-    src/powerup.cpp \
     src/asteroid.cpp \
     src/bar.cpp \
     src/main.cpp \
@@ -42,10 +40,8 @@ SOURCES += \
     src/matrixscene.cpp \
     src/player.cpp \
     src/powerup.cpp
+
 FORMS += \
-        src/mainwindow.ui \
-    src/mainwindow.ui \
-    src/mainwindow.ui \
     src/mainwindow.ui
 
 INCLUDEPATH += $$PWD/matrix-simple

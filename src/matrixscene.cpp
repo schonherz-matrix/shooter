@@ -29,10 +29,12 @@ MatrixScene::MatrixScene(QObject *parent)
     connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
 
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
-    if (gamepads.isEmpty()) {
+    if (gamepads.isEmpty() || gamepads.size() < 2) {
         qDebug() << "Did not find any connected gamepads";
-        QGraphicsTextItem* felk_jel = new QGraphicsTextItem("!");
+        QGraphicsTextItem* felk_jel = new QGraphicsTextItem("?");
         felk_jel->setDefaultTextColor(Qt::red);
+        felk_jel->setFont(QFont("Comic Sans", 18));
+        felk_jel->setPos(0,0);
         addItem(felk_jel);
         return;
     }

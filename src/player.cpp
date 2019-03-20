@@ -1,4 +1,5 @@
 #include "player.h"
+#include <QDebug>
 
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp) :
     gamepad(gamepad), healthBar(healthBar), powerUp(powerUp), upper(upper), life(max_life)
@@ -67,8 +68,11 @@ void Player::advance(int phase)
     if(phase == 0)
         return;
 
+    qDebug() << gamepad->buttonLeft();
+
     if(gamepad->buttonLeft() && !gamepad->buttonRight()){
         // go left
+        qDebug() << "left fired";
         moveBy(1,0);
     }
     else if(!gamepad->buttonLeft() && gamepad->buttonRight()){

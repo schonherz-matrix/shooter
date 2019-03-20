@@ -8,6 +8,7 @@
 
 #include "bar.h"
 #include "asteroid.h"
+#include "powerup.h"
 
 constexpr size_t max_life = 100;
 
@@ -38,6 +39,7 @@ public:
     void advance(int phase) override;
 
     void hitBy(Asteroid& asteroid);
+    void hitBy(PowerUp& powerup);
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
 
     size_t getLife() {

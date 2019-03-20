@@ -68,6 +68,11 @@ void Player::hitBy(Asteroid &asteroid)
     hurt(20);
 }
 
+void Player::hitBy(PowerUp &powerup)
+{
+    //TODO: implement
+}
+
 void Player::hurt(size_t loss)
 {
     if(loss >= life) {

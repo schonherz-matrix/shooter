@@ -74,4 +74,11 @@ void MatrixScene::advance()
             }
         }
     }
+    for(auto player : players) {
+        for(auto powerup : powerups) {
+            if(player->collidesWithItem(powerup)) {
+                player->hitBy(*powerup);
+            }
+        }
+    }
 }

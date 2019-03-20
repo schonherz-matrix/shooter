@@ -14,28 +14,31 @@ void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QW
 
     if (this->life != 0) {
         if (this->life == 3) {
-            painter->drawRect(0, 0, 2, 2);
+            painter->drawPoint(0, 0);
+            painter->drawPoint(0, 1);
+            painter->drawPoint(1, 0);
+            painter->drawPoint(1, 1);
         } else if (this->life == 2) {
             if (this->type != 0) {
-                painter->drawPoint(1, 1);
+                painter->drawPoint(0, 0);
             }
             if (this->type != 1) {
-                painter->drawRect(1, 0, 1, 1);
+                painter->drawPoint(1, 0);
             }
             if (this->type != 2) {
-                painter->drawRect(1, 1, 1, 1);
+                painter->drawPoint(1, 1);
             }
             if (this->type != 3) {
-                painter->drawRect(0, 0, 1, 1);
+                painter->drawPoint(0, 1);
             }
         } else if (this->life == 1) {
             if (this->type != 0 || this->type != 2) {
-                painter->drawRect(0, 0, 1, 1);
-                painter->drawRect(1, 1, 1, 1);
+                painter->drawPoint(0, 0);
+                painter->drawPoint(1, 1);
             }
             if (this->type != 1 || this->type != 3) {
-                painter->drawRect(1, 0, 1, 1);
-                painter->drawRect(0, 1, 1, 1);
+                painter->drawPoint(0, 1);
+                painter->drawPoint(1, 0);
             }
         }
     }

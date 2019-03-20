@@ -29,7 +29,8 @@ HEADERS += \
     src/bar.h \
     src/mainwindow.h \
     src/matrixscene.h \
-    src/player.h
+    src/player.h \
+    src/powerup.h
 
 SOURCES += \
     src/player.cpp \
@@ -40,8 +41,7 @@ SOURCES += \
     src/mainwindow.cpp \
     src/matrixscene.cpp \
     src/player.cpp \
-    src/powerup.cpp \
-    src/powerup.h
+    src/powerup.cpp
 FORMS += \
         src/mainwindow.ui \
     src/mainwindow.ui \

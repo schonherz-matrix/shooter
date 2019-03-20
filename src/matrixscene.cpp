@@ -1,4 +1,5 @@
 #include "matrixscene.h"
+#include "asteroid.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -21,6 +22,17 @@ MatrixScene::MatrixScene(QObject *parent)
   transmitter.sendFrame(out);
 
   connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
+
+  Asteroid *a1 = new Asteroid();
+  Asteroid *a2 = new Asteroid();
+
+  a1->setPos(5, 5);
+  a2->setPos(10, 10);
+
+  a2->hit();
+
+  addItem(a1);
+  addItem(a2);
 }
 
 void MatrixScene::updateFrame() {

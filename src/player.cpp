@@ -68,16 +68,16 @@ void Player::advance(int phase)
     if(phase == 0)
         return;
 
-    qDebug() << gamepad->buttonLeft();
+//    qDebug() << gamepad->buttonLeft();
 
     if(gamepad->buttonLeft() && !gamepad->buttonRight()){
         // go left
-        qDebug() << "left fired";
-        moveBy(1,0);
+        moveBy(-1,0);
     }
     else if(!gamepad->buttonLeft() && gamepad->buttonRight()){
         // go right
-        moveBy(-1,0);
+        moveBy(1,0);
+
     }
 
 }

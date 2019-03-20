@@ -29,7 +29,7 @@ MatrixScene::MatrixScene(QObject *parent)
     connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
 
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
-    if (gamepads.isEmpty() || gamepads.size() < 2) {
+    if (gamepads.isEmpty() /*|| gamepads.size() < 2*/) {
         qDebug() << "Did not find any connected gamepads";
         QGraphicsTextItem* felk_jel = new QGraphicsTextItem("?");
         felk_jel->setDefaultTextColor(Qt::red);

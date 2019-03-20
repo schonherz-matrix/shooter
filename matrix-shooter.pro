@@ -29,9 +29,9 @@ HEADERS += \
     src/bar.h \
     src/mainwindow.h \
     src/matrixscene.h \
+    src/missile.h \
     src/player.h \
-    src/powerup.h \
-    src/missile.h
+    src/powerup.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -39,14 +39,11 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/matrixscene.cpp \
-    src/player.cpp
-    src/powerup.cpp \
-    src/missile.cpp
+    src/missile.cpp \
+    src/player.cpp \
+    src/powerup.cpp
 
 FORMS += \
-        src/mainwindow.ui \
-    src/mainwindow.ui \
-    src/mainwindow.ui \
     src/mainwindow.ui
 
 INCLUDEPATH += $$PWD/matrix-simple

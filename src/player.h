@@ -44,6 +44,7 @@ public:
     void hitBy(Asteroid& asteroid);
     void hitBy(PowerUp& powerup);
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
+    void applyPowerUp(PowerUp::type const& pu);
 
     size_t getLife() {
         return this->life;

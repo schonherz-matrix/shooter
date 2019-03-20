@@ -56,7 +56,13 @@ void PowerUp::advance(int phase){
         if( pos().y() < 0 || pos().y() > 26 )
 		{
 			delete this;
-		}
+        }
+}
+
+void PowerUp::kill()
+{
+    //TODO: implement
+    //called when powerup needs to die; e.g.: used up
 }
 
 const std::array<std::pair<PowerUp::type, QColor>, PowerUp::number_of_types> PowerUp::types =

@@ -87,7 +87,8 @@ void Player::hitBy(Asteroid &asteroid)
 
 void Player::hitBy(PowerUp &powerup)
 {
-    //TODO: implement
+    applyPowerUp(powerup.getPower());
+    powerup.kill();
 }
 
 void Player::hurt(size_t loss)
@@ -97,4 +98,9 @@ void Player::hurt(size_t loss)
         return;
     }
     life -= loss;
+}
+
+void Player::applyPowerUp(PowerUp::type const& pu)
+{
+    //TODO: implement
 }

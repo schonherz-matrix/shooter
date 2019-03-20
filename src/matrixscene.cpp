@@ -23,36 +23,11 @@ MatrixScene::MatrixScene(QObject *parent)
 
   connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
 
-  auto upperBarOnRight = new Bar(Qt::red, 1);
-  auto lowerBarOnLeft = new Bar(Qt::red, 1);
-
   upperPlayer = new Player(true, upperBarOnRight);
   lowerPlayer = new Player(false, lowerBarOnLeft);
 
   addItem(upperPlayer);
   addItem(lowerPlayer);
-
-  addItem(upperBarOnRight);
-  addItem(lowerBarOnLeft);
-
-  Asteroid *a1 = new Asteroid();
-  Asteroid *a2 = new Asteroid();
-  Asteroid *a3 = new Asteroid();
-  Asteroid *a4 = new Asteroid();
-
-  a1->setPos(2, 2);
-  a2->setPos(10, 10);
-  a3->setPos(16, 8);
-  a4->setPos(20, 14);
-
-  a2->hit();
-
-  a3->hit();
-
-  addItem(a1);
-  addItem(a2);
-  addItem(a3);
-  addItem(a4);
 }
 
 void MatrixScene::updateFrame() {

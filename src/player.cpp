@@ -6,18 +6,16 @@ Player::Player(bool upper, Bar *bar) : bar(bar), upper(upper), life(max_life)
         // lightpink	#FFB6C1	rgb(255,182,193)
         color = QColor(255,82,193);
         setPos(15,0);
-        bar->setPos(31,0);
     }
     else {
         color = Qt::green;
         setPos(15,24);
-        bar->setPos(0,0);
     }
 }
 
 QRectF Player::boundingRect() const
 {
-    return QRectF(0, 0, 3, 3);
+    return QRectF(0, 0, 3, 2);
 }
 
 QPainterPath Player::shape() const

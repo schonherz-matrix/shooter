@@ -11,20 +11,21 @@ PowerUp::PowerUp(){
     color = PowerUp::types[random_type_num].second;
     power = PowerUp::types[random_type_num].first;
 
-    speed.move_in_y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
-    speed.move_in_x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+
+    qreal x, y;
 
     bool dir = generator.generate() % 2 ? true : false;
     if (dir) {
-        position.x = 32;
-	speed.move_in_x*=-1;
-    } else {
-        position.x = 0;
-    }
+        x = 32;
+	speed.x*=-1;
+    } else 
+        x = 0;
 
-    position.y = 13;
+    y = 13;
 
-    setPos(position.x, position.y);
+    setPos(x, y);
 }
 
 void PowerUp::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget){
@@ -48,7 +49,7 @@ void PowerUp::advance(int phase){
 	if (phase == 0)
 		return;
 
-	moveBy(speed.move_in_x, speed.move_in_y);
+	setPos(pos() + speed);
 
 	if ( pos().x > 32 || pos().x < 0)
 		if( pos().y < 0 || pos().y > 26 )

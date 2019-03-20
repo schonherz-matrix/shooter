@@ -16,10 +16,6 @@ public:
     void advance(int phase) override;
 
 private:
-    struct {
-        qreal x, y;
-    } position;
-
     QColor color;
 
     enum type{
@@ -29,10 +25,7 @@ private:
       LASER
     } power;
 
-    struct {
-        qreal move_in_x;
-        qreal move_in_y;
-    } speed;
+    QPointF speed;
 
     constexpr static size_t number_of_types = 4;
     const static std::array<std::pair<type, QColor>, number_of_types> types;

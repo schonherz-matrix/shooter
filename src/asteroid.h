@@ -7,20 +7,19 @@
 
 class Asteroid : public QGraphicsItem
 {
-    int type;
-
     static const int MAXLIFE = 3;
+
+    int type;
+    int life;
 
     QColor color;
 
-    int life;
+    int pieces[4][4];
 
 public:
     Asteroid();
 
-    void hit() {
-        if (this->life > 0) this->life--;
-    }
+    void hit();
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;

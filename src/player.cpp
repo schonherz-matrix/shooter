@@ -62,13 +62,11 @@ void Player::advance(int phase) {
     return;
   }
 
-  //    qDebug() << gamepad->buttonLeft();
 
-  if (gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 1) {
+  if (gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 2) {
     // go left
     moveBy(-1, 0);
-  } else if (!gamepad->buttonLeft() && gamepad->buttonRight() &&
-             pos().x() < 29) {
+  } else if (!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < (30-3)) {
     // go right
     moveBy(1, 0);
   } else if (!gamepad->buttonL1() && time_to_fire == 0) {

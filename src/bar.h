@@ -6,6 +6,7 @@
 #include <QColor>
 #include <QGraphicsItem>
 
+
 class Bar : public QGraphicsItem
 {
     Q_OBJECT

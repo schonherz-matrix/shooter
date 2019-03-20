@@ -12,7 +12,7 @@ class Missile : public QGraphicsItem {
 public:
     const QGraphicsItem* parent;
 
-    Missile(const QPointF& start_position, QGraphicsItem* parent, bool direction_down);
+    Missile(const QPointF& start_position, QColor color, QGraphicsItem* parent, bool direction_down);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;

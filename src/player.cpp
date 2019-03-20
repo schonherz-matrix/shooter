@@ -1,7 +1,10 @@
 #include "player.h"
+#include <QDebug>
 
-Player::Player(bool upper, Bar *bar) : bar(bar), upper(upper), life(max_life)
+Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp) :
+    gamepad(gamepad), healthBar(healthBar), powerUp(powerUp), upper(upper), life(max_life)
 {
+
     if(upper) {
         // lightpink	#FFB6C1	rgb(255,182,193)
         color = QColor(255,82,193);
@@ -11,6 +14,11 @@ Player::Player(bool upper, Bar *bar) : bar(bar), upper(upper), life(max_life)
         color = Qt::green;
         setPos(15,24);
     }
+}
+
+Player::~Player()
+{
+    delete gamepad;
 }
 
 QRectF Player::boundingRect() const
@@ -59,7 +67,21 @@ void Player::advance(int phase)
 {
     Q_UNUSED(phase);
 
-    // TODO impelemnt this
+    if(phase == 0)
+        return;
+
+//    qDebug() << gamepad->buttonLeft();
+
+    if(gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 0){
+        // go left
+        moveBy(-1,0);
+    }
+    else if(!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < 32){
+        // go right
+        moveBy(1,0);
+
+    }
+
 }
 
 void Player::hitBy(Asteroid &asteroid)

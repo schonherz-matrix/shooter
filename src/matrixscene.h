@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <QTimer>
 #include <QList>
-
+#include <QGamepadManager>
 #include "bar.h"
 #include "player.h"
 #include "asteroid.h"

@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QColor>
+#include <QtGamepad/qgamepad.h>
 
 #include "bar.h"
 #include "asteroid.h"
@@ -24,14 +25,17 @@ class Player : public QGraphicsItem
      *   X
      *  XXX
      */
-    Bar *bar;
+    QGamepad *gamepad;
+    Bar *healthBar;
+    Bar *powerUp;
 
     const bool upper;
     QColor color;
     size_t life;
 
 public:
-    Player(bool upper, Bar *bar);
+    Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);
+    ~Player() override;
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;

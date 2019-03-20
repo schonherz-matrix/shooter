@@ -50,8 +50,8 @@ void PowerUp::advance(int phase){
 
 	moveBy(speed.move_in_x, speed.move_in_y);
 
-	if ( x() > 32 || x() < 0)
-		if( y() < 0 || y() > 26 )
+	if ( pos().x > 32 || pos().x < 0)
+		if( pos().y < 0 || pos().y > 26 )
 		{
 			delete this;
 		}

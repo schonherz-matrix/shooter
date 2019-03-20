@@ -17,11 +17,9 @@ public:
 
 private:
     struct {
-        double x, y;
+        qreal x, y;
     } position;
 
-    int x;
-    int y;
     QColor color;
 
     enum type{
@@ -32,8 +30,8 @@ private:
     } power;
 
     struct {
-        double move_in_x;
-        double move_in_y;
+        qreal move_in_x;
+        qreal move_in_y;
     } speed;
 
     constexpr static size_t number_of_types = 4;

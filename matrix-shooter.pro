@@ -26,12 +26,14 @@ CONFIG += c++11
 
 HEADERS += \
     src/asteroid.h \
+    src/bar.h \
     src/mainwindow.h \
     src/matrixscene.h \
     src/player.h
 
 SOURCES += \
     src/asteroid.cpp \
+    src/bar.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/matrixscene.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
 
 FORMS += \
         src/mainwindow.ui \
+    src/mainwindow.ui \
     src/mainwindow.ui \
     src/mainwindow.ui
 

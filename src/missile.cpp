@@ -1,11 +1,11 @@
 #include "missile.h"
 #include <QPainter>
 
-Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner, bool direction_down):
-    parent(parent),
+Missile::Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner, bool direction_down):
+    parent(owner),
     color(color)
 {
-    speed = { 0.0, (direction_down ? 1 : -1) };
+    speed = { 0.0, (direction_down ? 1.0 : -1.0) };
     
     setPos(start_position + speed);
 }
@@ -34,24 +34,24 @@ void Missile::advance(int phase) {
     
     setPos(start_position + (speed/20));
     
-    if( this->Pos()->y() < 0 || this->Pos()->y() > 26 )
+    if( pos().y() < 0 || pos().y() > 26 )
         delete this;
 }
 
-void meetWith(PowerUp& pu){
-    this->owner->applyPowerUp(pu.getPower());
+void Missile::meetWith(PowerUp& pu){
+    //parent->applyPowerUp(pu.getPower());
     
     delete &pu;    
     delete this;
 }
 
-void meetWith(Asteroid& as){
-    as.kill();
+void Missile::meetWith(Asteroid& as){
+   //as.kill();
     
     delete this;
 }
 
-void meetWith(Player& p){
+void Missile::meetWith(Player& p){
     p.hurt(20);
     
     delete this;

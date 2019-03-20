@@ -1,4 +1,4 @@
-#include "PowerUp.h"
+#include "powerup.h"
 #include <QColor>
 #include <QPainter>
 #include <QRandomGenerator>
@@ -11,8 +11,8 @@ PowerUp::PowerUp(){
     color = PowerUp::types[random_type_num].second;
     power = PowerUp::types[random_type_num].first;
 
-    speed.ry() = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
-    speed.rx() = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.ry() = static_cast<qreal>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.rx() = static_cast<qreal>(generator.bounded(10,20)) / (generator.bounded(1000));
 
     qreal x, y;
 
@@ -43,6 +43,7 @@ QRectF PowerUp::boundingRect() const{
 QPainterPath PowerUp::shape() const{
     QPainterPath path;
     path.addRect(0,0,1,1);
+    return path;
 }
 
 void PowerUp::advance(int phase){
@@ -51,8 +52,8 @@ void PowerUp::advance(int phase){
 
 	setPos(pos() + speed);
 
-	if ( pos().x > 32 || pos().x < 0)
-		if( pos().y < 0 || pos().y > 26 )
+    if ( pos().x() > 32 || pos().x() < 0)
+        if( pos().y() < 0 || pos().y() > 26 )
 		{
 			delete this;
 		}

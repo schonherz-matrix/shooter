@@ -43,13 +43,13 @@ void meetWith(PowerUp& pu){
 }
 
 void meetWith(Asteroid& as){
-    as.hit();
+    as.kill();
     
     delete this;
 }
 
 void meetWith(Player& p){
-    p.hit();
+    p.hurt(20);
     
     delete this;
 }

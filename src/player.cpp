@@ -15,6 +15,11 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp) :
     }
 }
 
+Player::~Player()
+{
+    delete gamepad;
+}
+
 QRectF Player::boundingRect() const
 {
     return QRectF(0, 0, 3, 2);
@@ -59,6 +64,16 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 void Player::advance(int phase)
 {
-    Q_UNUSED(phase);
-    // TODO impelemnt this
+    if(phase == 0)
+        return;
+
+    if(gamepad->buttonLeft() && !gamepad->buttonRight()){
+        // go left
+        moveBy(1,0);
+    }
+    else if(!gamepad->buttonLeft() && gamepad->buttonRight()){
+        // go right
+        moveBy(-1,0);
+    }
+
 }

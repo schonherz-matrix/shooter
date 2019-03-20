@@ -33,6 +33,7 @@ class Player : public QGraphicsItem
 
 public:
     Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);
+    ~Player() override;
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;

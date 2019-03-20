@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
-    src/powerup.cpp
+    src/powerup.cpp \
+    src/missile.cpp
 
 HEADERS += \
         src/mainwindow.h \
-    src/powerup.h
+    src/powerup.h \
+    src/missile.h
 
 FORMS += \
         src/mainwindow.ui

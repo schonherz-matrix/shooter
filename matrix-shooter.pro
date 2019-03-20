@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
-    src/asteroid.cpp
+    src/asteroid.cpp \
+    src/player.cpp
 
 HEADERS += \
         src/mainwindow.h \
-    src/asteroid.h
+    src/asteroid.h \
+    src/player.h
 
 FORMS += \
         src/mainwindow.ui

@@ -24,20 +24,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+HEADERS += \
+    src/asteroid.h \
+    src/mainwindow.h \
+    src/matrixscene.h \
+    src/player.h
+
 SOURCES += \
-        src/main.cpp \
-        src/mainwindow.cpp \
     src/asteroid.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/matrixscene.cpp \
     src/player.cpp
 
-HEADERS += \
-        src/mainwindow.h \
-    src/asteroid.h \
-    src/player.h
-    src/matrixscene.cpp
-
 FORMS += \
-        src/mainwindow.ui
+        src/mainwindow.ui \
+    src/mainwindow.ui \
+    src/mainwindow.ui
 
 INCLUDEPATH += $$PWD/matrix-simple
 

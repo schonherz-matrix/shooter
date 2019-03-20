@@ -9,22 +9,24 @@
 
 class Bar : public QGraphicsItem, QObject
 {
-    Q_OBJECT
 public:
     Bar(const QColor &color, float default_value);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
-    Q_PROPERTY(QColor color MEMBER m_color)
-    Q_PROPERTY(float value MEMBER m_value WRITE setValue)
+
+    void setValue(float val); //between 0.0 and 1.0
+    float getValue();
+    void setColor(QColor &color);
+    QColor& getColor();
 
 private:
     QColor m_color;
 
     float m_value;
 
-    void setValue(float val);
+
 };
 
 #endif // BAR_H

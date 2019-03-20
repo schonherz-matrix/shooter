@@ -1,6 +1,37 @@
 #include "bar.h"
 #include <QtWidgets>
 
+Bar::Bar(const QColor &color, float default_value) : m_color{color} {
+    setValue(default_value);
+}
+
+//getters, setters
+//--------------------------------------------------------------------------------
+void Bar::setValue(float val)
+{
+    if (val < 0) m_value = 0.0;
+    else if(val > 1.0) m_value = 1.0;
+    else m_value = val;
+}
+
+float Bar::getValue()
+{
+    return m_value;
+}
+
+void Bar::setColor(QColor &color)
+{
+    m_color = color;
+}
+
+QColor &Bar::getColor()
+{
+    return m_color;
+}
+
+//drawing functions
+//--------------------------------------------------------------------------------
+
 void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
     Q_UNUSED(widget)
@@ -18,19 +49,6 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget
     painter->drawLine(startX, startY, endX, endY);
 
     painter->setPen(oldPen);
-}
-
-void Bar::setValue(float val)
-{
-    if (val < 0) m_value = 0.0;
-    else if(val > 1.0) m_value = 1.0;
-    else m_value = val;
-}
-
-
-
-Bar::Bar(const QColor &color, float default_value) : m_color{color} {
-    setValue(default_value);
 }
 
 QRectF Bar::boundingRect() const

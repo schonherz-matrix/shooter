@@ -6,9 +6,14 @@
 #include <QStyleOptionGraphicsItem>
 #include <QWidget>
 #include <QColor>
+#include <QObject>
 
-class Player : public QGraphicsItem
+constexpr size_t max_life = 100;
+
+class Player : public QGraphicsItem, public QObject
 {
+    Q_OBJECT
+
     /*
      * UPPER:
      *  XXX
@@ -21,6 +26,9 @@ class Player : public QGraphicsItem
     const bool upper;
     QColor color;
 
+    size_t life;
+    Q_PROPERTY(size_t life MEMBER life READ getLife)
+
 public:
     Player(bool upper);
 
@@ -28,6 +36,10 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    size_t getLife() {
+        return this->life;
+    }
 };
 
 #endif // Player_H

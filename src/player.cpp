@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player(bool upper) : upper(upper)
+Player::Player(bool upper) : upper(upper), life(max_life)
 {
     if(upper) {
         // lightpink	#FFB6C1	rgb(255,182,193)

@@ -32,3 +32,15 @@ void Bar::setValue(float val)
 Bar::Bar(const QColor &color, float default_value) : m_color{color} {
     setValue(default_value);
 }
+
+QRectF Bar::boundingRect() const
+{
+    return QRectF(0, 0, 0, 25);
+}
+
+QPainterPath Bar::shape() const
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+    return path;
+}

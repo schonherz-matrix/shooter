@@ -7,7 +7,7 @@
 #include <QGraphicsItem>
 
 
-class Bar : public QGraphicsItem
+class Bar : public QGraphicsItem, QObject
 {
     Q_OBJECT
 public:

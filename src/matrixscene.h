@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QTimer>
+#include "bar.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
@@ -24,6 +25,10 @@ class MatrixScene : public QGraphicsScene {
   QPainter painter;
   MUEBTransmitter transmitter;
   QTimer timer;
+  Bar player1HPBar;
+  Bar player2HPBar;
+  Bar player1PWBar;
+  Bar player2PWBar;
 };
 
 #endif  // MATRIXSCENE_H

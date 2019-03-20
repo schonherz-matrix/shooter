@@ -3,7 +3,11 @@
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
       frame(32, 26, QImage::Format_RGB888),
-      painter(&frame) {
+      painter(&frame),
+      player1HPBar(Qt::red, 1),
+      player2HPBar(Qt::green, 1),
+      player1PWBar(Qt::yellow, 0),
+      player2PWBar(Qt::yellow, 0) {
   // set BG
   setBackgroundBrush(Qt::black);
 
@@ -25,6 +29,19 @@ MatrixScene::MatrixScene(QObject *parent)
   // init Timer
   connect(&timer, SIGNAL(timeout()), this, SLOT(advance()));
   timer.start(1000 / 33);
+
+  // init Map
+  // set pos
+  player1HPBar.setPos(0, 0);
+  player2HPBar.setPos(31, 0);
+  player1PWBar.setPos(1, 0);
+  player2PWBar.setPos(30, 0);
+
+  // add bars
+  addItem(&player1HPBar);
+  addItem(&player2HPBar);
+  addItem(&player1PWBar);
+  addItem(&player2PWBar);
 }
 
 void MatrixScene::updateFrame() {

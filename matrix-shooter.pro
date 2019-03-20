@@ -26,12 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         src/main.cpp \
-        src/bar.cpp
+        src/bar.cpp \
         src/mainwindow.cpp \
         src/matrixscene.cpp
 
 HEADERS += \
-        src/bar.h
+        src/bar.h \
         src/mainwindow.h \
         src/matrixscene.h
 

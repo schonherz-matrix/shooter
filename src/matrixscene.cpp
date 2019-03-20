@@ -45,10 +45,10 @@ MatrixScene::MatrixScene(QObject *parent)
 
     // init Map
     // set pos
-    player1HPBar.setPos(0, 0);
-    player2HPBar.setPos(31, 0);
-    player1PWBar.setPos(1, 0);
-    player2PWBar.setPos(30, 0);
+    player1HPBar.setPos(1, 0);
+    player2HPBar.setPos(30, 0);
+    player1PWBar.setPos(0, 0);
+    player2PWBar.setPos(31, 0);
 
     // add bars
     addItem(&player1HPBar);

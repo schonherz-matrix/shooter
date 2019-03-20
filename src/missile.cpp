@@ -1,7 +1,7 @@
 #include "missile.h"
 #include <QPainter>
 
-Missile(const QPointF& start_position, QColor color, QGraphicsItem* parent, bool direction_down):
+Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner, bool direction_down):
     parent(parent),
     color(color)
 {
@@ -39,7 +39,7 @@ void Missile::advance(int phase) {
 }
 
 void meetWith(PowerUp& pu){
-    this->parent->applyPowerUp(pu.getPower());
+    this->owner->applyPowerUp(pu.getPower());
     
     delete &pu;    
     delete this;

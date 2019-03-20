@@ -4,14 +4,12 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QWidget>
 #include <QColor>
 
 constexpr size_t max_life = 100;
 
 class Player : public QGraphicsItem
 {
-    Q_OBJECT
 
     /*
      * UPPER:

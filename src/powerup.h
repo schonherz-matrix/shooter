@@ -4,10 +4,10 @@
 #include <QColor>
 #include <QGraphicsItem>
 
-class powerup : public QGraphicsItem
+class PowerUp : public QGraphicsItem
 {
 public:
-    powerup();
+    PowerUp();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     QRectF boundingRect() const override;

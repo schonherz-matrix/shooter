@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QObject>
 #include <QPainter>
+#include <QTimer>
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
@@ -22,6 +23,7 @@ class MatrixScene : public QGraphicsScene {
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;
+  QTimer timer;
 };
 
 #endif  // MATRIXSCENE_H

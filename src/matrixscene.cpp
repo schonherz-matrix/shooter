@@ -10,17 +10,21 @@ MatrixScene::MatrixScene(QObject *parent)
   // setSize
   setSceneRect(0, 0, 32, 26);
 
-  // initFrame
+  // init Frame
   out.pixels = Array2D<Color>(32, 26);
   frame.fill(Qt::black);
   for (int x = 0; x < out.pixels.getWidth(); x++) {
     for (int y = 0; y < out.pixels.getHeight(); y++) {
-      out.pixels(x, y) = Color(0,0,0);
+      out.pixels(x, y) = Color(0, 0, 0);
     }
   }
   transmitter.sendFrame(out);
 
   connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
+
+  // init Timer
+  connect(&timer, SIGNAL(timeout()), this, SLOT(advance()));
+  timer.start(1000 / 33);
 }
 
 void MatrixScene::updateFrame() {

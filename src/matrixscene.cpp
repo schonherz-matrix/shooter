@@ -48,9 +48,6 @@ MatrixScene::MatrixScene(QObject *parent)
   a2->hit();
 
   a3->hit();
-  a3->hit();
-
-  a4->hit();
 
   addItem(a1);
   addItem(a2);

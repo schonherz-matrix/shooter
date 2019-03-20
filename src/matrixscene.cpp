@@ -32,14 +32,25 @@ MatrixScene::MatrixScene(QObject *parent)
 
   Asteroid *a1 = new Asteroid();
   Asteroid *a2 = new Asteroid();
+  Asteroid *a3 = new Asteroid();
+  Asteroid *a4 = new Asteroid();
 
-  a1->setPos(5, 5);
+  a1->setPos(2, 2);
   a2->setPos(10, 10);
+  a3->setPos(16, 8);
+  a4->setPos(20, 14);
 
   a2->hit();
 
+  a3->hit();
+  a3->hit();
+
+  a4->hit();
+
   addItem(a1);
   addItem(a2);
+  addItem(a3);
+  addItem(a4);
 }
 
 void MatrixScene::updateFrame() {

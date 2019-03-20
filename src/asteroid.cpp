@@ -32,11 +32,11 @@ void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QW
                 painter->drawPoint(0, 1);
             }
         } else if (this->life == 1) {
-            if (this->type != 0 || this->type != 2) {
+            if (this->type == 1 || this->type == 3) {
                 painter->drawPoint(0, 0);
                 painter->drawPoint(1, 1);
             }
-            if (this->type != 1 || this->type != 3) {
+            if (this->type == 0 || this->type == 2) {
                 painter->drawPoint(0, 1);
                 painter->drawPoint(1, 0);
             }

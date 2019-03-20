@@ -11,15 +11,15 @@ PowerUp::PowerUp(){
     color = PowerUp::types[random_type_num].second;
     power = PowerUp::types[random_type_num].first;
 
-    speed.y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
-    speed.x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.ry() = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.rx() = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
 
     qreal x, y;
 
     bool dir = generator.generate() % 2 ? true : false;
     if (dir) {
         x = 32;
-	speed.x*=-1;
+	speed.rx()*=-1;
     } else 
         x = 0;
 

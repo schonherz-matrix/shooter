@@ -68,3 +68,6 @@ const std::array<std::pair<PowerUp::type, QColor>, PowerUp::number_of_types> Pow
 };
 
 
+const PowerUp::type PowerUp::getPower() const{
+	return power;
+}

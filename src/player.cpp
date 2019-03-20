@@ -70,11 +70,11 @@ void Player::advance(int phase)
 
 //    qDebug() << gamepad->buttonLeft();
 
-    if(gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 0){
+    if(gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 1){
         // go left
         moveBy(-1,0);
     }
-    else if(!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < 32){
+    else if(!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < 29){
         // go right
         moveBy(1,0);
 

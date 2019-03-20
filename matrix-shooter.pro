@@ -29,7 +29,9 @@ HEADERS += \
     src/bar.h \
     src/mainwindow.h \
     src/matrixscene.h \
-    src/player.h
+    src/player.h \
+    src/powerup.h \
+    src/missile.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -38,6 +40,8 @@ SOURCES += \
     src/mainwindow.cpp \
     src/matrixscene.cpp \
     src/player.cpp
+    src/powerup.cpp \
+    src/missile.cpp
 
 FORMS += \
         src/mainwindow.ui \

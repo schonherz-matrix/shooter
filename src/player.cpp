@@ -16,11 +16,6 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp) :
     }
 }
 
-Player::~Player()
-{
-    delete gamepad;
-}
-
 QRectF Player::boundingRect() const
 {
     return QRectF(0, 0, 3, 2);

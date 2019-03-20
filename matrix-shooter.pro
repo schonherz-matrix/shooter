@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         src/main.cpp \
-        src/mainwindow.cpp
+        src/mainwindow.cpp \
+    src/powerup.cpp
 
 HEADERS += \
-        src/mainwindow.h
+        src/mainwindow.h \
+    src/powerup.h
 
 FORMS += \
         src/mainwindow.ui

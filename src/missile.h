@@ -21,7 +21,6 @@ class Missile : public QGraphicsItem {
   void advance(int phase) override;
 
  private:
-  QPointF start_position;
   QPointF speed;
   QColor color;
 

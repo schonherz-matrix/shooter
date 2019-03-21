@@ -118,3 +118,21 @@ void MatrixScene::advance()
         }
     }
 }
+
+
+void MatrixScene::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Left:
+        lowerPlayer->moveBy(-1, 0);
+        break;
+    case Qt::Key_Right:
+        lowerPlayer->moveBy(1, 0);
+        break;
+    case Qt::Key_Control:
+        addItem(new Missile(lowerPlayer->pos() + QPointF(1, 0), Qt::red, lowerPlayer, false));
+        break;
+    default:
+        break;
+    }
+}

@@ -32,7 +32,7 @@ void Missile::advance(int phase) {
     if (phase == 0)
         return;
     
-    setPos(start_position + (speed/20));
+    setPos(pos() + (speed/20));
     
     if( pos().y() < 0 || pos().y() > 26 )
         delete this;

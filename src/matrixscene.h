@@ -45,6 +45,10 @@ class MatrixScene : public QGraphicsScene {
 
   Player* upperPlayer;
   Player* lowerPlayer;
+
+  // QGraphicsScene interface
+protected:
+  void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif  // MATRIXSCENE_H

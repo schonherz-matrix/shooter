@@ -75,12 +75,6 @@ void Player::advance(int phase) {
   }
 }
 
-void Player::hitBy(PowerUp &powerup)
-{
-    applyPowerUp(powerup.getPower());
-    powerup.kill();
-}
-
 void Player::hurt(size_t loss) {
   if (loss >= life) {
     // TODO: kill, end game
@@ -89,7 +83,7 @@ void Player::hurt(size_t loss) {
   life -= loss;
 }
 
-void Player::applyPowerUp(PowerUp::type const& pu)
+void Player::applyPowerUp(PowerUp::powerType const& pu)
 {
     //TODO: implement
 }

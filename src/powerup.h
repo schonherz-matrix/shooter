@@ -4,8 +4,9 @@
 #include <QColor>
 #include <QGraphicsItem>
 #include <array>
+#include "collidingitem.h"
 
-class PowerUp : public QGraphicsItem
+class PowerUp : public CollidingItem
 {
 public:
     enum { Type = UserType + 5 };
@@ -23,14 +24,12 @@ public:
     
     void advance(int phase) override;
 
-    enum type{
+    enum powerType{
       HEALTH,
       DOUBLE_SHOOT,
       TRIPLE_SHOOT,
       LASER
     } power;
-
-    void kill();
 
 private:
     QColor color;
@@ -38,10 +37,14 @@ private:
     QPointF speed;
 
     constexpr static size_t number_of_types = 4;
-    const static std::array<std::pair<type, QColor>, number_of_types> types;
+    const static std::array<std::pair<powerType, QColor>, number_of_types> types;
 
 public:
-    const type getPower() const;
+    const powerType getPower() const;
+
+    // CollidingItem interface
+public:
+    void hit(QGraphicsItem *item) override;
 };
 
 

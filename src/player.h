@@ -15,13 +15,6 @@ constexpr size_t max_life = 100;
 
 class Player :  public CollidingItem
 {
-    enum { Type = UserType + 1 };
-
-    int type() const override
-    {
-        return Type;
-    }
-
     /*
      * UPPER:
      *  XXX
@@ -40,16 +33,21 @@ class Player :  public CollidingItem
     size_t life;
 
 public:
+    enum { Type = UserType + 1 };
+
+    int type() const override
+    {
+        return Type;
+    }
+
     Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
-
-    void hitBy(PowerUp& powerup);
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
-    void applyPowerUp(PowerUp::type const& pu);
+    void applyPowerUp(PowerUp::powerType const& pu);
 
     size_t getLife() {
         return this->life;

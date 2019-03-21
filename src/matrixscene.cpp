@@ -66,8 +66,12 @@ MatrixScene::MatrixScene(QObject *parent)
 
     // test items here
     auto ast = new Asteroid();
-    ast->setPos(10, 10);
+    ast->setPos(0, 10);
     addItem(ast);
+
+    auto pow1 = new PowerUp();
+    pow1->setPos(10, 10);
+    addItem(pow1);
 }
 
 void MatrixScene::updateFrame() {

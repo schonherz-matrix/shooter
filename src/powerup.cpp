@@ -4,6 +4,10 @@
 #include <QPainter>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
+#include <QDebug>
+#include <QGraphicsScene>
+#include "missile.h"
+#include "player.h"
 
 PowerUp::PowerUp(){
     QRandomGenerator generator;
@@ -61,21 +65,31 @@ void PowerUp::advance(int phase){
         }
 }
 
-void PowerUp::kill()
+const std::array<std::pair<PowerUp::powerType, QColor>, PowerUp::number_of_types> PowerUp::types =
 {
-    //TODO: implement
-    //called when powerup needs to die; e.g.: used up
-}
-
-const std::array<std::pair<PowerUp::type, QColor>, PowerUp::number_of_types> PowerUp::types =
-{
-    std::make_pair(PowerUp::type::HEALTH, Qt::green),
-    std::make_pair(PowerUp::type::DOUBLE_SHOOT, Qt::yellow),
-    std::make_pair(PowerUp::type::TRIPLE_SHOOT, Qt::red),
-    std::make_pair(PowerUp::type::HEALTH, Qt::blue)
+    std::make_pair(PowerUp::powerType::HEALTH, Qt::green),
+    std::make_pair(PowerUp::powerType::DOUBLE_SHOOT, Qt::yellow),
+    std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, Qt::red),
+    std::make_pair(PowerUp::powerType::HEALTH, Qt::blue)
 };
 
 
-const PowerUp::type PowerUp::getPower() const{
+const PowerUp::powerType PowerUp::getPower() const{
 	return power;
+}
+
+void PowerUp::hit(QGraphicsItem *item)
+{
+    qDebug() << "PowerUp hit";
+    switch (item->type()) {
+    case Player::Type:
+        static_cast<Player *>(item)->applyPowerUp(power);
+        scene()->removeItem(this);
+        break;
+    case Missile::Type:
+        scene()->removeItem(this);
+        break;
+    default:
+        break;
+    }
 }

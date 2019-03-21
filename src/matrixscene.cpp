@@ -31,12 +31,14 @@ MatrixScene::MatrixScene(QObject *parent)
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
     if (gamepads.isEmpty() /*|| gamepads.size() < 2*/) {
         qDebug() << "Did not find any connected gamepads";
+        /*
         QGraphicsTextItem* felk_jel = new QGraphicsTextItem("?");
         felk_jel->setDefaultTextColor(Qt::red);
         felk_jel->setFont(QFont("Comic Sans", 18));
         felk_jel->setPos(0,0);
         addItem(felk_jel);
         return;
+        */
     }
 
     // init Timer
@@ -56,8 +58,8 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player1PWBar);
     addItem(&player2PWBar);
 
-    upperPlayer = new Player(true, new QGamepad(gamepads.first(), this), &player1HPBar, &player1PWBar);
-    lowerPlayer = new Player(false, new QGamepad(gamepads.last(), this), &player2HPBar, &player2PWBar);
+    upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar);
+    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar);
   addItem(upperPlayer);
   players.push_back(upperPlayer);
   addItem(lowerPlayer);

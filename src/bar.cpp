@@ -1,4 +1,5 @@
 #include "bar.h"
+
 #include <QtWidgets>
 #include <QtDebug>
 

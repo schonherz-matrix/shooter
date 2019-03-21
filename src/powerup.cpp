@@ -1,7 +1,9 @@
 #include "powerup.h"
+
 #include <QColor>
 #include <QPainter>
 #include <QRandomGenerator>
+#include <QGraphicsScene>
 
 PowerUp::PowerUp(){
     QRandomGenerator generator;
@@ -55,7 +57,7 @@ void PowerUp::advance(int phase){
     if ( pos().x() > 32 || pos().x() < 0)
         if( pos().y() < 0 || pos().y() > 26 )
 		{
-			delete this;
+            scene()->removeItem(this);
         }
 }
 

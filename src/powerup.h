@@ -8,6 +8,13 @@
 class PowerUp : public QGraphicsItem
 {
 public:
+    enum { Type = UserType + 5 };
+
+    int type() const override
+    {
+        return Type;
+    }
+
     PowerUp();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;

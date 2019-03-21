@@ -1,4 +1,5 @@
 #include "matrixscene.h"
+
 #include "bar.h"
 
 MatrixScene::MatrixScene(QObject *parent)
@@ -60,10 +61,13 @@ MatrixScene::MatrixScene(QObject *parent)
 
     upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar);
     lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar);
-  addItem(upperPlayer);
-  players.push_back(upperPlayer);
-  addItem(lowerPlayer);
-  players.push_back(lowerPlayer);
+    addItem(upperPlayer);
+    addItem(lowerPlayer);
+
+    // test items here
+    auto ast = new Asteroid();
+    ast->setPos(10, 10);
+    addItem(ast);
 }
 
 void MatrixScene::updateFrame() {
@@ -77,49 +81,6 @@ void MatrixScene::updateFrame() {
   transmitter.sendFrame(out);
 }
 
-void MatrixScene::advance()
-{
-    QGraphicsScene::advance();
-
-    //collision detection
-    for(auto player : players) {
-        for(auto aster : asteroids) {
-            if(player->collidesWithItem(aster)) {
-                player->hitBy(*aster);
-            }
-        }
-    }
-    for(auto player : players) {
-        for(auto powerup : powerups) {
-            if(player->collidesWithItem(powerup)) {
-                player->hitBy(*powerup);
-            }
-        }
-    }
-    for(auto asteroid : asteroids) {
-        for(auto missile : missiles) {
-            if(asteroid->collidesWithItem(missile)) {
-                missile->meetWith(*asteroid);
-            }
-        }
-    }
-    for(auto powerup : powerups) {
-        for(auto missile : missiles) {
-            if(powerup->collidesWithItem(missile)) {
-                missile->meetWith(*powerup);
-            }
-        }
-    }
-    for(auto player : players) {
-        for(auto missile : missiles) {
-            if(player->collidesWithItem(missile)) {
-                missile->meetWith(*player);
-            }
-        }
-    }
-}
-
-
 void MatrixScene::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -131,6 +92,9 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
         break;
     case Qt::Key_Control:
         addItem(new Missile(lowerPlayer->pos() + QPointF(1, 0), Qt::red, lowerPlayer, false));
+        break;
+    case Qt::Key_Space:
+        addItem(new Missile(upperPlayer->pos() + QPointF(1, 0), Qt::magenta, upperPlayer, true));
         break;
     default:
         break;

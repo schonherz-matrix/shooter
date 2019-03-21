@@ -1,20 +1,26 @@
 #ifndef Player_H
 #define Player_H
 
-#include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QColor>
-#include <QtGamepad/qgamepad.h>
+#include <QtGamepad>
 
 #include "bar.h"
 #include "asteroid.h"
 #include "powerup.h"
+#include "collidingitem.h"
 
 constexpr size_t max_life = 100;
 
-class Player : public QGraphicsItem
+class Player :  public CollidingItem
 {
+    enum { Type = UserType + 1 };
+
+    int type() const override
+    {
+        return Type;
+    }
 
     /*
      * UPPER:
@@ -41,7 +47,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
 
-    void hitBy(Asteroid& asteroid);
     void hitBy(PowerUp& powerup);
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
     void applyPowerUp(PowerUp::type const& pu);
@@ -52,6 +57,10 @@ public:
 
 private:
     unsigned time_to_fire;
+
+    // CollidingItem interface
+public:
+    void hit(QGraphicsItem *item) override;
 };
 
 #endif // Player_H

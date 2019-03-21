@@ -2,14 +2,21 @@
 #define MISSILE_H
 
 #include <QColor>
-#include <QGraphicsItem>
 #include <QPointF>
+
 #include "asteroid.h"
+#include "collidingitem.h"
 #include "player.h"
 #include "powerup.h"
 
-class Missile : public QGraphicsItem {
+class Missile : public CollidingItem {
  public:
+  enum { Type = UserType + 2 };
+
+  int type() const override {
+    return Type;
+  }
+
   const QGraphicsItem* parent;
 
   Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner,
@@ -28,6 +35,10 @@ class Missile : public QGraphicsItem {
   void meetWith(PowerUp&);
   void meetWith(Asteroid&);
   void meetWith(Player&);
+
+  // CollidingItem interface
+ public:
+  void hit(QGraphicsItem* item) override;
 };
 
 #endif  // MISSILE_H

@@ -1,4 +1,5 @@
 #include "player.h"
+
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
@@ -26,9 +27,7 @@ QPainterPath Player::shape() const {
 
   if (upper) {
     path.addRect(0, 0, 3, 1);
-    path.addRect(0, 1, 1, 1);
   } else {
-    path.addRect(1, 0, 1, 1);
     path.addRect(0, 1, 3, 1);
   }
 
@@ -43,15 +42,11 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
   painter->setPen(QPen(color, 1));
 
   if (upper) {
-    painter->drawPoint(0, 0);
-    painter->drawPoint(1, 0);
     painter->drawPoint(1, 1);
-    painter->drawPoint(2, 0);
+    painter->drawLine(0, 0, 2, 0);
   } else {
-    painter->drawPoint(0, 1);
-    painter->drawPoint(1, 1);
     painter->drawPoint(1, 0);
-    painter->drawPoint(2, 1);
+    painter->drawLine(0, 1, 2, 1);
   }
 }
 
@@ -80,11 +75,6 @@ void Player::advance(int phase) {
   }
 }
 
-void Player::hitBy(Asteroid &asteroid) {
-  asteroid.hit();
-  hurt(20);
-}
-
 void Player::hitBy(PowerUp &powerup)
 {
     applyPowerUp(powerup.getPower());
@@ -102,4 +92,18 @@ void Player::hurt(size_t loss) {
 void Player::applyPowerUp(PowerUp::type const& pu)
 {
     //TODO: implement
+}
+
+
+void Player::hit(QGraphicsItem *item)
+{
+    qDebug() << "Player hit";
+    switch (item->type()) {
+    case Missile::Type:
+        hurt(10);
+        break;
+    default:
+        break;
+    }
+    scene()->removeItem(item);
 }

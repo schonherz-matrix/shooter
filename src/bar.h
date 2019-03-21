@@ -6,6 +6,10 @@
 
 class Bar : public QGraphicsItem {
  public:
+  enum { Type = UserType + 3 };
+
+  int type() const override { return Type; }
+
   Bar(const QColor &color, float default_value);
 
   QRectF boundingRect() const override;

@@ -1,16 +1,16 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include <QGraphicsItem>
 #include <QPainter>
 #include <QRandomGenerator>
+#include "collidingitem.h"
 
-class Asteroid : public QGraphicsItem {
+class Asteroid : public CollidingItem {
 private:
 
     static constexpr int MAXLIFE = 2;
 
-    int type;
+    int look;
     int life;
 
     QColor color;
@@ -28,15 +28,24 @@ private:
 
 
 public:
-    Asteroid();
+    enum { Type = UserType + 4 };
 
-    void hit();
+    int type() const override
+    {
+        return Type;
+    }
+
+    Asteroid();
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void advance(int phase) override;
+
+    // CollidingItem interface
+public:
+    void hit(QGraphicsItem *item) override;
 };
 
 #endif // ASTEROID_H

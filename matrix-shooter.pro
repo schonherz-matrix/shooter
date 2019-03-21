@@ -31,7 +31,8 @@ HEADERS += \
     src/matrixscene.h \
     src/missile.h \
     src/player.h \
-    src/powerup.h
+    src/powerup.h \
+    src/collidingitem.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -41,7 +42,8 @@ SOURCES += \
     src/matrixscene.cpp \
     src/missile.cpp \
     src/player.cpp \
-    src/powerup.cpp
+    src/powerup.cpp \
+    src/collidingitem.cpp
 
 FORMS += \
     src/mainwindow.ui

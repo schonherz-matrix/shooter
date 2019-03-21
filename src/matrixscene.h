@@ -24,7 +24,6 @@ class MatrixScene : public QGraphicsScene {
 
  public slots:
   void updateFrame();
-  void advance();
 
  private:
   Frame out;
@@ -32,11 +31,6 @@ class MatrixScene : public QGraphicsScene {
   QPainter painter;
   MUEBTransmitter transmitter;
   QTimer timer;
-
-  QList<Player*> players;
-  QList<Asteroid*> asteroids;
-  QList<PowerUp*> powerups;
-  QList<Missile*> missiles;
 
   Bar player1HPBar;
   Bar player2HPBar;

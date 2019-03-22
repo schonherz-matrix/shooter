@@ -1,4 +1,4 @@
 #include "config.h"
 
-unsigned config::chance::spawn_asteroide = 64;
-unsigned config::chance::spawn_powerup = 100;
+unsigned config::chance::spawn_asteroide = 300;
+unsigned config::chance::spawn_powerup = 500;

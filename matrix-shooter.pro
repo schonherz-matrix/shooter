@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network gamepad
+!versionAtLeast(QT_VERSION, 5.12): error("Use at least Qt version 5.12! No gamepad and networkdatagram support before it :(")
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui network gamepad widgets
 
 TARGET = matrix-shooter
 TEMPLATE = app

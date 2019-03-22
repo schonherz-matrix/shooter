@@ -33,11 +33,26 @@ class Player;
 
 class CollidingItem : public QGraphicsItem{
 public:
+    /**
+     * @brief When an object is hit, this function is called with the attacker as parameter
+     * @param attacker Pointer to the Player
+     */
     virtual void hit(Player* attacker) = 0;
-            bool lookAround(Player* owner_of_observer);
-    virtual      ~CollidingItem();
-                 CollidingItem();
-            void remove();
+
+    /**
+     * @brief 'Active'/owned objects should call this function in their advance function to perform hit action
+     * @param owner_of_observer Pointer to the player owning the active object
+     * @return True if there was a collision
+     */
+     bool lookAround(Player* owner_of_observer);
+
+     virtual ~CollidingItem();
+              CollidingItem();
+
+      /**
+       * @brief Removes the item from the scene and frees the memory occupied by it (delete this;)
+       */
+     void remove();
 };
 
 #endif // COLLIDINGITEMS_H

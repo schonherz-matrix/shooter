@@ -21,11 +21,11 @@ bool CollidingItem::lookAround(Player* owner_of_observer){
 }
 
 CollidingItem::CollidingItem(){
-    qDebug() << "Constructed: " << this << "\n";
+    qDebug() << "Constructed: " << this << "\n"; //TODO remove
 }
 
 CollidingItem::~CollidingItem(){
-    qDebug() << "Destructed: " << this << "\n";
+    qDebug() << "Destructed: " << this << "\n"; //TODO remove
 }
 
 void CollidingItem::remove(){

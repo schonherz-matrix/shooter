@@ -45,7 +45,7 @@ MatrixScene::MatrixScene(QObject *parent)
 
     // init Timer
     connect(&timer, SIGNAL(timeout()), this, SLOT(advance_and_gc()));
-    timer.start(1000 / 33);
+    timer.start(1000 / config::gameSpeed::fps);
 
     // init Map
     // set pos

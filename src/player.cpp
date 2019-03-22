@@ -85,7 +85,7 @@ void Player::advance(int phase) {
             break;
         case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
             scene()->addItem(new Missile(launch_point , color, this, upper));
-		    time_to_fire = 10; 
+            time_to_fire = config::duration::laser_spacing;
             break;
         default:
         case PowerUp::NONE:
@@ -112,7 +112,7 @@ void Player::applyPowerUp(PowerUp::powerType const pu)
 	    return;
     }
 
-    time_from_power = 10000;
+    time_from_power = config::duration::powerup_effect;
     
     power = pu;
 }

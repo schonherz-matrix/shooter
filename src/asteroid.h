@@ -28,7 +28,7 @@ private:
 
 
 public:
-    Asteroid();
+    Asteroid(QGraphicsScene* scene);
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;

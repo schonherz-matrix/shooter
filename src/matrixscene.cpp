@@ -89,7 +89,7 @@ void MatrixScene::updateFrame() {
 
 void MatrixScene::advance_and_gc(){
     if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
-        QGraphicsScene::addItem(new Asteroid());
+        new Asteroid(this);
 
     if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
         new PowerUp(this);

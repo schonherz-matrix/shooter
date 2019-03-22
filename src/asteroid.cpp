@@ -4,7 +4,7 @@
 #include <QDebug>
 #include "missile.h"
 
-Asteroid::Asteroid() {
+Asteroid::Asteroid(QGraphicsScene* scene) {
     QRandomGenerator generator;
 
     this->look = QRandomGenerator::global()->bounded(0, 3);
@@ -29,6 +29,8 @@ Asteroid::Asteroid() {
     }
 
     position.y = 13;
+
+    scene->addItem(this);
 
     setPos(position.x, position.y);
 }

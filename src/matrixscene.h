@@ -15,6 +15,7 @@
 #include "asteroid.h"
 #include "powerup.h"
 #include "missile.h"
+#include "config.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
@@ -42,6 +43,8 @@ private slots:
 
   Player* upperPlayer;
   Player* lowerPlayer;
+
+  config::tick counter_to_shrink;
 
   // QGraphicsScene interface
 protected:

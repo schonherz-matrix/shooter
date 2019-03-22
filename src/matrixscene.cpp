@@ -10,7 +10,8 @@ MatrixScene::MatrixScene(QObject *parent)
       player1HPBar(Qt::red, 1),
       player2HPBar(Qt::green, 1),
       player1PWBar(Qt::yellow, 0),
-      player2PWBar(Qt::yellow, 0)
+      player2PWBar(Qt::yellow, 0),
+      counter_to_shrink(0)
     {
     // set BG
     setBackgroundBrush(Qt::black);
@@ -81,14 +82,26 @@ void MatrixScene::updateFrame() {
 }
 
 void MatrixScene::advance_and_gc(){
+
+//Spawn new asteroide
     if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
         new Asteroid(this);
 
+//Spawn new powerup
     if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
         new PowerUp(this);
 
+//Move players closer
+    counter_to_shrink++;
+    if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
+        upperPlayer->moveBy(0,  2);
+        lowerPlayer->moveBy(0, -2);
+        counter_to_shrink=0;
+        //TODO stop before the half of the dorm
+    }
 
 
+//Advance
     const auto items_before_advance = QGraphicsScene::items();
 
     //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
@@ -98,6 +111,7 @@ void MatrixScene::advance_and_gc(){
             item->advance(i);
     }
 
+//Garbage collection
     const auto items_after_advance = QGraphicsScene::items();
 
     for(QGraphicsItem* i: items_before_advance)

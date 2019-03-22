@@ -6,6 +6,7 @@ namespace config{
 
     namespace gameSpeed{
         const extern tick fps; /**< Number of frames calculated and displayed */
+        extern tick time_between_shrink; /**< Number of ticks between the players move one step closer to each other*/
     }
 
     namespace chance{

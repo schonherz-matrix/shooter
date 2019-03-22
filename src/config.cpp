@@ -4,6 +4,7 @@ using namespace config;
 
 
 const tick config::gameSpeed::fps = 33;
+tick config::gameSpeed::time_between_shrink = 30_s;
 
 unsigned config::chance::spawn_asteroide = 300;
 unsigned config::chance::spawn_powerup = 500;

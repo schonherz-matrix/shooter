@@ -5,7 +5,7 @@
 #include "missile.h"
 
 Asteroid::Asteroid(QGraphicsScene* scene) {
-    QRandomGenerator generator;
+    QRandomGenerator& generator = *QRandomGenerator::system();
 
     this->look = QRandomGenerator::global()->bounded(0, 3);
     this->color = Qt::darkGray;

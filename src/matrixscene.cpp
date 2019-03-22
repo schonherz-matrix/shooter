@@ -20,8 +20,8 @@ MatrixScene::MatrixScene(QObject *parent)
     // init Frame
     out.pixels = Array2D<Color>(32, 26);
     frame.fill(Qt::black);
-    for (int x = 0; x < out.pixels.getWidth(); x++) {
-        for (int y = 0; y < out.pixels.getHeight(); y++) {
+    for (size_t x = 0; x < out.pixels.getWidth(); x++) {
+        for (size_t y = 0; y < out.pixels.getHeight(); y++) {
           out.pixels(x, y) = Color(0, 0, 0);
         }
     }
@@ -76,10 +76,13 @@ MatrixScene::MatrixScene(QObject *parent)
 
 void MatrixScene::updateFrame() {
   render(&painter);
-  for (int x = 0; x < out.pixels.getWidth(); x++) {
-    for (int y = 0; y < out.pixels.getHeight(); y++) {
-      auto pixel = frame.pixelColor(x, y);
-      out.pixels(x, y) = Color(pixel.red(), pixel.green(), pixel.blue());
+  for (size_t x = 0; x < out.pixels.getWidth(); x++) {
+    for (size_t y = 0; y < out.pixels.getHeight(); y++) {
+      auto pixel = frame.pixelColor(static_cast<int>(x), static_cast<int>(y));
+      out.pixels(x, y) = Color( static_cast<uint8_t>(pixel.red()),
+                                static_cast<uint8_t>(pixel.green()),
+                                static_cast<uint8_t>(pixel.blue())
+                                );
     }
   }
   transmitter.sendFrame(out);

@@ -9,7 +9,7 @@
 #include "missile.h"
 #include "player.h"
 
-PowerUp::PowerUp(){
+PowerUp::PowerUp(QGraphicsScene* scene){
     QRandomGenerator generator;
 
     size_t random_type_num = generator.generate() % PowerUp::number_of_types;
@@ -31,6 +31,7 @@ PowerUp::PowerUp(){
 
     y = 13;
 
+    scene->addItem(this);
     setPos(x, y);
 }
 

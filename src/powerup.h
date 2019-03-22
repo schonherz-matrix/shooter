@@ -9,7 +9,7 @@
 class PowerUp : public CollidingItem
 {
 public:
-    PowerUp();
+    PowerUp(QGraphicsScene* scene);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     QRectF boundingRect() const override;

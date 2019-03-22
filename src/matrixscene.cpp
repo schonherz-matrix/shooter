@@ -69,9 +69,9 @@ MatrixScene::MatrixScene(QObject *parent)
     ast->setPos(0, 10);
     addItem(ast);
 
-    auto pow1 = new PowerUp();
-    pow1->setPos(10, 10);
-    addItem(pow1);
+    auto pow1 = new PowerUp(this);
+    //pow1->setPos(10, 10);
+    //addItem(pow1);
 }
 
 void MatrixScene::updateFrame() {

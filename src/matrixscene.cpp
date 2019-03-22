@@ -43,7 +43,7 @@ MatrixScene::MatrixScene(QObject *parent)
     }
 
     // init Timer
-    connect(&timer, SIGNAL(timeout()), this, SLOT(advance()));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(advance_and_gc()));
     timer.start(1000 / 33);
 
     // init Map
@@ -86,6 +86,23 @@ void MatrixScene::updateFrame() {
     }
   }
   transmitter.sendFrame(out);
+}
+
+void MatrixScene::advance_and_gc(){
+    const auto items_before_advance = QGraphicsScene::items();
+
+    //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
+    for (int i = 0; i < 2; ++i) {
+        const auto items_ = items();
+        for (QGraphicsItem *item : items_)
+            item->advance(i);
+    }
+
+    const auto items_after_advance = QGraphicsScene::items();
+
+    for(QGraphicsItem* i: items_before_advance)
+        if( ! items_after_advance.contains(i) )
+            delete i;
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event)

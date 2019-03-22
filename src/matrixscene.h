@@ -25,6 +25,9 @@ class MatrixScene : public QGraphicsScene {
  public slots:
   void updateFrame();
 
+private slots:
+  void advance_and_gc();
+
  private:
   Frame out;
   QImage frame;

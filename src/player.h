@@ -40,8 +40,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void advance(int phase) override;
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
-    void applyPowerUp(PowerUp::powerType const& pu);
 
+    void applyPowerUp(PowerUp::powerType const pu);
     size_t getLife() {
         return this->life;
     }
@@ -52,6 +52,10 @@ private:
     // CollidingItem interface
 public:
     void hit(Player *item) override;
+
+    PowerUp::powerType power;
+    unsigned time_from_power;
+
 };
 
 #endif // Player_H

@@ -9,7 +9,8 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       healthBar(healthBar),
       powerUp(powerUp),
       upper(upper),
-      life(max_life) {
+      life(max_life),
+      power(PowerUp::NONE){
   if (upper) {
     // lightpink	#FFB6C1	rgb(255,182,193)
     color = QColor(255, 82, 193);
@@ -53,12 +54,13 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Player::advance(int phase) {
   if (phase == 0) {
     if (time_to_fire) time_to_fire--;
+    if (time_from_power) time_from_power--;
+    if (! time_from_power)
+        power = PowerUp::NONE;
 
     lookAround(this);
-
     return;
   }
-
 
   if (gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 2) {
     // go left
@@ -68,14 +70,44 @@ void Player::advance(int phase) {
     moveBy(1, 0);
   } else if (!gamepad->buttonL1() && time_to_fire == 0) {
     // FIRE
+    QPointF launch_point;
 
-    QPointF start_point = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
+    switch(power){
+        case PowerUp::DOUBLE_SHOOT:
+            launch_point = {pos().x()    , pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point, color, this, upper));
 
-    scene()->addItem(new Missile(start_point, color, this, upper));
+            launch_point = {pos().x() + 2, pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point, color, this, upper));
+			time_to_fire = 300; 
+		    break;
+        case PowerUp::TRIPLE_SHOOT:
+            launch_point = {pos().x()    , pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point, color, this, upper));
 
-    time_to_fire = 300;  // TODO if powerup is applyed this is less
+            launch_point = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point , color, this, upper));
+
+            launch_point = {pos().x() + 2, pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point , color, this, upper));
+			time_to_fire = 300; 
+		    break;
+
+        case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
+            launch_point  = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point , color, this, upper));
+		    time_to_fire = 10; 
+            break;
+        default:
+        case PowerUp::NONE:
+            launch_point  = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point , color, this, upper));
+            time_to_fire = 300;
+            break;
+    }
   }
 }
+
 
 void Player::hurt(size_t loss) {
   if (loss >= life) {
@@ -85,9 +117,16 @@ void Player::hurt(size_t loss) {
   life -= loss;
 }
 
-void Player::applyPowerUp(PowerUp::powerType const& pu)
+void Player::applyPowerUp(PowerUp::powerType const pu)
 {
-    //TODO: implement
+    if(pu == PowerUp::HEALTH){
+	    //TODO increase health and 
+	    return;
+    }
+
+    time_from_power = 10000;
+    
+    power = pu;
 }
 
 

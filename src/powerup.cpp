@@ -14,16 +14,17 @@ PowerUp::PowerUp(QGraphicsScene* scene){
 
     size_t random_type_num = random_generator.generate() % PowerUp::number_of_types;
 
-    color = PowerUp::types[random_type_num].second;
-    power = PowerUp::types[random_type_num].first;
+    color = PowerUp::types[random_type_num].second; //This is going to be the color of the powerup
+    power = PowerUp::types[random_type_num].first;  //This is going to be the power of the powerup
 
+    //Generate random speed
     speed.ry() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
     speed.rx() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
 
-    qreal x, y;
+    qreal x, y; //The coordiante where to of spawn
 
     bool dir = random_generator.generate() % 2 ? true : false;
-    if (dir) {
+    if (dir) { //If the powerup goes from right to left
         x = 32;
         speed.rx()*=-1;
     } else 
@@ -31,8 +32,8 @@ PowerUp::PowerUp(QGraphicsScene* scene){
 
     y = random_generator.bounded(10, 20); //TODO justify
 
-    scene->addItem(this);
-    setPos(x, y);
+    scene->addItem(this); //Add the powerup to the scene
+    setPos(x, y); //set powerup position on the scene
 }
 
 void PowerUp::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget){
@@ -59,10 +60,12 @@ void PowerUp::advance(int phase){
 
 	setPos(pos() + speed);
 
-    if ( pos().x() > 32 || pos().x() < 0)
-        if( pos().y() < 0 || pos().y() > 26 )
-        {
-            remove();
+    if (
+         pos().x() > 32 || pos().x() < 0  //If we are out of map horizontally
+           ||
+         pos().y() < 0 || pos().y() > 26  //If we are out of map vertically
+       ){
+            remove(); //Remove powerUp from map, and free memory
             return;
         }
 }

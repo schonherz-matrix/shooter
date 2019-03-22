@@ -73,40 +73,31 @@ void Asteroid::advance(int phase) {
 
     if ( this->pos().x() > 32 || this->pos().x() < 0) {
         if( this->pos().y() < 0 || this->pos().y() > 26 ) {
-            scene()->removeItem(this);
+            remove();
         }
     }
 }
 
 
-
-void Asteroid::hit(QGraphicsItem *item)
+void Asteroid::hit(Player*)
 {
     qDebug() << "Asteroid hit";
-    switch (item->type()) {
-    case Missile::Type:
-        scene()->removeItem(item);
 
-        qDebug() << life;
-
-        if(life == 1) {
-            scene()->removeItem(this);
-        }
-
-        if (this->life == Asteroid::MAXLIFE) {
-            this->pieces[2][0] = 0;
-            this->pieces[2][3] = 0;
-            this->pieces[3][0] = 0;
-            this->pieces[3][1] = 0;
-            this->pieces[3][3] = 0;
-            this->pieces[0][0] = 0;
-            this->pieces[0][1] = 0;
-            this->pieces[0][3] = 0;
-        }
-
-        life--;
-        break;
-    default:
-        break;
+    if(life == 1) {
+        remove();
+        return;
     }
+
+    if (this->life == Asteroid::MAXLIFE) {
+        this->pieces[2][0] = 0;
+        this->pieces[2][3] = 0;
+        this->pieces[3][0] = 0;
+        this->pieces[3][1] = 0;
+        this->pieces[3][3] = 0;
+        this->pieces[0][0] = 0;
+        this->pieces[0][1] = 0;
+        this->pieces[0][3] = 0;
+    }
+
+    life--;
 }

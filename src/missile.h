@@ -11,15 +11,9 @@
 
 class Missile : public CollidingItem {
  public:
-  enum { Type = UserType + 2 };
+  Player* const owner;
 
-  int type() const override {
-    return Type;
-  }
-
-  const QGraphicsItem* parent;
-
-  Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner,
+  Missile(const QPointF& start_position, QColor color, Player* const owner,
           bool direction_down);
   QRectF boundingRect() const override;
   QPainterPath shape() const override;
@@ -31,14 +25,9 @@ class Missile : public CollidingItem {
   QPointF speed;
   QColor color;
 
- public:
-  void meetWith(PowerUp&);
-  void meetWith(Asteroid&);
-  void meetWith(Player&);
-
   // CollidingItem interface
  public:
-  void hit(QGraphicsItem* item) override;
+  void hit(Player* p) override;
 };
 
 #endif  // MISSILE_H

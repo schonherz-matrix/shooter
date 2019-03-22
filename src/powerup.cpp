@@ -60,8 +60,9 @@ void PowerUp::advance(int phase){
 
     if ( pos().x() > 32 || pos().x() < 0)
         if( pos().y() < 0 || pos().y() > 26 )
-		{
-            scene()->removeItem(this);
+        {
+            remove();
+            return;
         }
 }
 
@@ -73,23 +74,11 @@ const std::array<std::pair<PowerUp::powerType, QColor>, PowerUp::number_of_types
     std::make_pair(PowerUp::powerType::HEALTH, Qt::blue)
 };
 
-
-const PowerUp::powerType PowerUp::getPower() const{
-	return power;
-}
-
-void PowerUp::hit(QGraphicsItem *item)
+void PowerUp::hit(Player *attacker)
 {
     qDebug() << "PowerUp hit";
-    switch (item->type()) {
-    case Player::Type:
-        static_cast<Player *>(item)->applyPowerUp(power);
-        scene()->removeItem(this);
-        break;
-    case Missile::Type:
-        scene()->removeItem(this);
-        break;
-    default:
-        break;
-    }
+
+    attacker->applyPowerUp(this->power);
+
+    remove();
 }

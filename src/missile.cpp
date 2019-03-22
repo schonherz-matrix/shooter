@@ -3,9 +3,10 @@
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsScene>
+#include "player.h"
 
-Missile::Missile(const QPointF& start_position, QColor color, QGraphicsItem* owner, bool direction_down):
-    parent(owner),
+Missile::Missile(const QPointF& start_position, QColor color, Player* const owner, bool direction_down):
+    owner(owner),
     color(color)
 {
     speed = { 0, (direction_down ? 1.0 : -1.0) };
@@ -32,35 +33,20 @@ void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWi
 }
 
 void Missile::advance(int phase) {
-    CollidingItem::advance(phase);
+    if(phase == 0){
+        if (lookAround(owner))
+            remove();
+        return;
+    }
     
     setPos(pos() + (speed/2));
 
-    if( pos().y() < 0 || pos().y() > 26 )
-        scene()->removeItem(this);
+    if( pos().y() < 0 || pos().y() > 26 ){
+        remove();
+    }
 }
 
-void Missile::meetWith(PowerUp& pu){
-    //parent->applyPowerUp(pu.getPower());
-    
-    delete &pu;    
-    scene()->removeItem(this);
-}
-
-void Missile::meetWith(Asteroid& as){
-   //as.kill();
-    
-    scene()->removeItem(this);
-}
-
-void Missile::meetWith(Player& p){
-    p.hurt(20);
-    
-   scene()->removeItem(this);
-}
-
-
-void Missile::hit(QGraphicsItem *item)
+void Missile::hit(Player *)
 {
-    // TODO
+    remove();
 }

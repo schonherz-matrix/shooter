@@ -54,6 +54,8 @@ void Player::advance(int phase) {
   if (phase == 0) {
     if (time_to_fire) time_to_fire--;
 
+    lookAround(this);
+
     return;
   }
 
@@ -89,15 +91,6 @@ void Player::applyPowerUp(PowerUp::powerType const& pu)
 }
 
 
-void Player::hit(QGraphicsItem *item)
+void Player::hit(Player*)
 {
-    qDebug() << "Player hit";
-    switch (item->type()) {
-    case Missile::Type:
-        hurt(10);
-        break;
-    default:
-        break;
-    }
-    scene()->removeItem(item);
 }

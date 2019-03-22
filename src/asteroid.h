@@ -28,13 +28,6 @@ private:
 
 
 public:
-    enum { Type = UserType + 4 };
-
-    int type() const override
-    {
-        return Type;
-    }
-
     Asteroid();
 
     // QGraphicsItem interface
@@ -45,7 +38,7 @@ public:
 
     // CollidingItem interface
 public:
-    void hit(QGraphicsItem *item) override;
+    void hit(Player* attacker) override;
 };
 
 #endif // ASTEROID_H

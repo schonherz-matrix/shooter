@@ -33,13 +33,6 @@ class Player :  public CollidingItem
     size_t life;
 
 public:
-    enum { Type = UserType + 1 };
-
-    int type() const override
-    {
-        return Type;
-    }
-
     Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);
 
     QRectF boundingRect() const override;
@@ -58,7 +51,7 @@ private:
 
     // CollidingItem interface
 public:
-    void hit(QGraphicsItem *item) override;
+    void hit(Player *item) override;
 };
 
 #endif // Player_H

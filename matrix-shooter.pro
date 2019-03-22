@@ -32,7 +32,8 @@ HEADERS += \
     src/missile.h \
     src/player.h \
     src/powerup.h \
-    src/collidingitem.h
+    src/collidingitem.h \
+    src/config.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -43,7 +44,8 @@ SOURCES += \
     src/missile.cpp \
     src/player.cpp \
     src/powerup.cpp \
-    src/collidingitem.cpp
+    src/collidingitem.cpp \
+    src/config.cpp
 
 FORMS += \
     src/mainwindow.ui

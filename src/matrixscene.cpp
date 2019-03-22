@@ -1,6 +1,7 @@
 #include "matrixscene.h"
-
+#include <QRandomGenerator>
 #include "bar.h"
+#include "config.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -65,13 +66,11 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(lowerPlayer);
 
     // test items here
-    auto ast = new Asteroid();
+    /*auto ast = new Asteroid();
     ast->setPos(0, 10);
-    addItem(ast);
+    addItem(ast);*/
 
     auto pow1 = new PowerUp(this);
-    //pow1->setPos(10, 10);
-    //addItem(pow1);
 }
 
 void MatrixScene::updateFrame() {
@@ -89,6 +88,14 @@ void MatrixScene::updateFrame() {
 }
 
 void MatrixScene::advance_and_gc(){
+    if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
+        QGraphicsScene::addItem(new Asteroid());
+
+    if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
+        new PowerUp(this);
+
+
+
     const auto items_before_advance = QGraphicsScene::items();
 
     //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???

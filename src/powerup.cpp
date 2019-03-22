@@ -19,6 +19,9 @@ PowerUp::PowerUp(QGraphicsScene* scene){
 
     //Generate random speed
     speed.ry() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
+    if(random_generator.generate() % 2 ? true : false){
+        this->speed.ry()*=-1;
+    }
     speed.rx() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
 
     qreal x, y; //The coordiante where to of spawn

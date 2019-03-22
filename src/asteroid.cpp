@@ -18,6 +18,10 @@ Asteroid::Asteroid(QGraphicsScene* scene) {
     }
 
     this->speed.move_in_y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
+    if(generator.generate() % 2 ? true : false){
+        this->speed.move_in_y*=-1;
+    }
+
     this->speed.move_in_x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
 
     bool dir = generator.generate() % 2 ? true : false;

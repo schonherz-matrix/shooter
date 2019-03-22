@@ -10,19 +10,18 @@
 #include "player.h"
 
 PowerUp::PowerUp(QGraphicsScene* scene){
-    QRandomGenerator generator;
-
-    size_t random_type_num = generator.generate() % PowerUp::number_of_types;
+    QRandomGenerator& random_generator = *QRandomGenerator::system();
+    size_t random_type_num = random_generator.generate() % PowerUp::number_of_types;
 
     color = PowerUp::types[random_type_num].second;
     power = PowerUp::types[random_type_num].first;
 
-    speed.ry() = static_cast<qreal>(generator.bounded(10,20)) / (generator.bounded(1000));
-    speed.rx() = static_cast<qreal>(generator.bounded(10,20)) / (generator.bounded(1000));
+    speed.ry() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
+    speed.rx() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
 
     qreal x, y;
 
-    bool dir = generator.generate() % 2 ? true : false;
+    bool dir = random_generator.generate() % 2 ? true : false;
     if (dir) {
         x = 32;
 	speed.rx()*=-1;

@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include "config.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
@@ -10,7 +10,10 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       powerUp(powerUp),
       upper(upper),
       life(max_life),
-      power(PowerUp::NONE){
+      power(PowerUp::NONE),
+      time_to_fire(0),
+      time_from_power(0)
+{
   if (upper) {
     // lightpink	#FFB6C1	rgb(255,182,193)
     color = QColor(255, 82, 193);
@@ -62,47 +65,32 @@ void Player::advance(int phase) {
     return;
   }
 
-  if (gamepad->buttonLeft() && !gamepad->buttonRight() && pos().x() > 2) {
-    // go left
-    moveBy(-1, 0);
-  } else if (!gamepad->buttonLeft() && gamepad->buttonRight() && pos().x() < (30-3)) {
-    // go right
-    moveBy(1, 0);
-  } else if (!gamepad->buttonL1() && time_to_fire == 0) {
-    // FIRE
-    QPointF launch_point;
+  if (gamepad->axisLeftX() < -0.1 && pos().x() > 2){
+    moveBy(-1, 0); // go left
+  } else if (gamepad->axisLeftX() > 0.1 && pos().x() < (30-3)){
+    moveBy(1, 0); // go right
+  }
+
+  if (gamepad->axisLeftY() < -0.1 && time_to_fire == 0) { // FIRE
+    QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
 
     switch(power){
-        case PowerUp::DOUBLE_SHOOT:
-            launch_point = {pos().x()    , pos().y() + (upper ? -1 : 1)};
-            scene()->addItem(new Missile(launch_point, color, this, upper));
-
-            launch_point = {pos().x() + 2, pos().y() + (upper ? -1 : 1)};
-            scene()->addItem(new Missile(launch_point, color, this, upper));
-			time_to_fire = 300; 
-		    break;
         case PowerUp::TRIPLE_SHOOT:
-            launch_point = {pos().x()    , pos().y() + (upper ? -1 : 1)};
+            scene()->addItem(new Missile(launch_point                 , color, this, upper));
+        case PowerUp::DOUBLE_SHOOT:
+            scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
+            scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
             scene()->addItem(new Missile(launch_point, color, this, upper));
-
-            launch_point = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
-            scene()->addItem(new Missile(launch_point , color, this, upper));
-
-            launch_point = {pos().x() + 2, pos().y() + (upper ? -1 : 1)};
-            scene()->addItem(new Missile(launch_point , color, this, upper));
-			time_to_fire = 300; 
-		    break;
-
+            time_to_fire = config::duration::time_between_fireing;
+            break;
         case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
-            launch_point  = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
             scene()->addItem(new Missile(launch_point , color, this, upper));
 		    time_to_fire = 10; 
             break;
         default:
         case PowerUp::NONE:
-            launch_point  = {pos().x() + 1, pos().y() + (upper ? -1 : 1)};
             scene()->addItem(new Missile(launch_point , color, this, upper));
-            time_to_fire = 300;
+            time_to_fire = config::duration::time_between_fireing;
             break;
     }
   }

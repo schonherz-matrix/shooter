@@ -60,17 +60,10 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player1PWBar);
     addItem(&player2PWBar);
 
-    upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar);
-    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar);
+    upperPlayer = new Player(true, new QGamepad(gamepads.at(0), this), &player2HPBar, &player2PWBar);
+    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar); //TODO fix gamepadID
     addItem(upperPlayer);
     addItem(lowerPlayer);
-
-    // test items here
-    /*auto ast = new Asteroid();
-    ast->setPos(0, 10);
-    addItem(ast);*/
-
-    auto pow1 = new PowerUp(this);
 }
 
 void MatrixScene::updateFrame() {
@@ -125,7 +118,7 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
         addItem(new Missile(lowerPlayer->pos() + QPointF(1, 0), Qt::red, lowerPlayer, false));
         break;
     case Qt::Key_Space:
-        addItem(new Missile(upperPlayer->pos() + QPointF(1, 0), Qt::magenta, upperPlayer, true));
+        addItem(new Missile(upperPlayer->pos() + QPointF(1, 2), Qt::magenta, upperPlayer, true));
         break;
     default:
         break;

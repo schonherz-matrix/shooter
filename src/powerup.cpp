@@ -78,7 +78,7 @@ const std::array<std::pair<PowerUp::powerType, QColor>, PowerUp::number_of_types
     std::make_pair(PowerUp::powerType::HEALTH, Qt::green),
     std::make_pair(PowerUp::powerType::DOUBLE_SHOOT, Qt::yellow),
     std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, Qt::red),
-    std::make_pair(PowerUp::powerType::HEALTH, Qt::blue)
+    std::make_pair(PowerUp::powerType::LASER, Qt::blue)
 };
 
 void PowerUp::hit(Player *attacker)

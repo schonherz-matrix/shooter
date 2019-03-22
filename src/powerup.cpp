@@ -11,6 +11,7 @@
 
 PowerUp::PowerUp(QGraphicsScene* scene){
     QRandomGenerator& random_generator = *QRandomGenerator::system();
+
     size_t random_type_num = random_generator.generate() % PowerUp::number_of_types;
 
     color = PowerUp::types[random_type_num].second;
@@ -24,11 +25,11 @@ PowerUp::PowerUp(QGraphicsScene* scene){
     bool dir = random_generator.generate() % 2 ? true : false;
     if (dir) {
         x = 32;
-	speed.rx()*=-1;
+        speed.rx()*=-1;
     } else 
         x = 0;
 
-    y = 13;
+    y = random_generator.bounded(10, 20); //TODO justify
 
     scene->addItem(this);
     setPos(x, y);

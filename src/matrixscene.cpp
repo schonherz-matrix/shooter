@@ -107,8 +107,15 @@ void MatrixScene::advance_and_gc(){
     //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
     for (int i = 0; i < 2; ++i) {
         const auto items_ = items();
-        for (QGraphicsItem *item : items_)
+
+        upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
+        lowerPlayer->advance(i);
+
+        for (QGraphicsItem *item : items_){
+            if(item == upperPlayer || item == lowerPlayer)
+                continue;
             item->advance(i);
+        }
     }
 
 //Garbage collection

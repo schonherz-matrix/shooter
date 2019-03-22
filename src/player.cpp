@@ -61,7 +61,9 @@ void Player::advance(int phase) {
     if (! time_from_power)
         power = PowerUp::NONE;
 
-    lookAround(this);
+    if (lookAround(this)){
+        this->hurt(10);
+    }
     return;
   }
 
@@ -97,12 +99,15 @@ void Player::advance(int phase) {
 }
 
 
-void Player::hurt(size_t loss) {
+void Player::hurt(size_t loss) {    
   if (loss >= life) {
-    // TODO: kill, end game
+      qDebug() << "Game over!";
+     // TODO: kill, end game
     return;
   }
   life -= loss;
+
+  qDebug() << this << this->life;
 }
 
 void Player::applyPowerUp(PowerUp::powerType const pu)
@@ -120,4 +125,6 @@ void Player::applyPowerUp(PowerUp::powerType const pu)
 
 void Player::hit(Player*)
 {
+    qDebug() << "Player hit";
+    this->hurt(10);
 }

@@ -23,6 +23,12 @@
       <height>312</height>
      </rect>
     </property>
+    <property name="renderHints">
+     <set>QPainter::TextAntialiasing</set>
+    </property>
+    <property name="viewportUpdateMode">
+     <enum>QGraphicsView::FullViewportUpdate</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -31,7 +37,7 @@
      <x>0</x>
      <y>0</y>
      <width>439</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

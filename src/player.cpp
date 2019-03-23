@@ -75,7 +75,7 @@ void Player::advance(int phase) {
     moveBy(1, 0); // go right
   }
 
-  if (gamepad->axisLeftY() < -0.1 && time_to_fire == 0) { // FIRE
+  if ( ( ( gamepad->axisLeftY() < -0.6 ) || gamepad->buttonA() ) && time_to_fire == 0) { // FIRE
     QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
 
     switch(power){
@@ -144,8 +144,10 @@ void Player::displayPowerUp()
     this->powerUp->setValue((float)time_from_power / config::duration::powerup_effect);
 }
 
-void Player::hit(Player*)
+void Player::hit(Player* p)
 {
+    if (p == this)
+        return;
     qDebug() << "Player hit";
     this->hurt(10);
 }

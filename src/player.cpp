@@ -102,7 +102,8 @@ void Player::advance(int phase) {
 void Player::hurt(size_t loss) {    
   if (loss >= life) {
       qDebug() << "Game over!";
-     // TODO: kill, end game
+      scene()->removeItem(this);
+      // TODO: kill, end game
     return;
   }
   life -= loss;

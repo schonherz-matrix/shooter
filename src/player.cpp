@@ -22,6 +22,8 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
     color = Qt::green;
     setPos(15, 24);
   }
+  displayHealth();
+  displayPowerUp();
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -96,17 +98,21 @@ void Player::advance(int phase) {
             break;
     }
   }
+  displayPowerUp();
 }
 
 
-void Player::hurt(size_t loss) {    
+void Player::hurt(size_t loss) {
   if (loss >= life) {
+      life = 0;
+      displayHealth();
       qDebug() << "Game over!";
       scene()->removeItem(this);
       // TODO: kill, end game
     return;
   }
   life -= loss;
+  displayHealth();
 
   qDebug() << this << this->life;
 }
@@ -114,15 +120,29 @@ void Player::hurt(size_t loss) {
 void Player::applyPowerUp(PowerUp::powerType const pu)
 {
     if(pu == PowerUp::HEALTH){
-	    //TODO increase health and 
+        if (life > 0)
+        {
+            life = max_life;
+            displayHealth();
+            //TODO increase health and
+        }
 	    return;
     }
 
     time_from_power = config::duration::powerup_effect;
-    
     power = pu;
+    displayPowerUp();
 }
 
+void Player::displayHealth()
+{
+    this->healthBar->setValue((float)life / max_life);
+}
+
+void Player::displayPowerUp()
+{
+    this->powerUp->setValue((float)time_from_power / config::duration::powerup_effect);
+}
 
 void Player::hit(Player*)
 {

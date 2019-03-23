@@ -49,6 +49,9 @@ public:
 private:
     unsigned time_to_fire;
 
+    void displayHealth();
+    void displayPowerUp();
+
     // CollidingItem interface
 public:
     void hit(Player *item) override;

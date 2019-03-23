@@ -41,11 +41,20 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget
     QPen pen(m_color, 1);
     painter->setPen(pen);
 
+    int pixVal = (int)((m_value + 1.0/52.0) * 26.0);
+
     int startX = 0;
-    int startY = 26-(int)((m_value + 1.0/52.0) * 26.0);
+    int startY = 26-pixVal;
     int endX = 0;
-    int endY = 26;
-    painter->drawLine(startX, startY, endX, endY);
+    int endY = 25;
+    if (pixVal == 1)
+    {
+        painter->drawPoint(endX, endY);
+    }
+    else if (pixVal > 0)
+    {
+        painter->drawLine(startX, startY, endX, endY);
+    }
 }
 
 QRectF Bar::boundingRect() const

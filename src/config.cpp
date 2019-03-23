@@ -4,13 +4,13 @@ using namespace config;
 
 
 const tick config::gameSpeed::fps = 33;
-tick config::gameSpeed::time_between_shrink = 30_s;
+tick config::gameSpeed::time_between_shrink = 10_s;
 
-unsigned config::chance::spawn_asteroide = 300;
+unsigned config::chance::spawn_asteroide = 250;
 unsigned config::chance::spawn_powerup = 500;
 
-tick config::duration::time_between_fireing = 700_ms;
-tick config::duration::powerup_effect = 3_s;
+tick config::duration::time_between_fireing = 500_ms;
+tick config::duration::powerup_effect = 5_s;
 tick config::duration::laser_spacing = 70_ms;
 
 

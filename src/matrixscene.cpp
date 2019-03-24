@@ -7,8 +7,8 @@ MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
       frame(32, 26, QImage::Format_RGB888),
       painter(&frame),
-      player1HPBar(Qt::red, 1),
-      player2HPBar(Qt::green, 1),
+      player1HPBar(Qt::green, 1),
+      player2HPBar(Qt::red, 1),
       player1PWBar(Qt::yellow, 0),
       player2PWBar(Qt::yellow, 0),
       counter_to_shrink(0)
@@ -50,10 +50,10 @@ MatrixScene::MatrixScene(QObject *parent)
 
     // init Map
     // set pos
-    player1HPBar.setPos(1, 0);
-    player2HPBar.setPos(30, 0);
-    player1PWBar.setPos(0, 0);
-    player2PWBar.setPos(31, 0);
+    player1HPBar.setPos(0, 0);
+    player1PWBar.setPos(1, 0);
+    player2HPBar.setPos(31, 0);
+    player2PWBar.setPos(30, 0);
 
     // add bars
     addItem(&player1HPBar);
@@ -62,7 +62,7 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player2PWBar);
 
     upperPlayer = new Player(true, new QGamepad(0, this), &player2HPBar, &player2PWBar); //gamepads.at(0) in QGamepad constuctor
-    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar); //TODO fix gamepadID
+    lowerPlayer = new Player(false, new QGamepad(1, this), &player1HPBar, &player1PWBar);
     addItem(upperPlayer);
     addItem(lowerPlayer);
 }

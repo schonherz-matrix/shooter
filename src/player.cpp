@@ -15,8 +15,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       time_from_power(0)
 {
   if (upper) {
-    // lightpink	#FFB6C1	rgb(255,182,193)
-    color = QColor(255, 82, 193);
+    color = Qt::red;
     setPos(15, 0);
   } else {
     color = Qt::green;

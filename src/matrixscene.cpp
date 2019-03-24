@@ -61,8 +61,8 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player1PWBar);
     addItem(&player2PWBar);
 
-    upperPlayer = new Player(true, new QGamepad(0, this), &player2HPBar, &player2PWBar); //gamepads.at(0) in QGamepad constuctor
-    lowerPlayer = new Player(false, new QGamepad(1, this), &player1HPBar, &player1PWBar);
+    upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar);
+    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar);
     addItem(upperPlayer);
     addItem(lowerPlayer);
 }

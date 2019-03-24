@@ -10,8 +10,8 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       powerUp(powerUp),
       upper(upper),
       life(max_life),
-      power(PowerUp::NONE),
       time_to_fire(0),
+      power(PowerUp::NONE),
       time_from_power(0)
 {
   if (upper) {
@@ -68,18 +68,19 @@ void Player::advance(int phase) {
     return;
   }
 
-  if (gamepad->axisLeftX() < -0.1 && pos().x() > 2){
+  if ((gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft() )&& pos().x() > 2){
     moveBy(-1, 0); // go left
-  } else if (gamepad->axisLeftX() > 0.1 && pos().x() < (30-3)){
+  } else if ((gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()) && pos().x() < 27){
     moveBy(1, 0); // go right
   }
 
-  if ( ( ( gamepad->axisLeftY() < -0.6 ) || gamepad->buttonA() ) && time_to_fire == 0) { // FIRE
+  if ( gamepad->buttonX() && time_to_fire == 0) { // FIRE
     QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
 
     switch(power){
         case PowerUp::TRIPLE_SHOOT:
             scene()->addItem(new Missile(launch_point                 , color, this, upper));
+            break;
         case PowerUp::DOUBLE_SHOOT:
             scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
             scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
@@ -106,7 +107,6 @@ void Player::hurt(size_t loss) {
       life = 0;
       displayHealth();
       qDebug() << "Game over!";
-      scene()->removeItem(this);
       // TODO: kill, end game
     return;
   }

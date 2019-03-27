@@ -23,18 +23,12 @@ class MatrixScene : public QGraphicsScene {
  public:
   MatrixScene(QObject *parent = nullptr);
 
- public slots:
-  void updateFrame();
-
-private slots:
-  void advance_and_gc();
-
  private:
   Frame out;
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;
-  QTimer timer;
+  int timerID;
 
   Bar player1HPBar;
   Bar player2HPBar;
@@ -49,6 +43,10 @@ private slots:
   // QGraphicsScene interface
 protected:
   void keyPressEvent(QKeyEvent *event) override;
+
+  // QObject interface
+protected:
+  void timerEvent(QTimerEvent *event) override;
 };
 
 #endif  // MATRIXSCENE_H

@@ -29,8 +29,6 @@ MatrixScene::MatrixScene(QObject *parent)
     }
     transmitter.sendFrame(out);
 
-    connect(this, &QGraphicsScene::changed, this, &MatrixScene::updateFrame);
-
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
     if (gamepads.isEmpty() /*|| gamepads.size() < 2*/) {
         qDebug() << "Did not find any connected gamepads";
@@ -45,8 +43,7 @@ MatrixScene::MatrixScene(QObject *parent)
     }
 
     // init Timer
-    connect(&timer, SIGNAL(timeout()), this, SLOT(advance_and_gc()));
-    timer.start(1000 / config::gameSpeed::fps);
+    timerID = startTimer(1000 / config::gameSpeed::fps);
 
     // init Map
     // set pos
@@ -67,65 +64,6 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(lowerPlayer);
 }
 
-void MatrixScene::updateFrame() {
-  render(&painter);
-  for (size_t x = 0; x < out.pixels.getWidth(); x++) {
-    for (size_t y = 0; y < out.pixels.getHeight(); y++) {
-      auto pixel = frame.pixelColor(static_cast<int>(x), static_cast<int>(y));
-      out.pixels(x, y) = Color( static_cast<uint8_t>(pixel.red()),
-                                static_cast<uint8_t>(pixel.green()),
-                                static_cast<uint8_t>(pixel.blue())
-                                );
-    }
-  }
-  transmitter.sendFrame(out);
-}
-
-void MatrixScene::advance_and_gc(){
-
-//Spawn new asteroide
-    if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
-        new Asteroid(this);
-
-//Spawn new powerup
-    if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
-        new PowerUp(this);
-
-//Move players closer
-    counter_to_shrink++;
-    if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
-        upperPlayer->moveBy(0,  2);
-        lowerPlayer->moveBy(0, -2);
-        counter_to_shrink=0;
-        //TODO stop before the half of the dorm
-    }
-
-
-//Advance
-    const auto items_before_advance = QGraphicsScene::items();
-
-    //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
-    for (int i = 0; i < 2; ++i) {
-        const auto items_ = items();
-
-        upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
-        lowerPlayer->advance(i);
-
-        for (QGraphicsItem *item : items_){
-            if(item == upperPlayer || item == lowerPlayer)
-                continue;
-            item->advance(i);
-        }
-    }
-
-//Garbage collection
-    const auto items_after_advance = QGraphicsScene::items();
-
-    for(QGraphicsItem* i: items_before_advance)
-        if( ! items_after_advance.contains(i) )
-            delete i;
-}
-
 void MatrixScene::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -144,4 +82,63 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
     default:
         break;
     }
+}
+
+// main event loop
+// advance_and_gc()
+void MatrixScene::timerEvent(QTimerEvent *event)
+{
+    //Spawn new asteroide
+        if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
+            new Asteroid(this);
+
+    //Spawn new powerup
+        if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
+            new PowerUp(this);
+
+    //Move players closer
+        counter_to_shrink++;
+        if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
+            upperPlayer->moveBy(0,  2);
+            lowerPlayer->moveBy(0, -2);
+            counter_to_shrink=0;
+            //TODO stop before the half of the dorm
+        }
+
+
+    //Advance
+        const auto items_before_advance = QGraphicsScene::items();
+
+        //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
+        for (int i = 0; i < 2; ++i) {
+            const auto items_ = items();
+
+            upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
+            lowerPlayer->advance(i);
+
+            for (QGraphicsItem *item : items_){
+                if(item == upperPlayer || item == lowerPlayer)
+                    continue;
+                item->advance(i);
+            }
+        }
+
+    //Garbage collection
+        const auto items_after_advance = QGraphicsScene::items();
+
+        for(QGraphicsItem* i: items_before_advance)
+            if( ! items_after_advance.contains(i) )
+                delete i;
+
+    render(&painter);
+    for (size_t x = 0; x < out.pixels.getWidth(); x++) {
+      for (size_t y = 0; y < out.pixels.getHeight(); y++) {
+        auto pixel = frame.pixelColor(static_cast<int>(x), static_cast<int>(y));
+        out.pixels(x, y) = Color( static_cast<uint8_t>(pixel.red()),
+                                  static_cast<uint8_t>(pixel.green()),
+                                  static_cast<uint8_t>(pixel.blue())
+                                  );
+      }
+    }
+    transmitter.sendFrame(out);
 }

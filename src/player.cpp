@@ -3,9 +3,6 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
-#include <QMediaPlayer>
-
-static QMediaPlayer p;
 
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
     : gamepad(gamepad),
@@ -14,8 +11,10 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       upper(upper),
       life(max_life),
       time_to_fire(0),
+      p(nullptr, QMediaPlayer::LowLatency),
       power(PowerUp::NONE),
       time_from_power(0)
+
 {
   if (upper) {
     color = Qt::red;

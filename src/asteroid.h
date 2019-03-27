@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QRandomGenerator>
 #include "collidingitem.h"
+#include <QMediaPlayer>
 
 class Asteroid : public CollidingItem {
 private:
@@ -26,6 +27,7 @@ private:
         double x, y;
     } position;
 
+    QMediaPlayer p;
 
 public:
     Asteroid(QGraphicsScene* scene);

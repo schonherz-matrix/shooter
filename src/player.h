@@ -10,6 +10,7 @@
 #include "asteroid.h"
 #include "powerup.h"
 #include "collidingitem.h"
+#include <QMediaPlayer>
 
 constexpr size_t max_life = 100;
 
@@ -48,6 +49,7 @@ public:
 
 private:
     unsigned time_to_fire;
+    QMediaPlayer p;
 
     void displayHealth();
     void displayPowerUp();

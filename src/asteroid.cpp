@@ -3,11 +3,10 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include "missile.h"
-#include <QMediaPlayer>
 
-static QMediaPlayer p;
-
-Asteroid::Asteroid(QGraphicsScene* scene) {
+Asteroid::Asteroid(QGraphicsScene* scene)
+    : p(nullptr, QMediaPlayer::LowLatency)
+{
     QRandomGenerator& generator = *QRandomGenerator::system();
 
     this->look = QRandomGenerator::global()->bounded(0, 3);
@@ -40,6 +39,7 @@ Asteroid::Asteroid(QGraphicsScene* scene) {
     scene->addItem(this);
 
     setPos(position.x, position.y);
+    p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
 }
 
 void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) {
@@ -109,6 +109,5 @@ void Asteroid::hit(Player*)
     }
 
     life--;
-    p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
     p.play();
 }

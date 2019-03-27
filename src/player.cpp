@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
+#include <QMediaPlayer>
+
+static QMediaPlayer p;
 
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
     : gamepad(gamepad),
@@ -23,6 +26,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
   }
   displayHealth();
   displayPowerUp();
+  p.setMedia(QUrl::fromLocalFile("data/sounds/fire.wav"));
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -97,6 +101,7 @@ void Player::advance(int phase) {
             time_to_fire = config::duration::time_between_fireing;
             break;
     }
+    p.play();
   }
   displayPowerUp();
 }

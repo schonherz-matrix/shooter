@@ -3,6 +3,9 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include "missile.h"
+#include <QMediaPlayer>
+
+static QMediaPlayer p;
 
 Asteroid::Asteroid(QGraphicsScene* scene) {
     QRandomGenerator& generator = *QRandomGenerator::system();
@@ -106,4 +109,6 @@ void Asteroid::hit(Player*)
     }
 
     life--;
+    p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
+    p.play();
 }

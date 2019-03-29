@@ -13,7 +13,8 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
       time_to_fire(0),
       p(nullptr, QMediaPlayer::LowLatency),
       power(PowerUp::NONE),
-      time_from_power(0)
+      time_from_power(0),
+      dead(false)
 
 {
   if (upper) {
@@ -32,6 +33,8 @@ QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
 
 QPainterPath Player::shape() const {
   QPainterPath path;
+  if (dead)
+    return path;
 
   if (upper) {
     path.addRect(0, 0, 3, 1);
@@ -46,9 +49,10 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                    QWidget *widget) {
   Q_UNUSED(option);
   Q_UNUSED(widget);
+  if (dead)
+    return;
 
   painter->setPen(QPen(color, 1));
-
   if (upper) {
     painter->drawPoint(1, 1);
     painter->drawLine(0, 0, 2, 0);
@@ -59,6 +63,9 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 void Player::advance(int phase) {
+  if (dead)
+    return;
+
   if (phase == 0) {
     if (time_to_fire) time_to_fire--;
     if (time_from_power) time_from_power--;
@@ -111,8 +118,9 @@ void Player::hurt(size_t loss) {
       life = 0;
       displayHealth();
       qDebug() << "Game over!";
+      dead = true;
       // TODO: kill, end game
-    return;
+      return;
   }
   life -= loss;
   displayHealth();
@@ -122,6 +130,9 @@ void Player::hurt(size_t loss) {
 
 void Player::applyPowerUp(PowerUp::powerType const pu)
 {
+    if (dead)
+      return;
+
     if(pu == PowerUp::HEALTH){
         if (life > 0)
         {
@@ -149,7 +160,7 @@ void Player::displayPowerUp()
 
 void Player::hit(Player* p)
 {
-    if (p == this)
+    if (p == this || dead)
         return;
     qDebug() << "Player hit";
     this->hurt(10);

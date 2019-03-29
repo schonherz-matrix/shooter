@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
+#include "wreck.h"
 
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
     : gamepad(gamepad),
@@ -119,6 +120,18 @@ void Player::hurt(size_t loss) {
       displayHealth();
       qDebug() << "Game over!";
       dead = true;
+      if (upper) {
+          scene()->addItem(new Wreck(this->pos() + QPointF(0,0), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(1,0), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(2,0), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(1,1), this->color));
+      }
+      else {
+          scene()->addItem(new Wreck(this->pos() + QPointF(1,0), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(0,1), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(1,1), this->color));
+          scene()->addItem(new Wreck(this->pos() + QPointF(2,1), this->color));
+      }
       // TODO: kill, end game
       return;
   }

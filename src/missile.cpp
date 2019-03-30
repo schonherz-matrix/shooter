@@ -5,13 +5,26 @@
 #include <QGraphicsScene>
 #include "player.h"
 
-Missile::Missile(const QPointF& start_position, QColor color, Player* const owner, bool direction_down):
+Missile::Missile(const QPointF& start_position, QColor color, Player* const owner, bool direction_down, int time):
     owner(owner),
-    color(color)
+    color(color),
+    anim(this, "pos")
 {
-    speed = { 0, (direction_down ? 1.0 : -1.0) };
-    
-    setPos(start_position + speed);
+    direction = {0, (direction_down ? 1.0 : -1.0)};
+    setPos(start_position + direction);
+
+    int endY;
+
+    if (direction_down) {
+        endY = 28;
+    } else {
+        endY = -5;
+    }
+
+    anim.setDuration(1000 * time);
+    anim.setStartValue(pos());
+    anim.setEndValue(QPointF(pos().x(), endY));
+    anim.start();
 }
 
 QRectF Missile::boundingRect() const {
@@ -39,11 +52,13 @@ void Missile::advance(int phase) {
         return;
     }
     
-    setPos(pos() + (speed/2));
+    /*
+    //setPos(pos() + (speed/2));
 
     if( pos().y() < 0 || pos().y() > 26 ){
         remove();
     }
+    */
 }
 
 void Missile::hit(Player *)

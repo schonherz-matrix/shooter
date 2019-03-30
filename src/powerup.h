@@ -2,9 +2,9 @@
 #define POWERUP_H
 
 #include <QColor>
-#include <QGraphicsItem>
 #include <array>
 #include "collidingitem.h"
+#include <QPropertyAnimation>
 
 /**
  *  This class represents a PowerUp game item.
@@ -26,15 +26,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*) override;
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
-    
-    /**
-     * @brief Steps the state of the game by one move.
-     *        This function is called repeatedly.
-     *        The time between the calles is definied in class MatrixScene
-     * @param phase Between every render this function is called with phase=0 than phase=1
-     * @see QGraphicsItem::advance(int)
-     */
-    void advance(int phase) override;
 
     /**
      * @brief Enumeration of powerUp types
@@ -72,6 +63,8 @@ private:
      * @brief power-color pairs
      */
     const static std::array<std::pair<powerType, QColor>, number_of_types> types;
+
+    QPropertyAnimation anim;
 
     // CollidingItem interface
 public:

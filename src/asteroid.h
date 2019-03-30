@@ -5,6 +5,7 @@
 #include <QRandomGenerator>
 #include "collidingitem.h"
 #include <QMediaPlayer>
+#include <QPropertyAnimation>
 
 class Asteroid : public CollidingItem {
 private:
@@ -18,16 +19,8 @@ private:
 
     int pieces[4][4];
 
-    struct {
-        float move_in_x;
-        float move_in_y;
-    } speed;
-
-    struct {
-        double x, y;
-    } position;
-
     QMediaPlayer p;
+    QPropertyAnimation anim;
 
 public:
     Asteroid(QGraphicsScene* scene);
@@ -36,7 +29,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
-    void advance(int phase) override;
 
     // CollidingItem interface
 public:

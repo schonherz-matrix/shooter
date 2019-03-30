@@ -5,10 +5,9 @@
 #include "missile.h"
 
 Asteroid::Asteroid(QGraphicsScene* scene)
-    : p(nullptr, QMediaPlayer::LowLatency)
+    : p(nullptr, QMediaPlayer::LowLatency),
+      anim(this, "pos")
 {
-    QRandomGenerator& generator = *QRandomGenerator::system();
-
     this->look = QRandomGenerator::global()->bounded(0, 3);
     this->color = Qt::darkGray;
     this->life = Asteroid::MAXLIFE;
@@ -19,27 +18,49 @@ Asteroid::Asteroid(QGraphicsScene* scene)
         }
     }
 
-    this->speed.move_in_y = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
-    if(generator.generate() % 2 ? true : false){
-        this->speed.move_in_y*=-1;
-    }
-
-    this->speed.move_in_x = static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000));
-
-    bool dir = generator.generate() % 2 ? true : false;
-    if (dir) {
-        position.x = 32;
-        speed.move_in_x*=-1;
-    } else {
-        position.x = 0;
-    }
-
-    position.y = 13;
-
     scene->addItem(this);
-
-    setPos(position.x, position.y);
     p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
+
+    int side = QRandomGenerator::global()->bounded(0, 4);
+    int startX, startY, endX, endY;
+
+    switch (side) {
+    case 0: // left
+        startX = -5;
+        endX = 32;
+        startY = QRandomGenerator::global()->bounded(0, 27);
+        endY = QRandomGenerator::global()->bounded(0, 27);
+        break;
+    case 1: // right
+        startX = 32;
+        endX = -5;
+        startY = QRandomGenerator::global()->bounded(0, 27);
+        endY = QRandomGenerator::global()->bounded(0, 27);
+        break;
+    case 2: // up
+        startY = 0;
+        endY = 28;
+        startX = QRandomGenerator::global()->bounded(0, 33);
+        endX = QRandomGenerator::global()->bounded(0, 33);
+        break;
+    case 3: // down
+        startY = 26;
+        endY = -5;
+        startX = QRandomGenerator::global()->bounded(0, 33);
+        endX = QRandomGenerator::global()->bounded(0, 33);
+        break;
+    }
+
+    int time = QRandomGenerator::global()->bounded(5, 10);
+
+    connect(&anim, &QPropertyAnimation::finished, this, [=](){
+        remove();
+    });
+
+    anim.setDuration(1000 * time);
+    anim.setStartValue(QPointF(startX, startY));
+    anim.setEndValue(QPointF(endX, endY));
+    anim.start();
 }
 
 void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) {
@@ -73,20 +94,6 @@ QPainterPath Asteroid::shape() const {
 
     return path;
 }
-
-void Asteroid::advance(int phase) {
-    if (phase == 0)
-        return;
-
-    this->moveBy(speed.move_in_x, speed.move_in_y);
-
-    if ( this->pos().x() > 32 || this->pos().x() < 0) {
-        if( this->pos().y() < 0 || this->pos().y() > 26 ) {
-            remove();
-        }
-    }
-}
-
 
 void Asteroid::hit(Player*)
 {

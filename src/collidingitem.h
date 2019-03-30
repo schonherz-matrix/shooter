@@ -1,7 +1,7 @@
 #ifndef COLLIDINGITEMS_H
 #define COLLIDINGITEMS_H
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 
 /*
  * Collision handling method
@@ -31,7 +31,7 @@
 
 class Player;
 
-class CollidingItem : public QGraphicsItem{
+class CollidingItem : public QGraphicsObject{
 public:
     /**
      * @brief When an object is hit, this function is called with the attacker as parameter

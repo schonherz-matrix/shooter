@@ -99,8 +99,11 @@ void MatrixScene::timerEvent(QTimerEvent *event)
     //Move players closer
         counter_to_shrink++;
         if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
-            upperPlayer->moveBy(0,  2);
-            lowerPlayer->moveBy(0, -2);
+            if (upperPlayer->pos().y() < (out.pixels.getHeight() - 6) / 2)
+            {
+                upperPlayer->moveBy(0,  2);
+                lowerPlayer->moveBy(0, -2);
+            }
             counter_to_shrink=0;
             //TODO stop before the half of the dorm
         }

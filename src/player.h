@@ -32,6 +32,7 @@ class Player :  public CollidingItem
     const bool upper;
     QColor color;
     size_t life;
+    bool dead;
 
 public:
     Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);

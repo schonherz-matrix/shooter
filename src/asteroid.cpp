@@ -87,6 +87,7 @@ void Asteroid::hit(Player*)
     qDebug() << "Asteroid hit";
 
     if(life == 1) {
+        p.play();
         remove();
         return;
     }

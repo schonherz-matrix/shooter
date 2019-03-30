@@ -114,30 +114,29 @@ void MatrixScene::timerEvent(QTimerEvent *event)
             //TODO stop before the half of the dorm
         }
 
-
     //Advance
-        const auto items_before_advance = QGraphicsScene::items();
+    const auto items_before_advance = QGraphicsScene::items();
 
-        //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
-        for (int i = 0; i < 2; ++i) {
-            const auto items_ = items();
+    //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
+    for (int i = 0; i < 2; ++i) {
+        const auto items_ = items();
 
-            upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
-            lowerPlayer->advance(i);
+        upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
+        lowerPlayer->advance(i);
 
-            for (QGraphicsItem *item : items_){
-                if(item == upperPlayer || item == lowerPlayer)
-                    continue;
-                item->advance(i);
-            }
+        for (QGraphicsItem *item : items_){
+            if(item == upperPlayer || item == lowerPlayer)
+                continue;
+            item->advance(i);
         }
+    }
 
     //Garbage collection
-        const auto items_after_advance = QGraphicsScene::items();
+    const auto items_after_advance = QGraphicsScene::items();
 
-        for(QGraphicsItem* i: items_before_advance)
-            if( ! items_after_advance.contains(i) )
-                delete i;
+    for(QGraphicsItem* i: items_before_advance)
+        if( !items_after_advance.contains(i) )
+            delete i;
 
     render(&painter);
     for (size_t x = 0; x < out.pixels.getWidth(); x++) {

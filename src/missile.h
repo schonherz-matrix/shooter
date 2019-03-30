@@ -8,13 +8,14 @@
 #include "collidingitem.h"
 #include "player.h"
 #include "powerup.h"
+#include <QPropertyAnimation>
 
 class Missile : public CollidingItem {
  public:
   Player* const owner;
 
   Missile(const QPointF& start_position, QColor color, Player* const owner,
-          bool direction_down);
+          bool direction_down, int time = 3);
   QRectF boundingRect() const override;
   QPainterPath shape() const override;
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* item,
@@ -22,8 +23,9 @@ class Missile : public CollidingItem {
   void advance(int phase) override;
 
  private:
-  QPointF speed;
+  QPointF direction;
   QColor color;
+  QPropertyAnimation anim;
 
   // CollidingItem interface
  public:

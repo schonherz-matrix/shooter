@@ -9,34 +9,56 @@
 #include "missile.h"
 #include "player.h"
 
-PowerUp::PowerUp(QGraphicsScene* scene){
-    QRandomGenerator& random_generator = *QRandomGenerator::system();
-
-    size_t random_type_num = random_generator.generate() % PowerUp::number_of_types;
+PowerUp::PowerUp(QGraphicsScene* scene) :
+    anim(this, "pos")
+{
+    size_t random_type_num = QRandomGenerator::global()->generate() % PowerUp::number_of_types;
 
     color = PowerUp::types[random_type_num].second; //This is going to be the color of the powerup
     power = PowerUp::types[random_type_num].first;  //This is going to be the power of the powerup
 
-    //Generate random speed
-    speed.ry() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
-    if(random_generator.generate() % 2 ? true : false){
-        this->speed.ry()*=-1;
-    }
-    speed.rx() = static_cast<qreal>(random_generator.bounded(10,20)) / (random_generator.bounded(1000));
-
-    qreal x, y; //The coordiante where to of spawn
-
-    bool dir = random_generator.generate() % 2 ? true : false;
-    if (dir) { //If the powerup goes from right to left
-        x = 32;
-        speed.rx()*=-1;
-    } else 
-        x = 0;
-
-    y = random_generator.bounded(10, 20); //TODO justify
-
     scene->addItem(this); //Add the powerup to the scene
-    setPos(x, y); //set powerup position on the scene
+
+    int side = QRandomGenerator::global()->bounded(0, 4);
+    int startX, startY, endX, endY;
+
+    switch (side) {
+    case 0: // left
+        startX = -5;
+        endX = 32;
+        startY = QRandomGenerator::global()->bounded(0, 27);
+        endY = QRandomGenerator::global()->bounded(0, 27);
+        break;
+    case 1: // right
+        startX = 32;
+        endX = -5;
+        startY = QRandomGenerator::global()->bounded(0, 27);
+        endY = QRandomGenerator::global()->bounded(0, 27);
+        break;
+    case 2: // up
+        startY = 0;
+        endY = 28;
+        startX = QRandomGenerator::global()->bounded(0, 33);
+        endX = QRandomGenerator::global()->bounded(0, 33);
+        break;
+    case 3: // down
+        startY = 26;
+        endY = -5;
+        startX = QRandomGenerator::global()->bounded(0, 33);
+        endX = QRandomGenerator::global()->bounded(0, 33);
+        break;
+    }
+
+    int time = QRandomGenerator::global()->bounded(5, 10);
+
+    connect(&anim, &QPropertyAnimation::finished, this, [=](){
+        remove();
+    });
+
+    anim.setDuration(1000 * time);
+    anim.setStartValue(QPointF(startX, startY));
+    anim.setEndValue(QPointF(endX, endY));
+    anim.start();
 }
 
 void PowerUp::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget){
@@ -55,22 +77,6 @@ QPainterPath PowerUp::shape() const{
     QPainterPath path;
     path.addRect(0,0,1,1);
     return path;
-}
-
-void PowerUp::advance(int phase){
-	if (phase == 0)
-		return;
-
-	setPos(pos() + speed);
-
-    if (
-         pos().x() > 32 || pos().x() < 0  //If we are out of map horizontally
-           ||
-         pos().y() < 0 || pos().y() > 26  //If we are out of map vertically
-       ){
-            remove(); //Remove powerUp from map, and free memory
-            return;
-        }
 }
 
 const std::array<std::pair<PowerUp::powerType, QColor>, PowerUp::number_of_types> PowerUp::types =

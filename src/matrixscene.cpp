@@ -68,16 +68,22 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_Left:
-        lowerPlayer->moveBy(-1, 0);
+        lowerPlayer->moveLeft();
         break;
     case Qt::Key_Right:
-        lowerPlayer->moveBy(1, 0);
+        lowerPlayer->moveRight();
+        break;
+    case Qt::Key_A:
+        upperPlayer->moveLeft();
+        break;
+    case Qt::Key_D:
+        upperPlayer->moveRight();
         break;
     case Qt::Key_Control:
-        addItem(new Missile(lowerPlayer->pos() + QPointF(1, 0), Qt::red, lowerPlayer, false));
+        lowerPlayer->fire();
         break;
     case Qt::Key_Space:
-        addItem(new Missile(upperPlayer->pos() + QPointF(1, 2), Qt::magenta, upperPlayer, true));
+        upperPlayer->fire();
         break;
     default:
         break;
@@ -105,7 +111,6 @@ void MatrixScene::timerEvent(QTimerEvent *event)
                 lowerPlayer->moveBy(0, -2);
             }
             counter_to_shrink=0;
-            //TODO stop before the half of the dorm
         }
 
     //Advance

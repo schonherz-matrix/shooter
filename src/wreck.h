@@ -6,7 +6,7 @@
 #include "collidingitem.h"
 #include <QMediaPlayer>
 
-class Wreck : public CollidingItem {
+class Wreck : public QGraphicsItem {
 private:
     int look;
 
@@ -25,9 +25,6 @@ public:
     QPainterPath shape() const override;
     void advance(int phase) override;
 
-    // CollidingItem interface
-public:
-    void hit(Player* p) override;
 };
 
 #endif // WRECK_H

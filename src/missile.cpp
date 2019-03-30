@@ -20,11 +20,17 @@ Missile::Missile(const QPointF& start_position, QColor color, Player* const owne
     } else {
         endY = -5;
     }
-
-    anim.setDuration(1000 * time);
+    double time_ms = 1000 * static_cast<double>(time);
+    if (direction_down) {
+        time_ms *= (endY - start_position.y()) / 26.0;
+    }
+    anim.setDuration(static_cast<int>(time_ms));
     anim.setStartValue(pos());
     anim.setEndValue(QPointF(pos().x(), endY));
     anim.start();
+    connect(&anim, &QPropertyAnimation::finished, this, [=](){
+        remove();
+    });
 }
 
 QRectF Missile::boundingRect() const {
@@ -51,7 +57,7 @@ void Missile::advance(int phase) {
             remove();
         return;
     }
-    
+
     /*
     //setPos(pos() + (speed/2));
 

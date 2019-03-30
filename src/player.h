@@ -47,6 +47,9 @@ public:
     size_t getLife() {
         return this->life;
     }
+    void fire();
+    void moveLeft();
+    void moveRight();
 
 private:
     unsigned time_to_fire;

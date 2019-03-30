@@ -111,7 +111,6 @@ void MatrixScene::timerEvent(QTimerEvent *event)
                 lowerPlayer->moveBy(0, -2);
             }
             counter_to_shrink=0;
-            //TODO stop before the half of the dorm
         }
 
     //Advance

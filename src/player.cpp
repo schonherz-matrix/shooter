@@ -97,13 +97,13 @@ void Player::fire() {
         switch(power){
             case PowerUp::TRIPLE_SHOOT:
                 scene()->addItem(new Missile(launch_point                 , color, this, upper));
-                time_to_fire = config::duration::time_between_fireing_fast;
+                time_to_fire = config::duration::time_between_firing_fast;
                 break;
             case PowerUp::DOUBLE_SHOOT:
                 scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
                 scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
                 scene()->addItem(new Missile(launch_point, color, this, upper));
-                time_to_fire = config::duration::time_between_fireing;
+                time_to_fire = config::duration::time_between_firing;
                 break;
             case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
                 scene()->addItem(new Missile(launch_point , color, this, upper));
@@ -112,7 +112,7 @@ void Player::fire() {
             default:
             case PowerUp::NONE:
                 scene()->addItem(new Missile(launch_point , color, this, upper));
-                time_to_fire = config::duration::time_between_fireing;
+                time_to_fire = config::duration::time_between_firing;
                 break;
         }
         p.play();

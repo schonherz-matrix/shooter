@@ -36,7 +36,7 @@ QRectF Wreck::boundingRect() const {
 
 QPainterPath Wreck::shape() const {
     QPainterPath path;
-    path.addRect(0, 0, 1, 1);
+    path.addRect(0, 0, 0, 0);
 
     return path;
 }

@@ -80,11 +80,11 @@ void Asteroid::advance(int phase) {
 
     this->moveBy(speed.move_in_x, speed.move_in_y);
 
-    if ( this->pos().x() > 32 || this->pos().x() < 0) {
-        if( this->pos().y() < 0 || this->pos().y() > 26 ) {
-            remove();
-        }
+    if ( this->pos().x() > 32 || this->pos().x() < -4 ||
+            this->pos().y() < -4 || this->pos().y() > 26 ) {
+        remove();
     }
+
 }
 
 

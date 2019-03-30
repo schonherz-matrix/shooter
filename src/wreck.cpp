@@ -9,15 +9,15 @@ Wreck::Wreck(QPointF pos, QColor color)
 {
     QRandomGenerator& generator = *QRandomGenerator::system();
 
-
-    this->speed.setX(static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000)));
+    this->speed.setX(static_cast<qreal>(generator.bounded(10,100)) / 1000.0);
     if(generator.generate() % 2 ? true : false){
         this->speed.setX(-1 * this->speed.x());
     }
-    this->speed.setY(static_cast<float>(generator.bounded(10,20)) / (generator.bounded(1000)));
+    this->speed.setY(static_cast<qreal>(generator.bounded(10,100)) / 1000.0);
     if(generator.generate() % 2 ? true : false){
         this->speed.setY(-1 * this->speed.y());
     }
+    qDebug() << "speed x=" << this->speed.x() << " y=" << this->speed.y();
 
     setPos(position.x(), position.y());
 }

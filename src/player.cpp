@@ -79,40 +79,56 @@ void Player::advance(int phase) {
     return;
   }
 
-  if ((gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft() )&& pos().x() > 2){
-    moveBy(-1, 0); // go left
-  } else if ((gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()) && pos().x() < 27){
-    moveBy(1, 0); // go right
+  if (gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft()){
+    moveLeft();
+  } else if (gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()){
+    moveRight();
   }
 
-  if ( gamepad->buttonX() && time_to_fire == 0) { // FIRE
-    QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
-
-    switch(power){
-        case PowerUp::TRIPLE_SHOOT:
-            scene()->addItem(new Missile(launch_point                 , color, this, upper));
-            break;
-        case PowerUp::DOUBLE_SHOOT:
-            scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
-            scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
-            scene()->addItem(new Missile(launch_point, color, this, upper));
-            time_to_fire = config::duration::time_between_fireing;
-            break;
-        case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
-            scene()->addItem(new Missile(launch_point , color, this, upper));
-            time_to_fire = config::duration::laser_spacing;
-            break;
-        default:
-        case PowerUp::NONE:
-            scene()->addItem(new Missile(launch_point , color, this, upper));
-            time_to_fire = config::duration::time_between_fireing;
-            break;
-    }
-    p.play();
+  if (gamepad->buttonX()) { // FIRE
+    fire();
   }
   displayPowerUp();
 }
 
+void Player::fire() {
+    if (!dead && time_to_fire == 0) {
+        QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
+        switch(power){
+            case PowerUp::TRIPLE_SHOOT:
+                scene()->addItem(new Missile(launch_point                 , color, this, upper));
+                break;
+            case PowerUp::DOUBLE_SHOOT:
+                scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
+                scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
+                scene()->addItem(new Missile(launch_point, color, this, upper));
+                time_to_fire = config::duration::time_between_fireing;
+                break;
+            case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
+                scene()->addItem(new Missile(launch_point , color, this, upper));
+                time_to_fire = config::duration::laser_spacing;
+                break;
+            default:
+            case PowerUp::NONE:
+                scene()->addItem(new Missile(launch_point , color, this, upper));
+                time_to_fire = config::duration::time_between_fireing;
+                break;
+        }
+        p.play();
+    }
+}
+
+void Player::moveLeft() {
+    if (pos().x() > 2){
+        moveBy(-1, 0); // go left
+    }
+}
+
+void Player::moveRight() {
+    if (pos().x() < 27){
+        moveBy(1, 0); // go right
+    }
+}
 
 void Player::hurt(size_t loss) {
   if (loss >= life) {

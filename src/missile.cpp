@@ -25,6 +25,9 @@ Missile::Missile(const QPointF& start_position, QColor color, Player* const owne
     anim.setStartValue(pos());
     anim.setEndValue(QPointF(pos().x(), endY));
     anim.start();
+    connect(&anim, &QPropertyAnimation::finished, this, [=](){
+        remove();
+    });
 }
 
 QRectF Missile::boundingRect() const {

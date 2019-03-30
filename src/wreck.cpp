@@ -36,7 +36,7 @@ QRectF Wreck::boundingRect() const {
 
 QPainterPath Wreck::shape() const {
     QPainterPath path;
-    path.addRect(0, 0, 0, 0);
+    path.addRect(0, 0, 1, 1);
 
     return path;
 }
@@ -49,11 +49,6 @@ void Wreck::advance(int phase) {
 
     if ( this->pos().x() > 32 || this->pos().x() < 0 ||
             this->pos().y() < 0 || this->pos().y() > 26 ) {
-        remove();
+        scene()->removeItem(this);
     }
-}
-
-void Wreck::hit(Player *)
-{
-    //remove();
 }

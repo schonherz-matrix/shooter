@@ -15,6 +15,7 @@ namespace config{
     }
 
     namespace duration{
+        extern tick time_between_fireing_fast;  /**< The time must spend between to fire events from the same player, when TRIPLE_SHOOT powerup is active*/
         extern tick time_between_fireing;  /**< The time must spend between to fire events from the same player*/
         extern tick powerup_effect;  /**< The time for the powerup to effext*/
         extern tick laser_spacing;  /**< The time between laser-missiles*/

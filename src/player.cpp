@@ -97,6 +97,7 @@ void Player::fire() {
         switch(power){
             case PowerUp::TRIPLE_SHOOT:
                 scene()->addItem(new Missile(launch_point                 , color, this, upper));
+                time_to_fire = config::duration::time_between_fireing_fast;
                 break;
             case PowerUp::DOUBLE_SHOOT:
                 scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));

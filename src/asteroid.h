@@ -12,17 +12,20 @@ private:
 
     static constexpr int MAXLIFE = 2;
 
-    int look;
     int life;
 
-    QColor color;
-
-    int pieces[4][4];
+    QGraphicsPixmapItem pixmapItem;
 
     QMediaPlayer p;
     QPropertyAnimation anim;
 
 public:
+    enum class AsteroidType {
+        SMALL = 0,
+        MEDIUM = 1,
+        LARGE = 2
+    };
+
     Asteroid(QGraphicsScene* scene);
 
     // QGraphicsItem interface
@@ -33,6 +36,9 @@ public:
     // CollidingItem interface
 public:
     void hit(Player* attacker) override;
+
+private:
+    AsteroidType type;
 };
 
 #endif // ASTEROID_H

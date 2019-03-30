@@ -8,18 +8,25 @@ Asteroid::Asteroid(QGraphicsScene* scene)
     : p(nullptr, QMediaPlayer::LowLatency),
       anim(this, "pos")
 {
-    this->look = QRandomGenerator::global()->bounded(0, 3);
-    this->color = Qt::darkGray;
     this->life = Asteroid::MAXLIFE;
+    this->type = static_cast<AsteroidType>(QRandomGenerator::global()->bounded(0, 3));
 
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            this->pieces[i][j] = 1;
-        }
+    switch (this->type) {
+    case AsteroidType::SMALL :
+        p.setMedia(QUrl::fromLocalFile("data/sounds/bangSmall.wav"));
+        pixmapItem.setPixmap(QPixmap("data/asteroids/small-1.png"));
+        break;
+    case AsteroidType::MEDIUM :
+        p.setMedia(QUrl::fromLocalFile("data/sounds/bangMedium.wav"));
+        pixmapItem.setPixmap(QPixmap("data/asteroids/medium-1.png"));
+        break;
+    case AsteroidType::LARGE :
+        p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
+        pixmapItem.setPixmap(QPixmap("data/asteroids/large-1.png"));
+        break;
     }
 
     scene->addItem(this);
-    p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
 
     int side = QRandomGenerator::global()->bounded(0, 4);
     int startX, startY, endX, endY;
@@ -64,35 +71,15 @@ Asteroid::Asteroid(QGraphicsScene* scene)
 }
 
 void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) {
-    Q_UNUSED(item);
-    Q_UNUSED(widget);
-
-    painter->setPen(QPen(this->color, 1));
-
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (this->pieces[i][j] == 1) {
-                painter->drawPoint(i, j);
-            }
-        }
-    }
+    pixmapItem.paint(painter, item, widget);
 }
 
 QRectF Asteroid::boundingRect() const {
-    return QRectF(0, 0, 4, 4);
+    return this->pixmapItem.boundingRect();
 }
 
 QPainterPath Asteroid::shape() const {
-    QPainterPath path;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (this->pieces[i][j] == 1) {
-                path.addRect(i, j, 1, 1);
-            }
-        }
-    }
-
-    return path;
+    return this->pixmapItem.shape();
 }
 
 void Asteroid::hit(Player*)
@@ -100,19 +87,21 @@ void Asteroid::hit(Player*)
     qDebug() << "Asteroid hit";
 
     if(life == 1) {
+        p.play();
         remove();
         return;
     }
 
-    if (this->life == Asteroid::MAXLIFE) {
-        this->pieces[2][0] = 0;
-        this->pieces[2][3] = 0;
-        this->pieces[3][0] = 0;
-        this->pieces[3][1] = 0;
-        this->pieces[3][3] = 0;
-        this->pieces[0][0] = 0;
-        this->pieces[0][1] = 0;
-        this->pieces[0][3] = 0;
+    switch (this->type) {
+    case AsteroidType::SMALL :
+        pixmapItem.setPixmap(QPixmap("data/asteroids/small-2.png"));
+        break;
+    case AsteroidType::MEDIUM :
+        pixmapItem.setPixmap(QPixmap("data/asteroids/medium-2.png"));
+        break;
+    case AsteroidType::LARGE :
+        pixmapItem.setPixmap(QPixmap("data/asteroids/large-2.png"));
+        break;
     }
 
     life--;

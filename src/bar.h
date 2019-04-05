@@ -6,9 +6,13 @@
 
 class Bar : public QGraphicsItem {
  public:
-  enum { Type = UserType + 3 };
+    enum { Type = UserType + 5 };
 
-  int type() const override { return Type; }
+    int type() const override
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
 
   Bar(const QColor &color, float default_value);
 

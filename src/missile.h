@@ -12,6 +12,14 @@
 
 class Missile : public CollidingItem {
  public:
+    enum { Type = UserType + 2 };
+
+    int type() const override
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
+
   Player* const owner;
 
   Missile(const QPointF& start_position, QColor color, Player* const owner,

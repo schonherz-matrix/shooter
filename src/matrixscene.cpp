@@ -1,7 +1,9 @@
 #include "matrixscene.h"
+
 #include <QRandomGenerator>
 #include "bar.h"
 #include "config.h"
+#include <QDir>
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -45,6 +47,16 @@ MatrixScene::MatrixScene(QObject *parent)
     // init Timer
     timerID = startTimer(1000 / config::gameSpeed::fps);
 
+    // load sound files
+    QDir dir("data/sounds");
+    QListIterator<QFileInfo> it(dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot));
+    while (it.hasNext()) {
+        QFileInfo file = it.next();
+        sf::SoundBuffer* buffer = new sf::SoundBuffer;
+        buffer->loadFromFile(file.filePath().toStdString());
+        buffers[file.baseName()] = buffer;
+    }
+
     // init Map
     // set pos
     player1HPBar.setPos(0, 0);
@@ -58,10 +70,15 @@ MatrixScene::MatrixScene(QObject *parent)
     addItem(&player1PWBar);
     addItem(&player2PWBar);
 
-    upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar);
-    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar);
+    upperPlayer = new Player(true, new QGamepad(1, this), &player2HPBar, &player2PWBar, this);
+    lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar, this);
     addItem(upperPlayer);
     addItem(lowerPlayer);
+}
+
+sf::SoundBuffer* MatrixScene::getSoundBuffer(QString name)
+{
+    return buffers[name];
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event)
@@ -133,9 +150,16 @@ void MatrixScene::timerEvent(QTimerEvent *event)
     //Garbage collection
     const auto items_after_advance = QGraphicsScene::items();
 
-    for(QGraphicsItem* i: items_before_advance)
+    for(QGraphicsItem* i: items_before_advance) {
+        auto as = qgraphicsitem_cast<Asteroid*>(i);
+        if (as && as->removeAble()) {
+            removeItem(as);
+            if (as->deleteAble()) delete as;
+        }
+
         if( !items_after_advance.contains(i) )
             delete i;
+    }
 
     render(&painter);
     for (size_t x = 0; x < out.pixels.getWidth(); x++) {

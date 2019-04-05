@@ -29,7 +29,7 @@ CollidingItem::~CollidingItem(){
 }
 
 void CollidingItem::remove(){
-    scene()->removeItem(this);
+    if(scene()) scene()->removeItem(this);
     //WARNING
 
     //There is a modified 'advance' function of QGraphicsScene in this program

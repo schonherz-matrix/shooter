@@ -11,19 +11,21 @@
 #include <QList>
 #include <QGamepadManager>
 #include "bar.h"
-#include "player.h"
 #include "asteroid.h"
 #include "powerup.h"
 #include "missile.h"
 #include "config.h"
+#include <SFML/Audio.hpp>
+#include "player.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
 
  public:
   MatrixScene(QObject *parent = nullptr);
+  sf::SoundBuffer* getSoundBuffer(QString name);
 
- private:
+private:
   Frame out;
   QImage frame;
   QPainter painter;
@@ -39,6 +41,8 @@ class MatrixScene : public QGraphicsScene {
   Player* lowerPlayer;
 
   config::tick counter_to_shrink;
+
+  QMap<QString, sf::SoundBuffer*> buffers;
 
   // QGraphicsScene interface
 protected:

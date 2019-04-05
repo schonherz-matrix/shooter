@@ -5,12 +5,13 @@
 #include <QStyleOptionGraphicsItem>
 #include <QColor>
 #include <QtGamepad>
-
 #include "bar.h"
 #include "asteroid.h"
 #include "powerup.h"
 #include "collidingitem.h"
-#include <QMediaPlayer>
+#include <SFML/Audio.hpp>
+
+class MatrixScene;
 
 constexpr size_t max_life = 100;
 
@@ -33,9 +34,17 @@ class Player :  public CollidingItem
     QColor color;
     size_t life;
     bool dead;
+    sf::Sound sound;
 
 public:
-    Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp);
+    enum { Type = UserType + 1 };
+
+    int type() const override
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
+    Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, MatrixScene* MScene);
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
@@ -53,8 +62,6 @@ public:
 
 private:
     unsigned time_to_fire;
-    QMediaPlayer p;
-
     void displayHealth();
     void displayPowerUp();
 

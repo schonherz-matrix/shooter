@@ -1,18 +1,19 @@
 #include "player.h"
+
 #include "config.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include "missile.h"
 #include "wreck.h"
+#include "matrixscene.h"
 
-Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
+Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, MatrixScene* MScene)
     : gamepad(gamepad),
       healthBar(healthBar),
       powerUp(powerUp),
       upper(upper),
       life(max_life),
       time_to_fire(0),
-      p(nullptr, QMediaPlayer::LowLatency),
       power(PowerUp::NONE),
       time_from_power(0),
       dead(false)
@@ -27,7 +28,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp)
   }
   displayHealth();
   displayPowerUp();
-  p.setMedia(QUrl::fromLocalFile("data/sounds/fire.wav"));
+  sound.setBuffer(*MScene->getSoundBuffer("fire"));
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -117,7 +118,7 @@ void Player::fire() {
                 time_to_fire = config::duration::time_between_firing;
                 break;
         }
-        p.play();
+        sound.play();
     }
 }
 
@@ -152,6 +153,8 @@ void Player::hurt(size_t loss) {
           scene()->addItem(new Wreck(this->pos() + QPointF(2,1), this->color));
       }
       // TODO: kill, end game
+      sound.setBuffer(*static_cast<MatrixScene*>(scene())->getSoundBuffer("bangMedium"));
+      sound.play();
       return;
   }
   life -= loss;

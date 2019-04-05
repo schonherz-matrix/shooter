@@ -3,30 +3,30 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include "missile.h"
+#include "matrixscene.h"
 
-Asteroid::Asteroid(QGraphicsScene* scene)
-    : p(nullptr, QMediaPlayer::LowLatency),
-      anim(this, "pos")
+Asteroid::Asteroid(MatrixScene* MScene)
+    : anim(this, "pos")
 {
     this->life = Asteroid::MAXLIFE;
-    this->type = static_cast<AsteroidType>(QRandomGenerator::global()->bounded(0, 3));
+    this->look = static_cast<AsteroidType>(QRandomGenerator::global()->bounded(0, 3));
 
-    switch (this->type) {
+    switch (this->look) {
     case AsteroidType::SMALL :
-        p.setMedia(QUrl::fromLocalFile("data/sounds/bangSmall.wav"));
+        sound.setBuffer(*MScene->getSoundBuffer("bangSmall"));
         pixmapItem.setPixmap(QPixmap("data/asteroids/small-1.png"));
         break;
     case AsteroidType::MEDIUM :
-        p.setMedia(QUrl::fromLocalFile("data/sounds/bangMedium.wav"));
+        sound.setBuffer(*MScene->getSoundBuffer("bangMedium"));
         pixmapItem.setPixmap(QPixmap("data/asteroids/medium-1.png"));
         break;
     case AsteroidType::LARGE :
-        p.setMedia(QUrl::fromLocalFile("data/sounds/bangLarge.wav"));
+        sound.setBuffer(*MScene->getSoundBuffer("bangLarge"));
         pixmapItem.setPixmap(QPixmap("data/asteroids/large-1.png"));
         break;
     }
 
-    scene->addItem(this);
+    MScene->addItem(this);
 
     int side = QRandomGenerator::global()->bounded(0, 4);
     int startX, startY, endX, endY;
@@ -86,13 +86,7 @@ void Asteroid::hit(Player*)
 {
     qDebug() << "Asteroid hit";
 
-    if(life == 1) {
-        p.play();
-        remove();
-        return;
-    }
-
-    switch (this->type) {
+    switch (this->look) {
     case AsteroidType::SMALL :
         pixmapItem.setPixmap(QPixmap("data/asteroids/small-2.png"));
         break;
@@ -104,6 +98,18 @@ void Asteroid::hit(Player*)
         break;
     }
 
-    life--;
-    p.play();
+    if(life > 0) {
+        sound.play();
+        life--;
+    }
+}
+
+bool Asteroid::removeAble()
+{
+    return !life;
+}
+
+bool Asteroid::deleteAble()
+{
+    return sound.getStatus() == sound.Stopped;
 }

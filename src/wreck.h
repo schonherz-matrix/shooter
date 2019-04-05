@@ -4,7 +4,6 @@
 #include <QPainter>
 #include <QRandomGenerator>
 #include "collidingitem.h"
-#include <QMediaPlayer>
 
 class Wreck : public QGraphicsItem {
 private:
@@ -17,6 +16,14 @@ private:
     QPointF position;
 
 public:
+    enum { Type = UserType + 6 };
+
+    int type() const override
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
+
     Wreck(QPointF pos, QColor color);
 
     // QGraphicsItem interface

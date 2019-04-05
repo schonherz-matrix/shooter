@@ -4,8 +4,10 @@
 #include <QPainter>
 #include <QRandomGenerator>
 #include "collidingitem.h"
-#include <QMediaPlayer>
 #include <QPropertyAnimation>
+#include <SFML/Audio.hpp>
+
+class MatrixScene;
 
 class Asteroid : public CollidingItem {
 private:
@@ -15,18 +17,24 @@ private:
     int life;
 
     QGraphicsPixmapItem pixmapItem;
-
-    QMediaPlayer p;
     QPropertyAnimation anim;
 
 public:
+    enum { Type = UserType + 3 };
+
+    int type() const override
+    {
+        // Enable the use of qgraphicsitem_cast with this item.
+        return Type;
+    }
+
     enum class AsteroidType {
         SMALL = 0,
         MEDIUM = 1,
         LARGE = 2
     };
 
-    Asteroid(QGraphicsScene* scene);
+    Asteroid(MatrixScene* MScene);
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
@@ -34,11 +42,13 @@ public:
     QPainterPath shape() const override;
 
     // CollidingItem interface
-public:
     void hit(Player* attacker) override;
+    bool removeAble();
+    bool deleteAble();
 
 private:
-    AsteroidType type;
+    AsteroidType look;
+    sf::Sound sound;
 };
 
 #endif // ASTEROID_H

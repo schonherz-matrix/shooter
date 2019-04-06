@@ -47,6 +47,9 @@ public:
     }
     Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, MatrixScene* MScene);
 
+    QColor getColor() {return this->color;}
+    PowerUp::powerType getPowerUp() {return this->power;}
+
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

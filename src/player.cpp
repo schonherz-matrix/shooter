@@ -6,6 +6,7 @@
 #include "missile.h"
 #include "wreck.h"
 #include "matrixscene.h"
+#include "laser.hpp"
 
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, MatrixScene* MScene)
     : gamepad(gamepad),
@@ -109,9 +110,9 @@ void Player::fire() {
                 scene()->addItem(new Missile(launch_point, color, this, upper));
                 time_to_fire = config::duration::time_between_firing;
                 break;
-            case PowerUp::LASER: //TODO FIX, this is not good | these missiles should be faster than others
-                scene()->addItem(new Missile(launch_point , color, this, upper));
-                time_to_fire = config::duration::laser_spacing;
+            case PowerUp::LASER:
+                scene()->addItem(new Laser(this, upper));
+                time_to_fire = time_from_power; //TODO check why doesn't work
                 break;
             default:
             case PowerUp::NONE:

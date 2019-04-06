@@ -35,7 +35,8 @@ HEADERS += \
     src/collidingitem.h \
     src/config.h \
     src/wreck.h \
-    src/border.h
+    src/border.h \
+    src/laser.hpp
 
 SOURCES += \
     src/asteroid.cpp \
@@ -49,7 +50,8 @@ SOURCES += \
     src/collidingitem.cpp \
     src/config.cpp \
     src/wreck.cpp \
-    src/border.cpp
+    src/border.cpp \
+    src/laser.cpp
 
 FORMS += \
     src/mainwindow.ui

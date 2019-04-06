@@ -34,7 +34,8 @@ HEADERS += \
     src/powerup.h \
     src/collidingitem.h \
     src/config.h \
-    src/wreck.h
+    src/wreck.h \
+    src/border.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -47,7 +48,8 @@ SOURCES += \
     src/powerup.cpp \
     src/collidingitem.cpp \
     src/config.cpp \
-    src/wreck.cpp
+    src/wreck.cpp \
+    src/border.cpp
 
 FORMS += \
     src/mainwindow.ui

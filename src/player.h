@@ -17,6 +17,7 @@ constexpr size_t max_life = 100;
 
 class Player :  public CollidingItem
 {
+    Q_OBJECT
     /*
      * UPPER:
      *  XXX
@@ -59,6 +60,9 @@ public:
     void fire();
     void moveLeft();
     void moveRight();
+
+signals:
+    void gameOver(bool upper);
 
 private:
     unsigned time_to_fire;

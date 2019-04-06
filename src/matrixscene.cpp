@@ -87,6 +87,16 @@ sf::SoundBuffer* MatrixScene::getSoundBuffer(QString name)
     return buffers[name];
 }
 
+void MatrixScene::endGame(bool upper)
+{
+    gameOver = true;
+    addRect(0, 0, 32, 26, Qt::NoPen, (upper) ? Qt::green : Qt::red);
+    auto text = addText((upper) ? "P1" : "P2");
+    text->setPos(7, -5);
+    auto won = addText("WON!");
+    won->setPos(-1, 5);
+}
+
 void MatrixScene::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -117,56 +127,58 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
 // advance_and_gc()
 void MatrixScene::timerEvent(QTimerEvent *event)
 {
-    //Spawn new asteroide
-        if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
-            new Asteroid(this);
+    if (!gameOver) {
+        //Spawn new asteroide
+            if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
+                new Asteroid(this);
 
-    //Spawn new powerup
-        if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
-            new PowerUp(this);
+        //Spawn new powerup
+            if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
+                new PowerUp(this);
 
-    //Move players closer
-        counter_to_shrink++;
-        if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
-            if (upperPlayer->pos().y() < (out.pixels.getHeight() - 6) / 2)
-            {
-                upperPlayer->moveBy(0,  2);
-                upperBorder.moveBy(0, 2);
-                lowerPlayer->moveBy(0, -2);
-                lowerBorder.moveBy(0, -2);
+        //Move players closer
+            counter_to_shrink++;
+            if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
+                if (upperPlayer->pos().y() < (out.pixels.getHeight() - 6) / 2)
+                {
+                    upperPlayer->moveBy(0,  2);
+                    upperBorder.moveBy(0, 2);
+                    lowerPlayer->moveBy(0, -2);
+                    lowerBorder.moveBy(0, -2);
+                }
+                counter_to_shrink=0;
             }
-            counter_to_shrink=0;
+
+        //Advance
+        const auto items_before_advance = QGraphicsScene::items();
+
+        //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
+        for (int i = 0; i < 2; ++i) {
+            const auto items_ = items();
+
+            upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
+            lowerPlayer->advance(i);
+
+            for (QGraphicsItem *item : items_){
+                if(item == upperPlayer || item == lowerPlayer)
+                    continue;
+                item->advance(i);
+            }
         }
 
-    //Advance
-    const auto items_before_advance = QGraphicsScene::items();
+        //Garbage collection
+        const auto items_after_advance = QGraphicsScene::items();
 
-    //The basic 'advance' function  TODO call QGraphicsScene::advance() instead???
-    for (int i = 0; i < 2; ++i) {
-        const auto items_ = items();
+        for(QGraphicsItem* i: items_before_advance) {
+            auto as = qgraphicsitem_cast<Asteroid*>(i);
+            if (as && as->removeAble()) {
+                removeItem(as);
+                if (as->deleteAble()) delete as;
+            }
 
-        upperPlayer->advance(i); //alternative soultion; players do lookAround in phase 1, others in two
-        lowerPlayer->advance(i);
-
-        for (QGraphicsItem *item : items_){
-            if(item == upperPlayer || item == lowerPlayer)
-                continue;
-            item->advance(i);
+            if( !items_after_advance.contains(i) )
+                delete i;
         }
-    }
-
-    //Garbage collection
-    const auto items_after_advance = QGraphicsScene::items();
-
-    for(QGraphicsItem* i: items_before_advance) {
-        auto as = qgraphicsitem_cast<Asteroid*>(i);
-        if (as && as->removeAble()) {
-            removeItem(as);
-            if (as->deleteAble()) delete as;
-        }
-
-        if( !items_after_advance.contains(i) )
-            delete i;
     }
 
     render(&painter);

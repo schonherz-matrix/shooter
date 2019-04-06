@@ -29,6 +29,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
   displayHealth();
   displayPowerUp();
   sound.setBuffer(*MScene->getSoundBuffer("fire"));
+  connect(this, &Player::gameOver, MScene, &MatrixScene::endGame, Qt::QueuedConnection);
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -152,7 +153,8 @@ void Player::hurt(size_t loss) {
           scene()->addItem(new Wreck(this->pos() + QPointF(1,1), this->color));
           scene()->addItem(new Wreck(this->pos() + QPointF(2,1), this->color));
       }
-      // TODO: kill, end game
+
+      emit gameOver(upper);
       sound.setBuffer(*static_cast<MatrixScene*>(scene())->getSoundBuffer("bangMedium"));
       sound.play();
       return;

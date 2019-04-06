@@ -26,6 +26,9 @@ class MatrixScene : public QGraphicsScene {
   MatrixScene(QObject *parent = nullptr);
   sf::SoundBuffer* getSoundBuffer(QString name);
 
+  public slots:
+      void endGame(bool upper);
+
 private:
   Frame out;
   QImage frame;
@@ -46,6 +49,7 @@ private:
   config::tick counter_to_shrink;
 
   QMap<QString, sf::SoundBuffer*> buffers;
+  bool gameOver = false;
 
   // QGraphicsScene interface
 protected:

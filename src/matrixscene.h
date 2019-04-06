@@ -17,6 +17,7 @@
 #include "config.h"
 #include <SFML/Audio.hpp>
 #include "player.h"
+#include "border.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
@@ -39,6 +40,8 @@ private:
 
   Player* upperPlayer;
   Player* lowerPlayer;
+  Border lowerBorder;
+  Border upperBorder;
 
   config::tick counter_to_shrink;
 

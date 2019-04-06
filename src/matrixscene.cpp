@@ -13,7 +13,9 @@ MatrixScene::MatrixScene(QObject *parent)
       player2HPBar(Qt::red, 1),
       player1PWBar(Qt::yellow, 0),
       player2PWBar(Qt::yellow, 0),
-      counter_to_shrink(0)
+      counter_to_shrink(0),
+      lowerBorder(false),
+      upperBorder(true)
     {
     // set BG
     setBackgroundBrush(Qt::black);
@@ -74,6 +76,10 @@ MatrixScene::MatrixScene(QObject *parent)
     lowerPlayer = new Player(false, new QGamepad(0, this), &player1HPBar, &player1PWBar, this);
     addItem(upperPlayer);
     addItem(lowerPlayer);
+
+    // add borders
+    addItem(&lowerBorder);
+    addItem(&upperBorder);
 }
 
 sf::SoundBuffer* MatrixScene::getSoundBuffer(QString name)
@@ -125,7 +131,9 @@ void MatrixScene::timerEvent(QTimerEvent *event)
             if (upperPlayer->pos().y() < (out.pixels.getHeight() - 6) / 2)
             {
                 upperPlayer->moveBy(0,  2);
+                upperBorder.moveBy(0, 2);
                 lowerPlayer->moveBy(0, -2);
+                lowerBorder.moveBy(0, -2);
             }
             counter_to_shrink=0;
         }

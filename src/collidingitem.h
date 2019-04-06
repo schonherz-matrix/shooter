@@ -50,7 +50,7 @@ public:
               CollidingItem();
 
       /**
-       * @brief Removes the item from the scene and frees the memory occupied by it (delete this;)
+       * @brief Removes the item from the scene and frees the memory occupied by it (delete this;). Free is called only when remove() is called from an advance() function
        */
      void remove();
 };

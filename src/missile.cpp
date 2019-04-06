@@ -30,6 +30,7 @@ Missile::Missile(const QPointF& start_position, QColor color, Player* const owne
     anim.start();
     connect(&anim, &QPropertyAnimation::finished, this, [=](){
         remove();
+        delete this;
     });
 }
 

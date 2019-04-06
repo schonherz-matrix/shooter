@@ -74,7 +74,7 @@ else:unix: PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/libmueb.a
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio- -lsfml-system-
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d
-else:unix: LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio- -lsfml-system-
+else:unix: LIBS += -lsfml-audio -lsfml-system
 
 INCLUDEPATH += $$PWD/lib/SFML/include
 DEPENDPATH += $$PWD/lib/SFML/include

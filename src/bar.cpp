@@ -16,6 +16,7 @@ void Bar::setValue(float val) {
     m_value = 1.0;
   else
     m_value = val;
+  update();
 }
 
 float Bar::getValue() { return m_value; }

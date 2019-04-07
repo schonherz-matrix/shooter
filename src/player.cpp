@@ -187,6 +187,13 @@ void Player::applyPowerUp(PowerUp::powerType const pu)
     displayPowerUp();
 }
 
+void Player::loosePower(){
+    power = PowerUp::NONE;
+    time_from_power = 0;
+    time_to_fire = 1;
+    displayPowerUp();
+}
+
 void Player::displayHealth()
 {
     this->healthBar->setValue((float)life / max_life);

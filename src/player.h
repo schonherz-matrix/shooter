@@ -57,6 +57,7 @@ public:
     void hurt(size_t loss); //when a player gets hurt; its HP lessens by loss
 
     void applyPowerUp(PowerUp::powerType const pu);
+    void loosePower();
     size_t getLife() {
         return this->life;
     }

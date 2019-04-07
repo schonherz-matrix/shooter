@@ -1,7 +1,6 @@
 #ifndef MATRIXSCENE_H
 #define MATRIXSCENE_H
 
-#include <common/frame.h>
 #include <muebtransmitter.h>
 #include <QGraphicsScene>
 #include <QImage>
@@ -30,7 +29,6 @@ class MatrixScene : public QGraphicsScene {
       void endGame(bool upper);
 
 private:
-  Frame out;
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;

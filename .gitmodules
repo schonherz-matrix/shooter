@@ -3,6 +3,6 @@
 	url = https://github.com/SFML/SFML.git
 	ignore = dirty
 [submodule "emu"]
-	path = emu
+	path = lib/emu
 	url = https://git.sch.bme.hu/matrix-group/emu.git
 	ignore = dirty

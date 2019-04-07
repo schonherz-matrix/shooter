@@ -56,25 +56,25 @@ SOURCES += \
 FORMS += \
     src/mainwindow.ui
 
-INCLUDEPATH += $$PWD/matrix-simple
+INCLUDEPATH += $$PWD/lib/emu
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/matrix-simple/mueb/release/ -lmueb
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/matrix-simple/mueb/debug/ -lmueb
-else:unix: LIBS += -L$$PWD/matrix-simple/mueb/ -lmueb
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/emu/mueb/release/ -lmueb
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/emu/mueb/debug/ -lmueb
+else:unix: LIBS += -L$$PWD/lib/emu/mueb/ -lmueb
 
-INCLUDEPATH += $$PWD/matrix-simple/mueb
-DEPENDPATH += $$PWD/matrix-simple/mueb
+INCLUDEPATH += $$PWD/lib/emu/mueb
+DEPENDPATH += $$PWD/lib/emu/mueb
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/release/libmueb.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/debug/libmueb.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/release/mueb.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/debug/mueb.lib
-else:unix: PRE_TARGETDEPS += $$PWD/matrix-simple/mueb/libmueb.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/lib/emu/mueb/release/libmueb.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/emu/mueb/debug/libmueb.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/lib/emu/mueb/release/mueb.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/emu/mueb/debug/mueb.lib
+else:unix: PRE_TARGETDEPS += $$PWD/lib/emu/mueb/libmueb.a
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio- -lsfml-system-
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d

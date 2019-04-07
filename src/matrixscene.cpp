@@ -24,14 +24,8 @@ MatrixScene::MatrixScene(QObject *parent)
     setSceneRect(0, 0, 32, 26);
 
     // init Frame
-    out.pixels = Array2D<Color>(32, 26);
     frame.fill(Qt::black);
-    for (size_t x = 0; x < out.pixels.getWidth(); x++) {
-        for (size_t y = 0; y < out.pixels.getHeight(); y++) {
-          out.pixels(x, y) = Color(0, 0, 0);
-        }
-    }
-    transmitter.sendFrame(out);
+    transmitter.sendFrame(frame);
 
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
     if (gamepads.isEmpty() /*|| gamepads.size() < 2*/) {
@@ -139,7 +133,7 @@ void MatrixScene::timerEvent(QTimerEvent *event)
         //Move players closer
             counter_to_shrink++;
             if ( counter_to_shrink == config::gameSpeed::time_between_shrink ){
-                if (upperPlayer->pos().y() < (out.pixels.getHeight() - 6) / 2)
+                if (upperPlayer->pos().y() < (frame.height() - 6) / 2)
                 {
                     upperPlayer->moveBy(0,  2);
                     upperBorder.moveBy(0, 2);
@@ -182,14 +176,5 @@ void MatrixScene::timerEvent(QTimerEvent *event)
     }
 
     render(&painter);
-    for (size_t x = 0; x < out.pixels.getWidth(); x++) {
-      for (size_t y = 0; y < out.pixels.getHeight(); y++) {
-        auto pixel = frame.pixelColor(static_cast<int>(x), static_cast<int>(y));
-        out.pixels(x, y) = Color( static_cast<uint8_t>(pixel.red()),
-                                  static_cast<uint8_t>(pixel.green()),
-                                  static_cast<uint8_t>(pixel.blue())
-                                  );
-      }
-    }
-    transmitter.sendFrame(out);
+    transmitter.sendFrame(frame);
 }

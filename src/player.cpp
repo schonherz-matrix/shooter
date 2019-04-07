@@ -183,6 +183,7 @@ void Player::applyPowerUp(PowerUp::powerType const pu)
 
     time_from_power = config::duration::powerup_effect;
     power = pu;
+    time_to_fire = 0;
     displayPowerUp();
 }
 

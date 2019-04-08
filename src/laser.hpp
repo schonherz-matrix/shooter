@@ -3,7 +3,6 @@
 
 class Laser final: public CollidingItem{
     Player* const owner;
-    size_t energy_used;
     bool shooting_down;
 
     constexpr static size_t height = 30;

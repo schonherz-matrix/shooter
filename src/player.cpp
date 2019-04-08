@@ -14,7 +14,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
       powerUp(powerUp),
       upper(upper),
       life(max_life),
-      time_to_fire(0),
+      time_to_fire(false),
       power(PowerUp::NONE),
       dead(false)
 
@@ -32,6 +32,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
   connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value){
       canFire = value;
       startFireTimer(config::duration::time_between_firing);
+      applyPowerUp(PowerUp::LASER);
   });
   connect(powerUp, &Bar::finished, this, [=](){
       power = PowerUp::NONE;
@@ -183,13 +184,6 @@ void Player::applyPowerUp(PowerUp::powerType const pu)
         powerUp->setDuration(config::duration::powerup_effect);
     }
     powerUp->startAnim();
-}
-
-void Player::loosePower(){
-    power = PowerUp::NONE;
-    time_from_power = 0;
-    time_to_fire = 1;
-    displayPowerUp();
 }
 
 void Player::displayHealth()

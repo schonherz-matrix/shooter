@@ -4,7 +4,6 @@
 
 Laser::Laser(Player* const owner, bool direction_down):
     owner(owner),
-    energy_used(0),
     shooting_down(direction_down)
 {
     updatePos();
@@ -15,16 +14,15 @@ QRectF Laser::boundingRect() const {
 }
 
 void Laser::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->setPen(QPen(owner->getColor(), 0));
-    painter->setBrush(owner->getColor());
-    painter->drawRect(this->boundingRect());
+    painter->setPen(QPen(owner->getColor(), 1));
+    painter->drawLine(0, 0, 0, height);
 }
 
 void Laser::updatePos(){
     if (shooting_down)
-        setPos(0.5+owner->x(),owner->y()+2.5);
+        setPos(owner->pos() + QPointF(1, 2));
     else
-        setPos(0.5+owner->x(),owner->y()-1-Laser::height);
+        setPos(owner->pos().x() + 1, owner->pos().y() - height - 1);
 }
 
 void Laser::advance(int phase) {
@@ -32,16 +30,8 @@ void Laser::advance(int phase) {
         if(owner->getPowerUp()!=PowerUp::LASER)
             remove();
 
+        lookAround(owner);
         updatePos();
-
-        if (lookAround(owner)){
-            energy_used++;
-            if(energy_used == 3){ //TODO move to config
-                owner->loosePower();
-                remove();
-            }
-            return;
-        }
     }
 }
 

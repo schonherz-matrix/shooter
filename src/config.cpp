@@ -13,7 +13,7 @@ unsigned config::chance::spawn_powerup = 400;
 std::chrono::milliseconds config::duration::time_between_firing = 500ms;
 std::chrono::milliseconds config::duration::time_between_firing_fast = 200ms;
 std::chrono::milliseconds config::duration::powerup_effect = 8s;
-std::chrono::milliseconds config::duration::laser = 1500ms;
+std::chrono::milliseconds config::duration::laser = 3s;
 
 tick config::operator"" _ms(unsigned long long ms){
     return gameSpeed::fps * static_cast<unsigned>(ms) / 1000;

@@ -81,10 +81,10 @@ sf::SoundBuffer *MatrixScene::getSoundBuffer(QString name) {
 void MatrixScene::endGame(bool upper) {
   gameOver = true;
   addRect(0, 0, 32, 26, Qt::NoPen, (upper) ? Qt::green : Qt::red);
-  auto text = addText((upper) ? "P1" : "P2");
-  text->setPos(7, -5);
-  auto won = addText("WON!");
-  won->setPos(-1, 5);
+  auto text = addText((upper) ? "P1" : "P2", QFont("Times", 10, QFont::Bold));
+  text->setPos(5, -5);
+  auto won = addText("WON!", QFont("Times", 9, QFont::Bold));
+  won->setPos(-4, 8);
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event) {

@@ -23,10 +23,6 @@ MatrixScene::MatrixScene(QObject *parent)
     // setSize
     setSceneRect(0, 0, 32, 26);
 
-    // init Frame
-    frame.fill(Qt::black);
-    transmitter.sendFrame(frame);
-
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
     if (gamepads.isEmpty() /*|| gamepads.size() < 2*/) {
         qDebug() << "Did not find any connected gamepads";

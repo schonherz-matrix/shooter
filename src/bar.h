@@ -6,17 +6,16 @@
 #include <QPropertyAnimation>
 
 class Bar : public QGraphicsObject {
-    Q_OBJECT
-    Q_PROPERTY(float value READ getValue WRITE setValue)
+  Q_OBJECT
+  Q_PROPERTY(float value READ getValue WRITE setValue)
 
  public:
-    enum { Type = UserType + 5 };
+  enum { Type = UserType + 5 };
 
-    int type() const override
-    {
-        // Enable the use of qgraphicsitem_cast with this item.
-        return Type;
-    }
+  int type() const override {
+    // Enable the use of qgraphicsitem_cast with this item.
+    return Type;
+  }
 
   Bar(const QColor &color, float default_value);
 
@@ -32,10 +31,10 @@ class Bar : public QGraphicsObject {
   void setDuration(std::chrono::milliseconds value);
   void startAnim();
 
-  signals:
-      void finished();
+ signals:
+  void finished();
 
-private:
+ private:
   QColor m_color;
   qreal m_value;
   QPropertyAnimation anim;

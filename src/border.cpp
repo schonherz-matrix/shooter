@@ -19,11 +19,8 @@ QPainterPath Border::shape() const {
   return path;
 }
 
-void Border::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                   QWidget *widget) {
-  Q_UNUSED(option)
-  Q_UNUSED(widget)
-
+void Border::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                   QWidget *) {
   painter->setPen(QPen(Qt::gray, 1));
   painter->drawLine(0, 0, 29, 0);
 }

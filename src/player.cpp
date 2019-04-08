@@ -1,22 +1,23 @@
 #include "player.h"
 
-#include "config.h"
 #include <QDebug>
 #include <QGraphicsScene>
+#include "config.h"
+#include "laser.hpp"
+#include "matrixscene.h"
 #include "missile.h"
 #include "wreck.h"
-#include "matrixscene.h"
-#include "laser.hpp"
 
-Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, MatrixScene* MScene)
-    : gamepad(gamepad),
+Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
+               MatrixScene *MScene)
+    : time_to_fire(false),
+      gamepad(gamepad),
       healthBar(healthBar),
-      powerUp(powerUp),
+      powerUpBar(powerUp),
       upper(upper),
       life(max_life),
-      time_to_fire(false),
-      power(PowerUp::NONE),
-      dead(false)
+      dead(false),
+      power(PowerUp::NONE)
 
 {
   if (upper) {
@@ -28,27 +29,25 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
   }
   displayHealth();
   sound.setBuffer(*MScene->getSoundBuffer("fire"));
-  connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value){
-      canFire = value;
-      startFireTimer(config::duration::time_between_firing);
+  connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value) {
+    canFire = value;
+    startFireTimer(config::duration::time_between_firing);
   });
-  connect(powerUp, &Bar::finished, this, [=](){
-      power = PowerUp::NONE;
-  });
+  connect(powerUp, &Bar::finished, this, [=]() { power = PowerUp::NONE; });
 
   // Add hit indicator
-  if(upper)
-      hitIndicator = MScene->addRect(2, y(), 28, 5, Qt::NoPen, color.dark());
+  if (upper)
+    hitIndicator = MScene->addRect(2, y(), 28, 5, Qt::NoPen, color.dark());
   else
-      hitIndicator = MScene->addRect(2, y()-3, 28, 5, Qt::NoPen, color.dark());
+    hitIndicator = MScene->addRect(2, y() - 3, 28, 5, Qt::NoPen, color.dark());
 
   hitIndicator->hide();
   hitIndicator->setZValue(-1);
-  connect(this, &QGraphicsObject::yChanged, this, [=](){
-      if(upper)
-          hitIndicator->moveBy(0, 2);
-      else
-          hitIndicator->moveBy(0, -2);
+  connect(this, &QGraphicsObject::yChanged, this, [=]() {
+    if (upper)
+      hitIndicator->moveBy(0, 2);
+    else
+      hitIndicator->moveBy(0, -2);
   });
 }
 
@@ -56,8 +55,7 @@ QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
 
 QPainterPath Player::shape() const {
   QPainterPath path;
-  if (dead)
-    return path;
+  if (dead) return path;
 
   if (upper) {
     path.addRect(0, 0, 3, 1);
@@ -70,12 +68,9 @@ QPainterPath Player::shape() const {
   return path;
 }
 
-void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                   QWidget *widget) {
-  Q_UNUSED(option);
-  Q_UNUSED(widget);
-  if (dead)
-    return;
+void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                   QWidget *) {
+  if (dead) return;
 
   painter->setPen(QPen(color, 1));
   if (upper) {
@@ -88,89 +83,90 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 void Player::advance(int phase) {
-  if (dead)
-    return;
+  if (dead) return;
 
   if (phase == 0) {
-    if (lookAround(this)){
-        this->hurt(10);
+    if (lookAround(this)) {
+      this->hurt(10);
     }
     return;
   }
 
-  if (gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft()){
+  if (gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft()) {
     moveLeft();
-  } else if (gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()){
+  } else if (gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()) {
     moveRight();
   }
 }
 
 void Player::fire(bool fire) {
-    if ((!dead && canFire) || fire) {
-        QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));
-        switch(power){
-            case PowerUp::DOUBLE_SHOOT:
-                scene()->addItem(new Missile(launch_point                 , color, this, upper));
-                startFireTimer(config::duration::time_between_firing_fast);
-                break;
-            case PowerUp::TRIPLE_SHOOT:
-                scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
-                scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
-                scene()->addItem(new Missile(launch_point, color, this, upper));
-                startFireTimer(config::duration::time_between_firing);
-                break;
-            case PowerUp::LASER:
-                scene()->addItem(new Laser(this, upper));
-                startFireTimer(config::duration::laser);
-                break;
-            default:
-            case PowerUp::NONE:
-                scene()->addItem(new Missile(launch_point , color, this, upper));
-                startFireTimer(config::duration::time_between_firing);
-                break;
-        }
-        sound.play();
+  if ((!dead && canFire) || fire) {
+    QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));
+    switch (power) {
+      case PowerUp::DOUBLE_SHOOT:
+        scene()->addItem(new Missile(launch_point, color, this, upper));
+        startFireTimer(config::duration::time_between_firing_fast);
+        break;
+      case PowerUp::TRIPLE_SHOOT:
+        scene()->addItem(
+            new Missile(launch_point + QPointF(-1, 0), color, this, upper));
+        scene()->addItem(
+            new Missile(launch_point + QPointF(1, 0), color, this, upper));
+        scene()->addItem(new Missile(launch_point, color, this, upper));
+        startFireTimer(config::duration::time_between_firing);
+        break;
+      case PowerUp::LASER:
+        scene()->addItem(new Laser(this, upper));
+        startFireTimer(config::duration::laser);
+        break;
+      default:
+      case PowerUp::NONE:
+        scene()->addItem(new Missile(launch_point, color, this, upper));
+        startFireTimer(config::duration::time_between_firing);
+        break;
     }
+    sound.play();
+  }
 }
 
 void Player::moveLeft() {
-    if (pos().x() > 2){
-        moveBy(-1, 0); // go left
-    }
+  if (pos().x() > 2) {
+    moveBy(-1, 0);  // go left
+  }
 }
 
 void Player::moveRight() {
-    if (pos().x() < 27){
-        moveBy(1, 0); // go right
-    }
+  if (pos().x() < 27) {
+    moveBy(1, 0);  // go right
+  }
 }
 
 void Player::hurt(size_t loss) {
   if (loss >= life) {
-      life = 0;
-      displayHealth();
-      qDebug() << "Game over!";
-      dead = true;
-      if (upper) {
-          scene()->addItem(new Wreck(this->pos() + QPointF(0,0), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(1,0), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(2,0), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(1,1), this->color));
-      }
-      else {
-          scene()->addItem(new Wreck(this->pos() + QPointF(1,0), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(0,1), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(1,1), this->color));
-          scene()->addItem(new Wreck(this->pos() + QPointF(2,1), this->color));
-      }
+    life = 0;
+    displayHealth();
+    qDebug() << "Game over!";
+    dead = true;
+    if (upper) {
+      scene()->addItem(new Wreck(this->pos() + QPointF(0, 0), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(1, 0), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(2, 0), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(1, 1), this->color));
+    } else {
+      scene()->addItem(new Wreck(this->pos() + QPointF(1, 0), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(0, 1), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(1, 1), this->color));
+      scene()->addItem(new Wreck(this->pos() + QPointF(2, 1), this->color));
+    }
 
-      // end game with slight delay
-      QTimer::singleShot(1500, this, [=](){
-          static_cast<MatrixScene*>(scene())->endGame(upper);
-      });
-      sound.setBuffer(*static_cast<MatrixScene*>(scene())->getSoundBuffer("bangMedium"));
-      sound.play();
-      return;
+    // end game with slight delay
+    QTimer::singleShot(1500, this, [=]() {
+      static_cast<MatrixScene *>(scene())->endGame(upper);
+    });
+    sound.setBuffer(
+        *static_cast<MatrixScene *>(scene())->getSoundBuffer("bangMedium"));
+    sound.play();
+    return;
   }
 
   hitIndicator->show();
@@ -181,60 +177,53 @@ void Player::hurt(size_t loss) {
   qDebug() << this << this->life;
 }
 
-void Player::applyPowerUp(PowerUp::powerType const pu)
-{
-    if (power == PowerUp::LASER) return;
+void Player::applyPowerUp(PowerUp::powerType const pu) {
+  if (power == PowerUp::LASER) return;
 
-    if (dead)
-      return;
+  if (dead) return;
 
-    if(pu == PowerUp::HEALTH){
-        life += max_life / 4;
-        if(life > max_life) life = max_life;
-        displayHealth();
-	    return;
-    }
+  if (pu == PowerUp::HEALTH) {
+    life += max_life / 4;
+    if (life > max_life) life = max_life;
+    displayHealth();
+    return;
+  }
 
-    power = pu;
+  power = pu;
 
-    if(power == PowerUp::LASER) {
-        powerUp->setDuration(config::duration::laser);
-    }else {
-        powerUp->setDuration(config::duration::powerup_effect);
-    }
-    powerUp->startAnim();
+  if (power == PowerUp::LASER) {
+    powerUpBar->setDuration(config::duration::laser);
+  } else {
+    powerUpBar->setDuration(config::duration::powerup_effect);
+  }
+  powerUpBar->startAnim();
 }
 
-void Player::displayHealth()
-{
-    this->healthBar->setValue((float)life / max_life);
+void Player::displayHealth() {
+  this->healthBar->setValue((float)life / max_life);
 }
 
-void Player::startFireTimer(std::chrono::milliseconds time)
-{
-    if(time != time_to_fire && timerStarted) {
-        killTimer(fireTimerID);
-        fireTimerID = startTimer(time);
-        return;
-    }
-
+void Player::startFireTimer(std::chrono::milliseconds time) {
+  if (time != time_to_fire && timerStarted) {
+    killTimer(fireTimerID);
     fireTimerID = startTimer(time);
-    timerStarted = true;
+    return;
+  }
+
+  fireTimerID = startTimer(time);
+  timerStarted = true;
 }
 
-void Player::hit(Player* p)
-{
-    if (p == this || dead)
-        return;
-    qDebug() << "Player hit";
+void Player::hit(Player *p) {
+  if (p == this || dead) return;
+  qDebug() << "Player hit";
 }
 
-void Player::timerEvent(QTimerEvent* event)
-{
-    if(event->timerId() == fireTimerID)
-        fire();
-    else {
-        hitIndicator->hide();
-        killTimer(event->timerId());
-    }
+void Player::timerEvent(QTimerEvent *event) {
+  if (event->timerId() == fireTimerID)
+    fire();
+  else {
+    hitIndicator->hide();
+    killTimer(event->timerId());
+  }
 }

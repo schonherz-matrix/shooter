@@ -3,22 +3,19 @@
 
 #include <QColor>
 #include <QPointF>
-
-#include "asteroid.h"
-#include "collidingitem.h"
-#include "player.h"
-#include "powerup.h"
 #include <QPropertyAnimation>
+#include "collidingitem.h"
+
+class Player;
 
 class Missile : public CollidingItem {
  public:
-    enum { Type = UserType + 2 };
+  enum { Type = UserType + 2 };
 
-    int type() const override
-    {
-        // Enable the use of qgraphicsitem_cast with this item.
-        return Type;
-    }
+  int type() const override {
+    // Enable the use of qgraphicsitem_cast with this item.
+    return Type;
+  }
 
   Player* const owner;
 

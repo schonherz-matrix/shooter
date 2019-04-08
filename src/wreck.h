@@ -6,32 +6,28 @@
 #include "collidingitem.h"
 
 class Wreck : public QGraphicsItem {
-private:
-    int look;
+ public:
+  enum { Type = UserType + 6 };
 
-    QColor color;
+  int type() const override {
+    // Enable the use of qgraphicsitem_cast with this item.
+    return Type;
+  }
 
-    QPointF speed;
+  Wreck(QPointF pos, QColor color);
 
-    QPointF position;
+  // QGraphicsItem interface
+  void paint(QPainter *painter, const QStyleOptionGraphicsItem *item,
+             QWidget *widget) override;
+  QRectF boundingRect() const override;
+  QPainterPath shape() const override;
+  void advance(int phase) override;
 
-public:
-    enum { Type = UserType + 6 };
-
-    int type() const override
-    {
-        // Enable the use of qgraphicsitem_cast with this item.
-        return Type;
-    }
-
-    Wreck(QPointF pos, QColor color);
-
-    // QGraphicsItem interface
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;
-    QRectF boundingRect() const override;
-    QPainterPath shape() const override;
-    void advance(int phase) override;
-
+ private:
+  int look;
+  QColor color;
+  QPointF speed;
+  QPointF position;
 };
 
-#endif // WRECK_H
+#endif  // WRECK_H

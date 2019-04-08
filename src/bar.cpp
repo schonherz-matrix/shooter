@@ -4,15 +4,15 @@
 #include <QtWidgets>
 #include "config.h"
 
-Bar::Bar(const QColor &color, float default_value) : m_color{color}, anim(this, "value") {
+Bar::Bar(const QColor &color, float default_value)
+    : m_color{color}, anim(this, "value") {
   setValue(default_value);
   anim.setDuration(config::duration::powerup_effect.count());
   anim.setStartValue(1.0);
   anim.setEndValue(0);
 
-  connect(&anim, &QPropertyAnimation::finished, this, [=](){
-      emit finished();
-  });
+  connect(&anim, &QPropertyAnimation::finished, this,
+          [=]() { emit finished(); });
 }
 
 // getters, setters
@@ -33,24 +33,17 @@ void Bar::setColor(const QColor &color) { m_color = color; }
 
 QColor &Bar::getColor() { return m_color; }
 
-void Bar::setDuration(std::chrono::milliseconds value)
-{
-    anim.setDuration(value.count());
+void Bar::setDuration(std::chrono::milliseconds value) {
+  anim.setDuration(value.count());
 }
 
-void Bar::startAnim()
-{
-    anim.start();
-}
+void Bar::startAnim() { anim.start(); }
 
 // drawing functions
 //--------------------------------------------------------------------------------
 
-void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *item,
-                QWidget *widget) {
-  Q_UNUSED(item)
-  Q_UNUSED(widget)
-
+void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                QWidget *) {
   painter->setPen(m_color.darker());
   painter->drawLine(0, 0, 0, 25);  // Background
   painter->setPen(m_color);

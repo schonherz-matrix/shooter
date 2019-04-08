@@ -1,9 +1,9 @@
 #ifndef BORDER_H
 #define BORDER_H
 
-#include <QGraphicsObject>
+#include <QGraphicsItem>
 
-class Border : public QGraphicsObject {
+class Border : public QGraphicsItem {
  public:
   enum { Type = UserType + 7 };
 

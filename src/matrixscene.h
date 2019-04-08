@@ -2,33 +2,31 @@
 #define MATRIXSCENE_H
 
 #include <muebtransmitter.h>
+#include <QGamepadManager>
 #include <QGraphicsScene>
 #include <QImage>
-#include <QObject>
 #include <QPainter>
 #include <QTimer>
-#include <QList>
-#include <QGamepadManager>
-#include "bar.h"
-#include "asteroid.h"
-#include "powerup.h"
-#include "missile.h"
-#include "config.h"
 #include <SFML/Audio.hpp>
-#include "player.h"
+#include "asteroid.h"
+#include "bar.h"
 #include "border.h"
+#include "config.h"
+#include "missile.h"
+#include "player.h"
+#include "powerup.h"
 
 class MatrixScene : public QGraphicsScene {
   Q_OBJECT
 
  public:
-  MatrixScene(QObject *parent = nullptr);
+  MatrixScene(QObject* parent = nullptr);
   sf::SoundBuffer* getSoundBuffer(QString name);
 
-  public slots:
-      void endGame(bool upper);
+ public slots:
+  void endGame(bool upper);
 
-private:
+ private:
   QImage frame;
   QPainter painter;
   MUEBTransmitter transmitter;
@@ -39,8 +37,9 @@ private:
   Bar player1PWBar;
   Bar player2PWBar;
 
-  Player* upperPlayer;
-  Player* lowerPlayer;
+  Player upperPlayer;
+  Player lowerPlayer;
+
   Border lowerBorder;
   Border upperBorder;
 
@@ -49,13 +48,11 @@ private:
   QMap<QString, sf::SoundBuffer*> buffers;
   bool gameOver = false;
 
+ protected:
   // QGraphicsScene interface
-protected:
-  void keyPressEvent(QKeyEvent *event) override;
-
+  void keyPressEvent(QKeyEvent* event) override;
   // QObject interface
-protected:
-  void timerEvent(QTimerEvent *event) override;
+  void timerEvent(QTimerEvent* event) override;
 };
 
 #endif  // MATRIXSCENE_H

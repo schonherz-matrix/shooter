@@ -1,21 +1,19 @@
 #include "config.h"
 
 using namespace config;
+using namespace std::literals::chrono_literals;
 
 
 const tick config::gameSpeed::fps = 33;
-tick config::gameSpeed::time_between_shrink = 10_s;
+tick config::gameSpeed::time_between_shrink = 45_s;
 
-unsigned config::chance::spawn_asteroide = 100;
-unsigned config::chance::spawn_powerup = 600;
+unsigned config::chance::spawn_asteroide = 70;
+unsigned config::chance::spawn_powerup = 400;
 
-tick config::duration::time_between_firing = 500_ms;
-tick config::duration::time_between_firing_fast = 200_ms;
-tick config::duration::powerup_effect = 5_s;
-tick config::duration::laser_spacing = 70_ms;
-
-
-
+std::chrono::milliseconds config::duration::time_between_firing = 500ms;
+std::chrono::milliseconds config::duration::time_between_firing_fast = 200ms;
+std::chrono::milliseconds config::duration::powerup_effect = 8s;
+std::chrono::milliseconds config::duration::laser = 1500ms;
 
 tick config::operator"" _ms(unsigned long long ms){
     return gameSpeed::fps * static_cast<unsigned>(ms) / 1000;

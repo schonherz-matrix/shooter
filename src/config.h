@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <chrono>
+
 namespace config{
     using tick = unsigned;
 
@@ -15,10 +17,10 @@ namespace config{
     }
 
     namespace duration{
-        extern tick time_between_firing_fast;  /**< The time must spend between to fire events from the same player, when TRIPLE_SHOOT powerup is active*/
-        extern tick time_between_firing;  /**< The time must spend between to fire events from the same player*/
-        extern tick powerup_effect;  /**< The time for the powerup to effext*/
-        extern tick laser_spacing;  /**< The time between laser-missiles*/
+        extern std::chrono::milliseconds time_between_firing_fast;  /**< The time must spend between to fire events from the same player, when TRIPLE_SHOOT powerup is active*/
+        extern std::chrono::milliseconds time_between_firing;  /**< The time must spend between to fire events from the same player*/
+        extern std::chrono::milliseconds powerup_effect;  /**< The time for the powerup to effext*/
+        extern std::chrono::milliseconds laser;
     }
 
     tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for the wanted delay*/

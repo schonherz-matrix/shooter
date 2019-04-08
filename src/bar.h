@@ -2,9 +2,13 @@
 #define BAR_H
 
 #include <QColor>
-#include <QGraphicsItem>
+#include <QGraphicsObject>
+#include <QPropertyAnimation>
 
-class Bar : public QGraphicsItem {
+class Bar : public QGraphicsObject {
+    Q_OBJECT
+    Q_PROPERTY(float value READ getValue WRITE setValue)
+
  public:
     enum { Type = UserType + 5 };
 
@@ -25,10 +29,16 @@ class Bar : public QGraphicsItem {
   float getValue();
   void setColor(const QColor &color);
   QColor &getColor();
+  void setDuration(std::chrono::milliseconds value);
+  void startAnim();
 
- private:
+  signals:
+      void finished();
+
+private:
   QColor m_color;
-  float m_value;
+  qreal m_value;
+  QPropertyAnimation anim;
 };
 
 #endif  // BAR_H

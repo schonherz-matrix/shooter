@@ -1,4 +1,4 @@
-#ifndef Player_H
+﻿#ifndef Player_H
 #define Player_H
 
 #include <QPainter>
@@ -13,7 +13,7 @@
 
 class MatrixScene;
 
-constexpr size_t max_life = 100;
+constexpr size_t max_life = 2228;
 
 class Player :  public CollidingItem
 {
@@ -60,25 +60,32 @@ public:
     size_t getLife() {
         return this->life;
     }
-    void fire();
+
     void moveLeft();
     void moveRight();
+    void fire(bool fire = false);
 
 signals:
     void gameOver(bool upper);
 
 private:
-    unsigned time_to_fire;
+    std::chrono::milliseconds time_to_fire;
+    int fireTimerID = 0;
+    bool timerStarted = false;
     void displayHealth();
-    void displayPowerUp();
+    void startFireTimer(std::chrono::milliseconds);
+    bool canFire = false;
 
     // CollidingItem interface
 public:
     void hit(Player *item) override;
 
     PowerUp::powerType power;
-    unsigned time_from_power;
 
+
+    // QObject interface
+protected:
+    void timerEvent(QTimerEvent *event) override;
 };
 
 #endif // Player_H

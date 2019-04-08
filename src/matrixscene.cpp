@@ -107,10 +107,10 @@ void MatrixScene::keyPressEvent(QKeyEvent *event)
         upperPlayer->moveRight();
         break;
     case Qt::Key_Control:
-        lowerPlayer->fire();
+        lowerPlayer->fire(true);
         break;
     case Qt::Key_Space:
-        upperPlayer->fire();
+        upperPlayer->fire(true);
         break;
     default:
         break;
@@ -123,9 +123,12 @@ void MatrixScene::timerEvent(QTimerEvent *event)
 {
     if (!gameOver) {
         //Spawn new asteroide
-            if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0)
-                new Asteroid(this);
-
+        if ( QRandomGenerator::system()->bounded(config::chance::spawn_asteroide) == 0) {
+            QVector<QPointF> players;
+            players.append(upperPlayer->pos());
+            players.append(lowerPlayer->pos());
+            new Asteroid(this, players);
+        }
         //Spawn new powerup
             if ( QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)
                 new PowerUp(this);

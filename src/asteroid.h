@@ -34,7 +34,7 @@ public:
         LARGE = 2
     };
 
-    Asteroid(MatrixScene* MScene);
+    Asteroid(MatrixScene* MScene, QVector<QPointF> players);
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget) override;

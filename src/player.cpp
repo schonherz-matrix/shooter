@@ -32,10 +32,24 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
   connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value){
       canFire = value;
       startFireTimer(config::duration::time_between_firing);
-      applyPowerUp(PowerUp::LASER);
   });
   connect(powerUp, &Bar::finished, this, [=](){
       power = PowerUp::NONE;
+  });
+
+  // Add hit indicator
+  if(upper)
+      hitIndicator = MScene->addRect(2, y(), 28, 5, Qt::NoPen, color.dark());
+  else
+      hitIndicator = MScene->addRect(2, y()-3, 28, 5, Qt::NoPen, color.dark());
+
+  hitIndicator->hide();
+  hitIndicator->setZValue(-1);
+  connect(this, &QGraphicsObject::yChanged, this, [=](){
+      if(upper)
+          hitIndicator->moveBy(0, 2);
+      else
+          hitIndicator->moveBy(0, -2);
   });
 }
 
@@ -156,6 +170,9 @@ void Player::hurt(size_t loss) {
       sound.play();
       return;
   }
+
+  hitIndicator->show();
+  startTimer(100);
   life -= loss;
   displayHealth();
 
@@ -208,11 +225,14 @@ void Player::hit(Player* p)
     if (p == this || dead)
         return;
     qDebug() << "Player hit";
-    applyPowerUp(PowerUp::LASER);
 }
 
 void Player::timerEvent(QTimerEvent* event)
 {
     if(event->timerId() == fireTimerID)
         fire();
+    else {
+        hitIndicator->hide();
+        killTimer(event->timerId());
+    }
 }

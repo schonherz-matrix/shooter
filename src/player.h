@@ -75,6 +75,7 @@ private:
     void displayHealth();
     void startFireTimer(std::chrono::milliseconds);
     bool canFire = false;
+    QGraphicsRectItem* hitIndicator = nullptr;
 
     // CollidingItem interface
 public:

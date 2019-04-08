@@ -27,13 +27,20 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
     color = Qt::green;
     setPos(15, 24);
   }
+
   displayHealth();
   sound.setBuffer(*MScene->getSoundBuffer("fire"));
+
   connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value) {
     canFire = value;
     startFireTimer(config::duration::time_between_firing);
   });
-  connect(powerUp, &Bar::finished, this, [=]() { power = PowerUp::NONE; });
+
+  connect(powerUp, &Bar::finished, this, [=]() {
+    power = PowerUp::NONE;
+    sound.setBuffer(
+        *static_cast<MatrixScene *>(scene())->getSoundBuffer("fire"));
+  });
 
   // Add hit indicator
   if (upper)
@@ -43,6 +50,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
 
   hitIndicator->hide();
   hitIndicator->setZValue(-1);
+
   connect(this, &QGraphicsObject::yChanged, this, [=]() {
     if (upper)
       hitIndicator->moveBy(0, 2);
@@ -193,6 +201,8 @@ void Player::applyPowerUp(PowerUp::powerType const pu) {
 
   if (power == PowerUp::LASER) {
     powerUpBar->setDuration(config::duration::laser);
+    sound.setBuffer(
+        *static_cast<MatrixScene *>(scene())->getSoundBuffer("laser"));
   } else {
     powerUpBar->setDuration(config::duration::powerup_effect);
   }

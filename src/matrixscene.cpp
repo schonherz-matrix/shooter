@@ -40,17 +40,6 @@ MatrixScene::MatrixScene(QObject *parent)
   // init Timer
   timerID = startTimer(1000 / config::gameSpeed::fps);
 
-  // load sound files
-  QDir dir("data/sounds");
-  QListIterator<QFileInfo> it(
-      dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot));
-  while (it.hasNext()) {
-    QFileInfo file = it.next();
-    sf::SoundBuffer *buffer = new sf::SoundBuffer;
-    buffer->loadFromFile(file.filePath().toStdString());
-    buffers[file.baseName()] = buffer;
-  }
-
   // init Map
   // set pos
   player1HPBar.setPos(0, 0);
@@ -74,6 +63,18 @@ MatrixScene::MatrixScene(QObject *parent)
 }
 
 sf::SoundBuffer *MatrixScene::getSoundBuffer(QString name) {
+  if (buffers.empty()) {
+    // load sound files
+    QDir dir("data/sounds");
+    QListIterator<QFileInfo> it(
+        dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot));
+    while (it.hasNext()) {
+      QFileInfo file = it.next();
+      sf::SoundBuffer *buffer = new sf::SoundBuffer;
+      buffer->loadFromFile(file.filePath().toStdString());
+      buffers[file.baseName()] = buffer;
+    }
+  }
   return buffers[name];
 }
 
@@ -148,7 +149,7 @@ void MatrixScene::timerEvent(QTimerEvent *) {
       const auto items_ = items();
 
       upperPlayer.advance(i);  // alternative soultion; players do lookAround
-                                // in phase 1, others in two
+                               // in phase 1, others in two
       lowerPlayer.advance(i);
 
       for (QGraphicsItem *item : items_) {

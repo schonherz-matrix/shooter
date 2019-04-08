@@ -37,6 +37,8 @@ class MatrixScene : public QGraphicsScene {
   Bar player1PWBar;
   Bar player2PWBar;
 
+  QMap<QString, sf::SoundBuffer*> buffers;
+
   Player upperPlayer;
   Player lowerPlayer;
 
@@ -45,7 +47,6 @@ class MatrixScene : public QGraphicsScene {
 
   config::tick counter_to_shrink;
 
-  QMap<QString, sf::SoundBuffer*> buffers;
   bool gameOver = false;
 
  protected:

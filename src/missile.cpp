@@ -58,14 +58,6 @@ void Missile::advance(int phase) {
             remove();
         return;
     }
-
-    /*
-    //setPos(pos() + (speed/2));
-
-    if( pos().y() < 0 || pos().y() > 26 ){
-        remove();
-    }
-    */
 }
 
 void Missile::hit(Player *)

@@ -2,9 +2,17 @@
 
 #include <QtDebug>
 #include <QtWidgets>
+#include "config.h"
 
-Bar::Bar(const QColor &color, float default_value) : m_color{color} {
+Bar::Bar(const QColor &color, float default_value) : m_color{color}, anim(this, "value") {
   setValue(default_value);
+  anim.setDuration(config::duration::powerup_effect.count());
+  anim.setStartValue(1.0);
+  anim.setEndValue(0);
+
+  connect(&anim, &QPropertyAnimation::finished, this, [=](){
+      emit finished();
+  });
 }
 
 // getters, setters
@@ -25,6 +33,16 @@ void Bar::setColor(const QColor &color) { m_color = color; }
 
 QColor &Bar::getColor() { return m_color; }
 
+void Bar::setDuration(std::chrono::milliseconds value)
+{
+    anim.setDuration(value.count());
+}
+
+void Bar::startAnim()
+{
+    anim.start();
+}
+
 // drawing functions
 //--------------------------------------------------------------------------------
 
@@ -44,6 +62,6 @@ QRectF Bar::boundingRect() const { return QRectF(0, 0, 1, 26); }
 
 QPainterPath Bar::shape() const {
   QPainterPath path;
-  path.addRect(boundingRect());
+  path.addRect(0, 0, 0, 0);  // no collision
   return path;
 }

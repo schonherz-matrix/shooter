@@ -16,7 +16,6 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
       life(max_life),
       time_to_fire(0),
       power(PowerUp::NONE),
-      time_from_power(0),
       dead(false)
 
 {
@@ -28,9 +27,15 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp, Matr
     setPos(15, 24);
   }
   displayHealth();
-  displayPowerUp();
   sound.setBuffer(*MScene->getSoundBuffer("fire"));
   connect(this, &Player::gameOver, MScene, &MatrixScene::endGame, Qt::QueuedConnection);
+  connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value){
+      canFire = value;
+      startFireTimer(config::duration::time_between_firing);
+  });
+  connect(powerUp, &Bar::finished, this, [=](){
+      power = PowerUp::NONE;
+  });
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -73,11 +78,6 @@ void Player::advance(int phase) {
     return;
 
   if (phase == 0) {
-    if (time_to_fire) time_to_fire--;
-    if (time_from_power) time_from_power--;
-    if (! time_from_power)
-        power = PowerUp::NONE;
-
     if (lookAround(this)){
         this->hurt(10);
     }
@@ -89,35 +89,30 @@ void Player::advance(int phase) {
   } else if (gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()){
     moveRight();
   }
-
-  if (gamepad->buttonX()) { // FIRE
-    fire();
-  }
-  displayPowerUp();
 }
 
-void Player::fire() {
-    if (!dead && time_to_fire == 0) {
-        QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));;
+void Player::fire(bool fire) {
+    if ((!dead && canFire) || fire) {
+        QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));
         switch(power){
-            case PowerUp::TRIPLE_SHOOT:
-                scene()->addItem(new Missile(launch_point                 , color, this, upper));
-                time_to_fire = config::duration::time_between_firing_fast;
-                break;
             case PowerUp::DOUBLE_SHOOT:
+                scene()->addItem(new Missile(launch_point                 , color, this, upper));
+                startFireTimer(config::duration::time_between_firing_fast);
+                break;
+            case PowerUp::TRIPLE_SHOOT:
                 scene()->addItem(new Missile(launch_point + QPointF(-1, 0), color, this, upper));
                 scene()->addItem(new Missile(launch_point + QPointF( 1, 0), color, this, upper));
                 scene()->addItem(new Missile(launch_point, color, this, upper));
-                time_to_fire = config::duration::time_between_firing;
+                startFireTimer(config::duration::time_between_firing);
                 break;
             case PowerUp::LASER:
                 scene()->addItem(new Laser(this, upper));
-                time_to_fire = time_from_power; //TODO check why doesn't work
+                startFireTimer(config::duration::laser);
                 break;
             default:
             case PowerUp::NONE:
                 scene()->addItem(new Missile(launch_point , color, this, upper));
-                time_to_fire = config::duration::time_between_firing;
+                startFireTimer(config::duration::time_between_firing);
                 break;
         }
         sound.play();
@@ -168,23 +163,26 @@ void Player::hurt(size_t loss) {
 
 void Player::applyPowerUp(PowerUp::powerType const pu)
 {
+    if (power == PowerUp::LASER) return;
+
     if (dead)
       return;
 
     if(pu == PowerUp::HEALTH){
-        if (life > 0)
-        {
-            life = max_life;
-            displayHealth();
-            //TODO increase health and
-        }
+        life += max_life / 4;
+        if(life > max_life) life = max_life;
+        displayHealth();
 	    return;
     }
 
-    time_from_power = config::duration::powerup_effect;
     power = pu;
-    time_to_fire = 0;
-    displayPowerUp();
+
+    if(power == PowerUp::LASER) {
+        powerUp->setDuration(config::duration::laser);
+    }else {
+        powerUp->setDuration(config::duration::powerup_effect);
+    }
+    powerUp->startAnim();
 }
 
 void Player::loosePower(){
@@ -199,9 +197,16 @@ void Player::displayHealth()
     this->healthBar->setValue((float)life / max_life);
 }
 
-void Player::displayPowerUp()
+void Player::startFireTimer(std::chrono::milliseconds time)
 {
-    this->powerUp->setValue((float)time_from_power / config::duration::powerup_effect);
+    if(time != time_to_fire && timerStarted) {
+        killTimer(fireTimerID);
+        fireTimerID = startTimer(time);
+        return;
+    }
+
+    fireTimerID = startTimer(time);
+    timerStarted = true;
 }
 
 void Player::hit(Player* p)
@@ -209,5 +214,11 @@ void Player::hit(Player* p)
     if (p == this || dead)
         return;
     qDebug() << "Player hit";
-    this->hurt(10);
+    applyPowerUp(PowerUp::LASER);
+}
+
+void Player::timerEvent(QTimerEvent* event)
+{
+    if(event->timerId() == fireTimerID)
+        fire();
 }

@@ -5,7 +5,12 @@
 #include "missile.h"
 #include "matrixscene.h"
 
-Asteroid::Asteroid(MatrixScene* MScene)
+bool inRange(qreal low, qreal high, qreal x)
+{
+    return  ((x-low) <= (high-low));
+}
+
+Asteroid::Asteroid(MatrixScene* MScene, QVector<QPointF> players)
     : anim(this, "pos")
 {
     this->life = Asteroid::MAXLIFE;
@@ -28,33 +33,21 @@ Asteroid::Asteroid(MatrixScene* MScene)
 
     MScene->addItem(this);
 
-    int side = QRandomGenerator::global()->bounded(0, 4);
+    int side = QRandomGenerator::global()->bounded(0, 2);
     int startX, startY, endX, endY;
 
     switch (side) {
     case 0: // left
         startX = -5;
-        endX = 32;
-        startY = QRandomGenerator::global()->bounded(0, 27);
-        endY = QRandomGenerator::global()->bounded(0, 27);
+        endX = 37;
+        startY = QRandomGenerator::global()->bounded(5, 25);
+        endY = QRandomGenerator::global()->bounded(5, 25);
         break;
     case 1: // right
-        startX = 32;
+        startX = 37;
         endX = -5;
-        startY = QRandomGenerator::global()->bounded(0, 27);
-        endY = QRandomGenerator::global()->bounded(0, 27);
-        break;
-    case 2: // up
-        startY = 0;
-        endY = 28;
-        startX = QRandomGenerator::global()->bounded(0, 33);
-        endX = QRandomGenerator::global()->bounded(0, 33);
-        break;
-    case 3: // down
-        startY = 26;
-        endY = -5;
-        startX = QRandomGenerator::global()->bounded(0, 33);
-        endX = QRandomGenerator::global()->bounded(0, 33);
+        startY = QRandomGenerator::global()->bounded(5, 25);
+        endY = QRandomGenerator::global()->bounded(5, 25);
         break;
     }
 
@@ -63,6 +56,12 @@ Asteroid::Asteroid(MatrixScene* MScene)
     connect(&anim, &QPropertyAnimation::finished, this, [=](){
         remove();
     });
+
+    if(inRange(players[0].y()-5, players[0].y()+5, startY))
+        startY += 5;
+
+    if(inRange(players[1].y()-5, players[1].y()+5, startY))
+        startY -= 5;
 
     anim.setDuration(1000 * time);
     anim.setStartValue(QPointF(startX, startY));

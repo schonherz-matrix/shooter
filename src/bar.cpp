@@ -33,11 +33,11 @@ void Bar::setColor(const QColor &color) { m_color = color; }
 
 QColor &Bar::getColor() { return m_color; }
 
-void Bar::setDuration(std::chrono::milliseconds value) {
-  anim.setDuration(value.count());
+void Bar::startAnim(std::chrono::milliseconds duration) {
+  if (anim.state() == anim.Running) anim.stop();
+  anim.setDuration(duration.count());
+  anim.start();
 }
-
-void Bar::startAnim() { anim.start(); }
 
 // drawing functions
 //--------------------------------------------------------------------------------

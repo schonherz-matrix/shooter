@@ -190,8 +190,7 @@ void Player::hurt(size_t loss) {
 }
 
 void Player::applyPowerUp(PowerUp::powerType const pu) {
-  if (power == PowerUp::LASER) return;
-
+  if (power == PowerUp::LASER && pu != PowerUp::LASER) return;
   if (dead) return;
 
   if (pu == PowerUp::HEALTH) {
@@ -204,13 +203,14 @@ void Player::applyPowerUp(PowerUp::powerType const pu) {
   power = pu;
 
   if (power == PowerUp::LASER) {
-    powerUpBar->setDuration(config::duration::laser);
+    powerUpBar->startAnim(config::duration::laser);
     sound.setBuffer(
         *static_cast<MatrixScene *>(scene())->getSoundBuffer("laser"));
   } else {
-    powerUpBar->setDuration(config::duration::powerup_effect);
+    powerUpBar->startAnim(config::duration::powerup_effect);
+    sound.setBuffer(
+        *static_cast<MatrixScene *>(scene())->getSoundBuffer("fire"));
   }
-  powerUpBar->startAnim();
 }
 
 void Player::displayHealth() {

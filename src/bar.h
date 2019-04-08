@@ -28,8 +28,7 @@ class Bar : public QGraphicsObject {
   float getValue();
   void setColor(const QColor &color);
   QColor &getColor();
-  void setDuration(std::chrono::milliseconds value);
-  void startAnim();
+  void startAnim(std::chrono::milliseconds duration);
 
  signals:
   void finished();

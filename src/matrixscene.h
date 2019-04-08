@@ -22,6 +22,7 @@ class MatrixScene : public QGraphicsScene {
  public:
   MatrixScene(QObject* parent = nullptr);
   sf::SoundBuffer* getSoundBuffer(QString name);
+  gainput::InputManager manager;
 
  public slots:
   void endGame(bool upper);
@@ -39,8 +40,8 @@ class MatrixScene : public QGraphicsScene {
 
   QMap<QString, sf::SoundBuffer*> buffers;
 
-  Player upperPlayer;
   Player lowerPlayer;
+  Player upperPlayer;
 
   Border lowerBorder;
   Border upperBorder;

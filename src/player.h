@@ -1,6 +1,7 @@
 #ifndef Player_H
 #define Player_H
 
+#include <gainput/gainput.h>
 #include <QColor>
 #include <QPainter>
 #include <QtGamepad>
@@ -71,6 +72,7 @@ class Player : public CollidingItem {
   bool dead;
   sf::Sound sound;
   PowerUp::powerType power;
+  gainput::InputDevicePad *pad;
 
   // QObject interface
  protected:

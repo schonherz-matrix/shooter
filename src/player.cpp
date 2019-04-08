@@ -17,9 +17,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
       upper(upper),
       life(max_life),
       dead(false),
-      power(PowerUp::NONE)
-
-{
+      power(PowerUp::NONE) {
   if (upper) {
     color = Qt::red;
     setPos(15, 0);
@@ -57,6 +55,10 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
     else
       hitIndicator->moveBy(0, -2);
   });
+
+  // gainput
+  pad = static_cast<gainput::InputDevicePad *>(MScene->manager.GetDevice(
+      MScene->manager.CreateDevice<gainput::InputDevicePad>()));
 }
 
 QRectF Player::boundingRect() const { return QRectF(0, 0, 3, 2); }
@@ -177,6 +179,8 @@ void Player::hurt(size_t loss) {
     return;
   }
 
+  pad->Vibrate(0.5f, 0.5f);
+  QTimer::singleShot(250, this, [=]() { pad->Vibrate(0, 0); });
   hitIndicator->show();
   startTimer(100);
   life -= loss;

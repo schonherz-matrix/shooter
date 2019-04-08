@@ -82,3 +82,10 @@ else:unix: LIBS += -lsfml-audio -lsfml-system
 
 INCLUDEPATH += $$PWD/lib/SFML/include
 DEPENDPATH += $$PWD/lib/SFML/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-d
+else:unix: LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-
+
+INCLUDEPATH += $$PWD/lib/gainput/lib/include
+DEPENDPATH += $$PWD/lib/gainput/lib/include

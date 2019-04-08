@@ -1,4 +1,4 @@
-﻿#ifndef Player_H
+#ifndef Player_H
 #define Player_H
 
 #include <QPainter>
@@ -64,9 +64,6 @@ public:
     void moveLeft();
     void moveRight();
     void fire(bool fire = false);
-
-signals:
-    void gameOver(bool upper);
 
 private:
     std::chrono::milliseconds time_to_fire;

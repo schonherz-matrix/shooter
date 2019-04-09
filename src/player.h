@@ -8,6 +8,7 @@
 #include <SFML/Audio.hpp>
 #include "bar.h"
 #include "collidingitem.h"
+#include "hitindicator.h"
 #include "powerup.h"
 
 class MatrixScene;
@@ -62,7 +63,7 @@ class Player : public CollidingItem {
   void displayHealth();
   void startFireTimer(std::chrono::milliseconds);
   bool canFire = false;
-  QGraphicsRectItem *hitIndicator = nullptr;
+  HitIndicator *hitIndicator = nullptr;
   QGamepad *gamepad;
   Bar *healthBar;
   Bar *powerUpBar;

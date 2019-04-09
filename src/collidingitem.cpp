@@ -14,7 +14,6 @@ bool CollidingItem::lookAround(Player* owner_of_observer) {
       nearby_object.hit(owner_of_observer);
     } catch (...) {
       // The item wasn't a CollidingItem or hit thrown an error
-      return false;
     }
   }
 

@@ -36,7 +36,8 @@ HEADERS += \
     src/config.h \
     src/wreck.h \
     src/border.h \
-    src/laser.hpp
+    src/laser.hpp \
+    src/hitindicator.h
 
 SOURCES += \
     src/asteroid.cpp \
@@ -51,7 +52,8 @@ SOURCES += \
     src/config.cpp \
     src/wreck.cpp \
     src/border.cpp \
-    src/laser.cpp
+    src/laser.cpp \
+    src/hitindicator.cpp
 
 FORMS += \
     src/mainwindow.ui

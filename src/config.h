@@ -13,10 +13,8 @@ extern tick time_between_shrink; /**< Number of ticks between the players move
 }  // namespace gameSpeed
 
 namespace chance {
-extern unsigned spawn_asteroide; /**< The chance to an asteroide to be spawned
-                                    is one of this number */
-extern unsigned spawn_powerup; /**< The chance to a powerup to be spawned is one
-                                  of this number */
+extern unsigned spawn_asteroide; /**< Avarage time between asteroide spawns */
+extern unsigned spawn_powerup; /**< Avarage time between powerup spawns */
 }  // namespace chance
 
 namespace duration {

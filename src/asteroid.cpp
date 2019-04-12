@@ -35,28 +35,30 @@ Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
   int side = QRandomGenerator::global()->bounded(0, 2);
   int startX = 0, startY = 0, endX = 0, endY = 0;
 
-  switch (side) {
-    case 0:  // left
-      startX = -5;
-      endX = 37;
-      startY = QRandomGenerator::global()->bounded(5, 25);
-      endY = QRandomGenerator::global()->bounded(5, 25);
-      break;
-    case 1:  // right
-      startX = 37;
-      endX = -5;
-      startY = QRandomGenerator::global()->bounded(5, 25);
-      endY = QRandomGenerator::global()->bounded(5, 25);
-      break;
-  }
+  do{
+      switch (side) {
+        case 0:  // left
+          startX = -5;
+          endX = 37;
+          startY = QRandomGenerator::global()->bounded(5, 25);
+          endY = QRandomGenerator::global()->bounded(5, 25);
+          break;
+        case 1:  // right
+          startX = 37;
+          endX = -5;
+          startY = QRandomGenerator::global()->bounded(5, 25);
+          endY = QRandomGenerator::global()->bounded(5, 25);
+          break;
+      }
+  } while (
+           inRange(players[0].y() - 5, players[0].y() + 5, startY)
+           ||
+           inRange(players[1].y() - 5, players[1].y() + 5, startY)
+           );
 
   int time = QRandomGenerator::global()->bounded(5, 10);
 
   connect(&anim, &QPropertyAnimation::finished, this, [=]() { remove(); });
-
-  if (inRange(players[0].y() - 5, players[0].y() + 5, startY)) startY += 5;
-
-  if (inRange(players[1].y() - 5, players[1].y() + 5, startY)) startY -= 5;
 
   anim.setDuration(1000 * time);
   anim.setStartValue(QPointF(startX, startY));

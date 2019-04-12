@@ -16,13 +16,17 @@ On Debian system, you can easily install the required libs and headers with the 
 **TODO** check
 Clone the SFML submodule, then create a folder in it called *build*, then run cmake and create GNU Makefile in the build folder from CMakeList.txt of the original SFML folder. Install the necessary dependencies to the build, than run GNU Make. If everything is all right, than you are good to go and build Matrix-shooter
 
+### GA Input
+
+Build the module with cmake to lib/gainput/build directory.
+
 ### Matrix-shooter and Matrix-Emu
 
 You will need at least QT 5.12 to compile this program. (For eg. there is no gamepad support below this version.)
 
 The simplest way to setup your environment is to install Qt Creator. (from qt website)
 
-After cloning this repository with its submodule, compile matrix-simple/mueb with Qt Creator, then the Matrix-shooter project.
+After cloning this repository with its submodule, compile Emu with Qt Creator, then the Matrix-shooter project.
 
 ## Running the emulator
 

@@ -7,7 +7,7 @@
 Bar::Bar(const QColor &color, float default_value)
     : m_color{color}, anim(this, "value") {
   setValue(default_value);
-  anim.setDuration(config::duration::powerup_effect.count());
+  anim.setDuration(static_cast<int>(config::duration::powerup_effect.count()));
   anim.setStartValue(1.0);
   anim.setEndValue(0);
 
@@ -17,7 +17,7 @@ Bar::Bar(const QColor &color, float default_value)
 
 // getters, setters
 //--------------------------------------------------------------------------------
-void Bar::setValue(float val) {
+void Bar::setValue(qreal val) {
   if (val < 0)
     m_value = 0.0;
   else if (val > 1.0)
@@ -27,7 +27,7 @@ void Bar::setValue(float val) {
   update();
 }
 
-float Bar::getValue() { return m_value; }
+qreal Bar::getValue() { return m_value; }
 
 void Bar::setColor(const QColor &color) { m_color = color; }
 
@@ -35,7 +35,7 @@ QColor &Bar::getColor() { return m_color; }
 
 void Bar::startAnim(std::chrono::milliseconds duration) {
   if (anim.state() == anim.Running) anim.stop();
-  anim.setDuration(duration.count());
+  anim.setDuration(static_cast<int>(duration.count()));
   anim.start();
 }
 
@@ -47,7 +47,7 @@ void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
   painter->setPen(m_color.darker());
   painter->drawLine(0, 0, 0, 25);  // Background
   painter->setPen(m_color);
-  int startX = 25 - 25 * m_value;
+  int startX = static_cast<int>(25 - ( 25 * m_value ));
   if (m_value > 0) painter->drawLine(0, startX, 0, 25);  // Foreground
 }
 

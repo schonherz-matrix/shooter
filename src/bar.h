@@ -24,8 +24,8 @@ class Bar : public QGraphicsObject {
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *item,
              QWidget *widget) override;
 
-  void setValue(float val);  // between 0.0 and 1.0
-  float getValue();
+  void setValue(qreal val);  // between 0.0 and 1.0
+  qreal getValue();
   void setColor(const QColor &color);
   QColor &getColor();
   void startAnim(std::chrono::milliseconds duration);

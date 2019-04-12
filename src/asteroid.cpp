@@ -5,10 +5,6 @@
 #include "matrixscene.h"
 #include "missile.h"
 
-bool inRange(qreal low, qreal high, qreal x) {
-  return ((x - low) <= (high - low));
-}
-
 Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
     : anim(this, "pos") {
   this->life = Asteroid::MAXLIFE;
@@ -32,28 +28,18 @@ Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
 
   MScene->addItem(this);
 
-  int side = QRandomGenerator::global()->bounded(0, 2);
-  int startX = 0, startY = 0, endX = 0, endY = 0;
+  QPointF start;
+  QPointF end;
 
   do{
-      switch (side) {
-        case 0:  // left
-          startX = -5;
-          endX = 37;
-          startY = QRandomGenerator::global()->bounded(5, 25);
-          endY = QRandomGenerator::global()->bounded(5, 25);
-          break;
-        case 1:  // right
-          startX = 37;
-          endX = -5;
-          startY = QRandomGenerator::global()->bounded(5, 25);
-          endY = QRandomGenerator::global()->bounded(5, 25);
-          break;
-      }
+      start.setX(QRandomGenerator::global()->bounded(config::mapWidth));
+      start.setY(QRandomGenerator::global()->bounded(config::mapHeight));
+      end.setX  (QRandomGenerator::global()->bounded(config::mapWidth));
+      end.setY  (QRandomGenerator::global()->bounded(config::mapHeight));
   } while (
-           inRange(players[0].y() - 5, players[0].y() + 5, startY)
+           (start-players[0]).manhattanLength() < config::distance::player_spawn_asteroide
            ||
-           inRange(players[1].y() - 5, players[1].y() + 5, startY)
+           (start-players[1]).manhattanLength() < config::distance::player_spawn_asteroide
            );
 
   int time = QRandomGenerator::global()->bounded(5, 10);
@@ -61,8 +47,8 @@ Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
   connect(&anim, &QPropertyAnimation::finished, this, [=]() { remove(); });
 
   anim.setDuration(1000 * time);
-  anim.setStartValue(QPointF(startX, startY));
-  anim.setEndValue(QPointF(endX, endY));
+  anim.setStartValue(start);
+  anim.setEndValue(end);
   anim.start();
 }
 

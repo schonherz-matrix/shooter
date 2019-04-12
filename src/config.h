@@ -6,6 +6,9 @@
 namespace config {
 using tick = unsigned;
 
+static constexpr int mapWidth  = 2*8*2;
+static constexpr int mapHeight = 2*13;
+
 namespace gameSpeed {
 const extern tick fps; /**< Number of frames calculated and displayed */
 extern tick time_between_shrink; /**< Number of ticks between the players move
@@ -29,6 +32,10 @@ extern std::chrono::milliseconds
     powerup_effect; /**< The time for the powerup to effext*/
 extern std::chrono::milliseconds laser;
 }  // namespace duration
+
+namespace distance{
+extern double player_spawn_asteroide;
+}
 
 tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for
                                                the wanted delay*/

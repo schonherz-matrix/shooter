@@ -22,7 +22,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++14
 
 HEADERS += \
     src/asteroid.h \
@@ -87,7 +87,7 @@ DEPENDPATH += $$PWD/lib/SFML/include
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-d
-else:unix: LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-
+else:unix: LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput
 
 INCLUDEPATH += $$PWD/lib/gainput/lib/include
 DEPENDPATH += $$PWD/lib/gainput/lib/include

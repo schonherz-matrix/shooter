@@ -35,6 +35,7 @@ extern std::chrono::milliseconds laser;
 
 namespace distance{
 extern double player_spawn_asteroide;
+extern double asteroide_evelation;
 }
 
 tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for

@@ -14,7 +14,8 @@ std::chrono::milliseconds config::duration::time_between_firing_fast = 200ms;
 std::chrono::milliseconds config::duration::powerup_effect = 8s;
 std::chrono::milliseconds config::duration::laser = 3s;
 
-double config::distance::player_spawn_asteroide = 5;
+double config::distance::player_spawn_asteroide = 3;
+double config::distance::asteroide_evelation = 5;
 
 tick config::operator"" _ms(unsigned long long ms) {
   return gameSpeed::fps * static_cast<unsigned>(ms) / 1000;

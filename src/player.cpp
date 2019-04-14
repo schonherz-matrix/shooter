@@ -8,6 +8,9 @@
 #include "missile.h"
 #include "wreck.h"
 
+const int Player::height = 2;
+const int Player::width = 3;
+
 Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
                MatrixScene *MScene)
     : time_to_fire(false),

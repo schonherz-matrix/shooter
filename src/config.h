@@ -6,6 +6,9 @@
 namespace config {
 using tick = unsigned;
 
+static constexpr int mapWidth  = 2*8*2;
+static constexpr int mapHeight = 2*13;
+
 namespace gameSpeed {
 const extern tick fps; /**< Number of frames calculated and displayed */
 extern tick time_between_shrink; /**< Number of ticks between the players move
@@ -13,10 +16,8 @@ extern tick time_between_shrink; /**< Number of ticks between the players move
 }  // namespace gameSpeed
 
 namespace chance {
-extern unsigned spawn_asteroide; /**< The chance to an asteroide to be spawned
-                                    is one of this number */
-extern unsigned spawn_powerup; /**< The chance to a powerup to be spawned is one
-                                  of this number */
+extern unsigned spawn_asteroide; /**< Avarage time between asteroide spawns */
+extern unsigned spawn_powerup; /**< Avarage time between powerup spawns */
 }  // namespace chance
 
 namespace duration {
@@ -31,6 +32,11 @@ extern std::chrono::milliseconds
     powerup_effect; /**< The time for the powerup to effext*/
 extern std::chrono::milliseconds laser;
 }  // namespace duration
+
+namespace distance{
+extern double player_spawn_asteroide;
+extern double asteroide_evelation;
+}
 
 tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for
                                                the wanted delay*/

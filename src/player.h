@@ -56,6 +56,9 @@ class Player : public CollidingItem {
   // CollidingItem interface
   void hit(Player *item) override;
 
+  static const int height;
+  static const int width;
+
  private:
   std::chrono::milliseconds time_to_fire;
   int fireTimerID = 0;

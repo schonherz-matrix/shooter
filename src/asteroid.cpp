@@ -4,9 +4,37 @@
 #include <QGraphicsScene>
 #include "matrixscene.h"
 #include "missile.h"
+#include <cmath>
+#include "player.h"
 
-bool inRange(qreal low, qreal high, qreal x) {
-  return ((x - low) <= (high - low));
+QPointF getRandomEdgePoint(){
+    using config::mapWidth;
+    using config::mapHeight;
+
+    QPointF ret;
+
+    qreal l1 = QRandomGenerator::global()->bounded(static_cast<quint32>((mapWidth + mapHeight)/2));
+
+    if(l1 > (mapWidth/2.0)){
+        ret.setX(mapWidth/2.0);
+        ret.setY(l1 - (mapWidth/2.0));
+    }
+    else{
+        ret.setX(l1);
+        ret.setY(mapHeight/2.0);
+    }
+
+    if(QRandomGenerator::global()->bounded(0, 2) == 1)
+        ret.ry()*=-1;
+
+    if(QRandomGenerator::global()->bounded(0, 2) == 1)
+        ret.rx()*=-1;
+
+    ret+=QPointF{config::mapWidth/2.0, config::mapHeight/2.0};
+
+    qDebug() << ret;
+
+    return ret;
 }
 
 Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
@@ -32,35 +60,32 @@ Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
 
   MScene->addItem(this);
 
-  int side = QRandomGenerator::global()->bounded(0, 2);
-  int startX = 0, startY = 0, endX = 0, endY = 0;
+  QPointF start;
+  QPointF end;
 
-  switch (side) {
-    case 0:  // left
-      startX = -5;
-      endX = 37;
-      startY = QRandomGenerator::global()->bounded(5, 25);
-      endY = QRandomGenerator::global()->bounded(5, 25);
-      break;
-    case 1:  // right
-      startX = 37;
-      endX = -5;
-      startY = QRandomGenerator::global()->bounded(5, 25);
-      endY = QRandomGenerator::global()->bounded(5, 25);
-      break;
-  }
+  auto height = pixmapItem.boundingRect().height();
+  auto width  = pixmapItem.boundingRect().width();
+
+  qDebug() << height << width;
+
+  do{
+      start = getRandomEdgePoint() - QPointF{width, height};
+        end = getRandomEdgePoint();
+  } while (
+            (start-players[0]).manhattanLength() < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
+           ||
+            (start-players[1]).manhattanLength() < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
+           ||
+            std::abs((end-start).y()) < (config::distance::asteroide_evelation + height)
+           );
 
   int time = QRandomGenerator::global()->bounded(5, 10);
 
   connect(&anim, &QPropertyAnimation::finished, this, [=]() { remove(); });
 
-  if (inRange(players[0].y() - 5, players[0].y() + 5, startY)) startY += 5;
-
-  if (inRange(players[1].y() - 5, players[1].y() + 5, startY)) startY -= 5;
-
   anim.setDuration(1000 * time);
-  anim.setStartValue(QPointF(startX, startY));
-  anim.setEndValue(QPointF(endX, endY));
+  anim.setStartValue(start);
+  anim.setEndValue(end);
   anim.start();
 }
 

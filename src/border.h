@@ -19,9 +19,6 @@ class Border : public QGraphicsItem {
   QPainterPath shape() const override;
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
              QWidget *widget) override;
-
- private:
-  bool upper;
 };
 
 #endif  // BORDER_H

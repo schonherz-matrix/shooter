@@ -78,14 +78,14 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/li
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/emu/mueb/debug/mueb.lib
 else:unix: PRE_TARGETDEPS += $$PWD/lib/emu/mueb/libmueb.a
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio- -lsfml-system-
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio -lsfml-system
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d
 else:unix: LIBS += -lsfml-audio -lsfml-system
 
 INCLUDEPATH += $$PWD/lib/SFML/include
 DEPENDPATH += $$PWD/lib/SFML/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput-d
 else:unix: LIBS += -L$$PWD/lib/gainput/build/lib/ -lgainput
 

@@ -80,11 +80,11 @@ sf::SoundBuffer *MatrixScene::getSoundBuffer(QString name) {
 
 void MatrixScene::endGame(bool upper) {
   gameOver = true;
-  addRect(0, 0, 32, 26, Qt::NoPen, (upper) ? Qt::green : Qt::red);
-  auto text = addText((upper) ? "P1" : "P2", QFont("Times", 10, QFont::Bold));
-  text->setPos(5, -5);
-  auto won = addText("WON!", QFont("Times", 9, QFont::Bold));
-  won->setPos(-4, 8);
+  addRect(0, 0, 32, 18, Qt::NoPen, (upper) ? Qt::green : Qt::red);
+  auto text = addText((upper) ? "P1" : "P2", QFont("Times", 7, QFont::Bold));
+  text->setPos(6, -5);
+  auto won = addText("WON", QFont("Times", 7, QFont::Bold));
+  won->setPos(1, 4);
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event) {
@@ -131,7 +131,7 @@ void MatrixScene::timerEvent(QTimerEvent *) {
     // Move players closer
     counter_to_shrink++;
     if (counter_to_shrink == config::gameSpeed::time_between_shrink) {
-      if (upperPlayer.pos().y() < (frame.height() - 6) / 2) {
+      if (upperPlayer.pos().y() < 6) {
         upperPlayer.moveBy(0, 2);
         upperBorder.moveBy(0, 2);
         lowerPlayer.moveBy(0, -2);

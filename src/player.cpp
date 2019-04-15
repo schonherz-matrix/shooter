@@ -26,7 +26,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
     setPos(15, 0);
   } else {
     color = Qt::green;
-    setPos(15, 24);
+    setPos(15, 16);
   }
 
   displayHealth();
@@ -45,9 +45,9 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
 
   // Add hit indicator
   if (upper)
-    hitIndicator = new HitIndicator(y(), 28, 5, color.dark());
+    hitIndicator = new HitIndicator(y(), 28, 3, color.dark());
   else
-    hitIndicator = new HitIndicator(y() - 3, 28, 5, color.dark());
+    hitIndicator = new HitIndicator(y() - 1, 28, 3, color.dark());
 
   MScene->addItem(hitIndicator);
   hitIndicator->hide();

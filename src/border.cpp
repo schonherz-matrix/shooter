@@ -6,7 +6,7 @@ Border::Border(bool upper) {
   if (upper)
     setPos(0, 0);
   else
-    setPos(0, 25);
+    setPos(0, 17);
 
   setZValue(-1);
 }

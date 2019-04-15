@@ -4,7 +4,7 @@
 #include <QGraphicsScene>
 #include "matrixscene.h"
 #include "missile.h"
-#include <math.h>
+#include <cmath>
 #include "player.h"
 
 QPointF getRandomEdgePoint(){

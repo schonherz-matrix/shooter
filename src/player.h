@@ -13,8 +13,6 @@
 
 class MatrixScene;
 
-constexpr size_t max_life = 2228;
-
 class Player : public CollidingItem {
   Q_OBJECT
   /*

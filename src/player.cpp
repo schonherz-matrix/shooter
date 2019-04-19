@@ -18,7 +18,7 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
       healthBar(healthBar),
       powerUpBar(powerUp),
       upper(upper),
-      life(max_life),
+      life(config::players::max_life),
       dead(false),
       power(PowerUp::NONE) {
   if (upper) {
@@ -101,7 +101,7 @@ void Player::advance(int phase) {
 
   if (phase == 0) {
     if (lookAround(this)) {
-      this->hurt(10);
+      this->hurt(config::players::hurt_by_shot);
     }
     return;
   }
@@ -198,8 +198,8 @@ void Player::applyPowerUp(PowerUp::powerType const pu) {
   if (dead) return;
 
   if (pu == PowerUp::HEALTH) {
-    life += max_life / 4;
-    if (life > max_life) life = max_life;
+    life += config::players::max_life / 4;
+    if (life > config::players::max_life) life = config::players::max_life;
     displayHealth();
     return;
   }
@@ -218,7 +218,7 @@ void Player::applyPowerUp(PowerUp::powerType const pu) {
 }
 
 void Player::displayHealth() {
-  this->healthBar->setValue((float)life / max_life);
+  this->healthBar->setValue((float)life / config::players::max_life);
 }
 
 void Player::startFireTimer(std::chrono::milliseconds time) {

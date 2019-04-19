@@ -38,6 +38,11 @@ extern double player_spawn_asteroide;
 extern double asteroide_evelation;
 }
 
+namespace players{
+    extern unsigned max_life;
+    extern unsigned hurt_by_shot;
+}
+
 tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for
                                                the wanted delay*/
 tick operator"" _s(unsigned long long s);   /**< Returns the number of tick for

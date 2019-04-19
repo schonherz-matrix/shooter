@@ -24,3 +24,6 @@ tick config::operator"" _ms(unsigned long long ms) {
 tick config::operator"" _s(unsigned long long s) {
   return gameSpeed::fps * static_cast<unsigned>(s);
 }
+
+unsigned config::players::max_life = 1000;
+unsigned config::players::hurt_by_shot = 10;

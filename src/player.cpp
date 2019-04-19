@@ -114,7 +114,7 @@ void Player::advance(int phase) {
 }
 
 void Player::fire(bool fire) {
-  if ((!dead && canFire) || fire) {
+  if (!dead && (canFire || fire)) {
     QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));
     switch (power) {
       case PowerUp::DOUBLE_SHOOT:
@@ -235,6 +235,13 @@ void Player::startFireTimer(std::chrono::milliseconds time) {
 void Player::hit(Player *p) {
   if (p == this || dead) return;
   qDebug() << "Player hit";
+}
+
+void Player::gameOver() {
+  killTimer(fireTimerID);
+  disconnect();
+  canFire = false;
+  dead = true;
 }
 
 void Player::timerEvent(QTimerEvent *event) {

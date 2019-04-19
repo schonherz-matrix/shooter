@@ -7,7 +7,7 @@
 #include <cmath>
 #include "player.h"
 
-Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
+Asteroid::Asteroid(MatrixScene *MScene)
     : anim(this, "pos") {
   this->life = Asteroid::MAXLIFE;
   this->look =
@@ -42,9 +42,9 @@ Asteroid::Asteroid(MatrixScene *MScene, QVector<QPointF> players)
       start = MScene->getRandomEdgePoint() - QPointF{width, height};
         end = MScene->getRandomEdgePoint();
   } while (
-            (start-players[0]).manhattanLength() < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
+            ((start - MScene->upperPlayer.pos()).manhattanLength()) < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
            ||
-            (start-players[1]).manhattanLength() < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
+            ((start - MScene->lowerPlayer.pos()).manhattanLength()) < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
            ||
             std::abs((end-start).y()) < (config::distance::asteroide_evelation + height)
            );

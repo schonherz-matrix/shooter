@@ -122,7 +122,7 @@ void MatrixScene::timerEvent(QTimerEvent *) {
       QVector<QPointF> players;
       players.append(upperPlayer.pos());
       players.append(lowerPlayer.pos());
-      new Asteroid(this, players);
+      new Asteroid(this);
     }
     // Spawn new powerup
     if (QRandomGenerator::system()->bounded(config::chance::spawn_powerup) == 0)

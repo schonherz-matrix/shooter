@@ -20,7 +20,7 @@ class Asteroid : public CollidingItem {
 
   enum class AsteroidType { SMALL = 0, MEDIUM = 1, LARGE = 2 };
 
-  Asteroid(MatrixScene *MScene, QVector<QPointF> players);
+  Asteroid(MatrixScene *MScene);
 
   // QGraphicsItem interface
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *item,

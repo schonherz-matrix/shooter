@@ -6,6 +6,7 @@
 #include <QRandomGenerator>
 #include "missile.h"
 #include "player.h"
+#include "matrixscene.h"
 
 PowerUp::PowerUp(QGraphicsScene *scene) : anim(this, "pos") {
   size_t random_type_num =
@@ -18,43 +19,27 @@ PowerUp::PowerUp(QGraphicsScene *scene) : anim(this, "pos") {
 
   scene->addItem(this);  // Add the powerup to the scene
 
-  int side = QRandomGenerator::global()->bounded(0, 4);
-  int startX = 0, startY = 0, endX = 0, endY = 0;
-
-  switch (side) {
-    case 0:  // left
-      startX = -5;
-      endX = 32;
-      startY = QRandomGenerator::global()->bounded(0, 27);
-      endY = QRandomGenerator::global()->bounded(0, 27);
-      break;
-    case 1:  // right
-      startX = 32;
-      endX = -5;
-      startY = QRandomGenerator::global()->bounded(0, 27);
-      endY = QRandomGenerator::global()->bounded(0, 27);
-      break;
-    case 2:  // up
-      startY = 0;
-      endY = 28;
-      startX = QRandomGenerator::global()->bounded(0, 33);
-      endX = QRandomGenerator::global()->bounded(0, 33);
-      break;
-    case 3:  // down
-      startY = 26;
-      endY = -5;
-      startX = QRandomGenerator::global()->bounded(0, 33);
-      endX = QRandomGenerator::global()->bounded(0, 33);
-      break;
-  }
-
   int time = QRandomGenerator::global()->bounded(5, 10);
 
   connect(&anim, &QPropertyAnimation::finished, this, [=]() { remove(); });
 
+  QPointF startPoint;
+  QPointF endPoint;
+
+  do{
+      startPoint = static_cast<MatrixScene*>(scene)->getRandomEdgePoint();
+      endPoint = static_cast<MatrixScene*>(scene)->getRandomEdgePoint();
+  } while(
+          (startPoint - endPoint).manhattanLength() < 7
+          ||
+          (startPoint - static_cast<MatrixScene*>(scene)->upperPlayer.pos()).manhattanLength() < config::distance::player_spawn_asteroide
+          ||
+          (startPoint - static_cast<MatrixScene*>(scene)->lowerPlayer.pos()).manhattanLength() < config::distance::player_spawn_asteroide
+          );
+
   anim.setDuration(1000 * time);
-  anim.setStartValue(QPointF(startX, startY));
-  anim.setEndValue(QPointF(endX, endY));
+  anim.setStartValue(static_cast<MatrixScene*>(this->scene())->getRandomEdgePoint());
+  anim.setEndValue(static_cast<MatrixScene*>(this->scene())->getRandomEdgePoint());
   anim.start();
 }
 

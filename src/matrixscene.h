@@ -23,6 +23,7 @@ class MatrixScene : public QGraphicsScene {
   MatrixScene(QObject* parent = nullptr);
   sf::SoundBuffer* getSoundBuffer(QString name);
   gainput::InputManager manager;
+  QPointF getRandomEdgePoint();
 
  public slots:
   void endGame(bool upper);

@@ -175,3 +175,34 @@ void MatrixScene::timerEvent(QTimerEvent *) {
   render(&painter);
   transmitter.sendFrame(frame);
 }
+
+
+QPointF MatrixScene::getRandomEdgePoint(){
+    using config::mapWidth;
+    using config::mapHeight;
+
+    QPointF ret;
+
+    qreal l1 = QRandomGenerator::global()->bounded(static_cast<quint32>((mapWidth + mapHeight)/2));
+
+    if(l1 > (mapWidth/2.0)){
+        ret.setX(mapWidth/2.0);
+        ret.setY(l1 - (mapWidth/2.0));
+    }
+    else{
+        ret.setX(l1);
+        ret.setY(mapHeight/2.0);
+    }
+
+    if(QRandomGenerator::global()->bounded(0, 2) == 1)
+        ret.ry()*=-1;
+
+    if(QRandomGenerator::global()->bounded(0, 2) == 1)
+        ret.rx()*=-1;
+
+    ret+=QPointF{config::mapWidth/2.0, config::mapHeight/2.0};
+
+    qDebug() << ret;
+
+    return ret;
+}

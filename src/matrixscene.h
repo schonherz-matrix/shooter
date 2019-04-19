@@ -41,9 +41,11 @@ class MatrixScene : public QGraphicsScene {
 
   QMap<QString, sf::SoundBuffer*> buffers;
 
+public:
   Player lowerPlayer;
   Player upperPlayer;
 
+private:
   Border lowerBorder;
   Border upperBorder;
 

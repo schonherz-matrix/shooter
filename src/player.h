@@ -53,6 +53,7 @@ class Player : public CollidingItem {
   void fire(bool fire = false);
   // CollidingItem interface
   void hit(Player *item) override;
+  void gameOver();
 
   static const int height;
   static const int width;

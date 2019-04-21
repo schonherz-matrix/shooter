@@ -80,6 +80,8 @@ sf::SoundBuffer *MatrixScene::getSoundBuffer(QString name) {
 
 void MatrixScene::endGame(bool upper) {
   gameOver = true;
+  lowerPlayer.gameOver();
+  upperPlayer.gameOver();
   addRect(0, 0, 32, 18, Qt::NoPen, (upper) ? Qt::green : Qt::red);
   auto text = addText((upper) ? "P1" : "P2", QFont("Times", 7, QFont::Bold));
   text->setPos(6, -5);

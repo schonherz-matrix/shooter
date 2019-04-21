@@ -45,13 +45,13 @@ void Bar::startAnim(std::chrono::milliseconds duration) {
 void Bar::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
                 QWidget *) {
   painter->setPen(m_color.darker());
-  painter->drawLine(0, 0, 0, 25);  // Background
+  painter->drawLine(0, 0, 0, config::mapHeight-1);  // Background
   painter->setPen(m_color);
-  int startX = static_cast<int>(25 - ( 25 * m_value ));
-  if (m_value > 0) painter->drawLine(0, startX, 0, 25);  // Foreground
+  int startX = static_cast<int>(config::mapHeight - 1 - ( (config::mapHeight-1) * m_value ));
+  if (m_value > 0) painter->drawLine(0, startX, 0, config::mapHeight - 1);  // Foreground
 }
 
-QRectF Bar::boundingRect() const { return QRectF(0, 0, 1, 26); }
+QRectF Bar::boundingRect() const { return QRectF(0, 0, 1, config::mapHeight); }
 
 QPainterPath Bar::shape() const {
   QPainterPath path;

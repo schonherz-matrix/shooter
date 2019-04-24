@@ -106,6 +106,9 @@ void Player::advance(int phase) {
 
   qreal pos = sf::Joystick::getAxisPosition(gamepad, sf::Joystick::X);
 
+  if (sf::Joystick::getAxisPosition(gamepad, sf::Joystick::PovX))
+    pos = sf::Joystick::getAxisPosition(gamepad, sf::Joystick::PovX);
+
   move(pos / 100);
 
   if (phase == 0) {

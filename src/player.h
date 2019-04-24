@@ -32,7 +32,7 @@ class Player : public CollidingItem {
     // Enable the use of qgraphicsitem_cast with this item.
     return Type;
   }
-  Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUpBar,
+  Player(bool upper, int gamepad, Bar *healthBar, Bar *powerUpBar,
          MatrixScene *MScene);
 
   QColor getColor() { return this->color; }
@@ -48,8 +48,7 @@ class Player : public CollidingItem {
   void applyPowerUp(PowerUp::powerType const pu);
   size_t getLife() { return this->life; }
 
-  void moveLeft();
-  void moveRight();
+  void move(qreal val);
   void fire(bool fire = false);
   // CollidingItem interface
   void hit(Player *item) override;
@@ -66,7 +65,7 @@ class Player : public CollidingItem {
   void startFireTimer(std::chrono::milliseconds);
   bool canFire = false;
   HitIndicator *hitIndicator = nullptr;
-  QGamepad *gamepad;
+  int gamepad;
   Bar *healthBar;
   Bar *powerUpBar;
   const bool upper;

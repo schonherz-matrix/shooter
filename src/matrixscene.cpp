@@ -11,9 +11,9 @@ MatrixScene::MatrixScene(QObject *parent)
       player2HPBar(Qt::red, 1),
       player1PWBar(Qt::yellow, 0),
       player2PWBar(Qt::yellow, 0),
-      lowerPlayer(false, new QGamepad(0, this), &player1HPBar, &player1PWBar,
+      lowerPlayer(false, 0, &player1HPBar, &player1PWBar,
                   this),
-      upperPlayer(true, new QGamepad(1, this), &player2HPBar, &player2PWBar,
+      upperPlayer(true, 1, &player2HPBar, &player2PWBar,
                   this),
       lowerBorder(false),
       upperBorder(true),
@@ -92,16 +92,16 @@ void MatrixScene::endGame(bool upper) {
 void MatrixScene::keyPressEvent(QKeyEvent *event) {
   switch (event->key()) {
     case Qt::Key_Left:
-      lowerPlayer.moveLeft();
+      lowerPlayer.move(-1);
       break;
     case Qt::Key_Right:
-      lowerPlayer.moveRight();
+      lowerPlayer.move(1);
       break;
     case Qt::Key_A:
-      upperPlayer.moveLeft();
+      upperPlayer.move(-1);
       break;
     case Qt::Key_D:
-      upperPlayer.moveRight();
+      upperPlayer.move(1);
       break;
     case Qt::Key_Control:
       lowerPlayer.fire(true);

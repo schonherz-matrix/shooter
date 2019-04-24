@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QGraphicsScene>
+#include <SFML/Window/Joystick.hpp>
 #include "config.h"
 #include "laser.hpp"
 #include "matrixscene.h"
@@ -11,7 +12,7 @@
 const int Player::height = 2;
 const int Player::width = 3;
 
-Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
+Player::Player(bool upper, int gamepad, Bar *healthBar, Bar *powerUp,
                MatrixScene *MScene)
     : time_to_fire(false),
       gamepad(gamepad),
@@ -31,11 +32,6 @@ Player::Player(bool upper, QGamepad *gamepad, Bar *healthBar, Bar *powerUp,
 
   displayHealth();
   sound.setBuffer(*MScene->getSoundBuffer("fire"));
-
-  connect(gamepad, &QGamepad::buttonXChanged, this, [=](bool value) {
-    canFire = value;
-    startFireTimer(config::duration::time_between_firing);
-  });
 
   connect(powerUp, &Bar::finished, this, [=]() {
     power = PowerUp::NONE;
@@ -99,17 +95,24 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 void Player::advance(int phase) {
   if (dead) return;
 
+  sf::Joystick::update();
+
+  if (sf::Joystick::isButtonPressed(gamepad, 3)) {
+    if (!timerStarted) startFireTimer(config::duration::time_between_firing);
+    canFire = true;
+  } else {
+    canFire = false;
+  }
+
+  qreal pos = sf::Joystick::getAxisPosition(gamepad, sf::Joystick::X);
+
+  move(pos / 100);
+
   if (phase == 0) {
     if (lookAround(this)) {
       this->hurt(config::players::hurt_by_shot);
     }
     return;
-  }
-
-  if (gamepad->axisLeftX() < -0.4 || gamepad->buttonLeft()) {
-    moveLeft();
-  } else if (gamepad->axisLeftX() > 0.4 || gamepad->buttonRight()) {
-    moveRight();
   }
 }
 
@@ -143,15 +146,14 @@ void Player::fire(bool fire) {
   }
 }
 
-void Player::moveLeft() {
-  if (pos().x() > 2) {
-    moveBy(-1, 0);  // go left
-  }
-}
-
-void Player::moveRight() {
-  if (pos().x() < 27) {
-    moveBy(1, 0);  // go right
+void Player::move(qreal val) {
+  qreal dir = pos().x() + val;
+  if (dir > 2 && dir < 27) {
+    moveBy(val, 0);  // go left
+  } else if (dir > 26) {
+    setX(27);
+  } else {
+    setX(2);
   }
 }
 
@@ -227,6 +229,8 @@ void Player::startFireTimer(std::chrono::milliseconds time) {
     fireTimerID = startTimer(time);
     return;
   }
+
+  if (timerStarted == true) return;
 
   fireTimerID = startTimer(time);
   timerStarted = true;

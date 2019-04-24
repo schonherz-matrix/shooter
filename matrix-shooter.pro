@@ -79,7 +79,7 @@ else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/lib/
 else:unix: PRE_TARGETDEPS += $$PWD/lib/emu/mueb/libmueb.a
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio -lsfml-system
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d -lsfml-window-d
 else:unix: LIBS += -lsfml-audio -lsfml-system
 
 INCLUDEPATH += $$PWD/lib/SFML/include

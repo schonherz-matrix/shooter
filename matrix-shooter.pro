@@ -80,7 +80,7 @@ else:unix: PRE_TARGETDEPS += $$PWD/lib/emu/mueb/libmueb.a
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio -lsfml-system
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/SFML/build/lib/ -lsfml-audio-d -lsfml-system-d -lsfml-window-d
-else:unix: LIBS += -lsfml-audio -lsfml-system
+else:unix: LIBS += -lsfml-audio -lsfml-system -lsfml-window
 
 INCLUDEPATH += $$PWD/lib/SFML/include
 DEPENDPATH += $$PWD/lib/SFML/include

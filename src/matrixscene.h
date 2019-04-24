@@ -2,7 +2,6 @@
 #define MATRIXSCENE_H
 
 #include <muebtransmitter.h>
-#include <QGamepadManager>
 #include <QGraphicsScene>
 #include <QImage>
 #include <QPainter>

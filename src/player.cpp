@@ -21,7 +21,8 @@ Player::Player(bool upper, int gamepad, Bar *healthBar, Bar *powerUp,
       upper(upper),
       life(config::players::max_life),
       dead(false),
-      power(PowerUp::NONE) {
+      power(PowerUp::NONE),
+canFire(true){
   if (upper) {
     color = Qt::red;
     setPos(15, 0);
@@ -98,10 +99,7 @@ void Player::advance(int phase) {
   sf::Joystick::update();
 
   if (sf::Joystick::isButtonPressed(gamepad, 3)) {
-    if (!timerStarted) startFireTimer(config::duration::time_between_firing);
-    canFire = true;
-  } else {
-    canFire = false;
+    fire();
   }
 
   qreal pos = sf::Joystick::getAxisPosition(gamepad, sf::Joystick::X);
@@ -121,6 +119,8 @@ void Player::advance(int phase) {
 
 void Player::fire(bool fire) {
   if (!dead && (canFire || fire)) {
+    canFire = false;
+
     QPointF launch_point = pos() + (upper ? QPointF(1, 2) : QPointF(1, 0));
     switch (power) {
       case PowerUp::DOUBLE_SHOOT:
@@ -146,6 +146,8 @@ void Player::fire(bool fire) {
         break;
     }
     sound.play();
+
+    if (!timerStarted) startFireTimer(config::duration::time_between_firing);
   }
 }
 
@@ -253,7 +255,7 @@ void Player::gameOver() {
 
 void Player::timerEvent(QTimerEvent *event) {
   if (event->timerId() == fireTimerID)
-    fire();
+    this->canFire = true;
   else {
     hitIndicator->hide();
     killTimer(event->timerId());

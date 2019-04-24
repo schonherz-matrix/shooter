@@ -63,9 +63,9 @@ QPainterPath PowerUp::shape() const {
 const std::array<std::pair<PowerUp::powerType, QColor>,
                  PowerUp::number_of_types>
     PowerUp::types = {
-        std::make_pair(PowerUp::powerType::HEALTH, Qt::green),
+        std::make_pair(PowerUp::powerType::HEALTH, qRgb(200,150,150)),
         std::make_pair(PowerUp::powerType::DOUBLE_SHOOT, Qt::yellow),
-        std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, Qt::red),
+        std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, qRgb(255,0,255)),
         std::make_pair(PowerUp::powerType::LASER, Qt::blue)};
 
 void PowerUp::hit(Player *attacker) {

@@ -38,6 +38,8 @@ extern double player_spawn_asteroide;
 extern double asteroide_evelation;
 }
 
+extern double missile_speed;
+
 namespace players{
     extern unsigned max_life;
     extern unsigned hurt_by_shot;

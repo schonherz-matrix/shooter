@@ -1,4 +1,4 @@
 [submodule "lib/gainput"]
-	path = lib/gainput
+	path = extern/gainput
 	url = https://github.com/jkuhlmann/gainput.git
 	ignore = dirty

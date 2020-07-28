@@ -30,7 +30,7 @@ class MatrixScene : public QGraphicsScene {
  private:
   QImage frame;
   QPainter painter;
-  MUEBTransmitter transmitter;
+  MuebTransmitter& transmitter{MuebTransmitter::getInstance()};
   int timerID;
 
   Bar player1HPBar;

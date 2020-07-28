@@ -133,7 +133,7 @@ void MatrixScene::timerEvent(QTimerEvent *) {
     // Move players closer
     counter_to_shrink++;
     if (counter_to_shrink == config::gameSpeed::time_between_shrink) {
-      if (upperPlayer.pos().y() < (frame.height() - 6) / 2) {
+      if (upperPlayer.pos().y() < 6) {
         upperPlayer.moveBy(0, 2);
         upperBorder.moveBy(0, 2);
         lowerPlayer.moveBy(0, -2);

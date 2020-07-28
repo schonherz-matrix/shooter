@@ -7,7 +7,7 @@ namespace config {
 using tick = unsigned;
 
 static constexpr int mapWidth  = 2*8*2;
-static constexpr int mapHeight = 2*13;
+static constexpr int mapHeight = 2*9;
 
 namespace gameSpeed {
 const extern tick fps; /**< Number of frames calculated and displayed */
@@ -37,6 +37,8 @@ namespace distance{
 extern double player_spawn_asteroide;
 extern double asteroide_evelation;
 }
+
+extern double missile_speed;
 
 namespace players{
     extern unsigned max_life;

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QPainter>
+#include "config.h"
 #include "player.h"
 
 Missile::Missile(const QPointF &start_position, QColor color,
@@ -18,7 +19,7 @@ Missile::Missile(const QPointF &start_position, QColor color,
   } else {
     endY = -5;
   }
-  double time_ms = 1000 * static_cast<double>(time);
+  double time_ms = 1000 * static_cast<double>(config::missile_speed);
   if (direction_down) {
     time_ms *= (endY - start_position.y()) / 26.0;
   }

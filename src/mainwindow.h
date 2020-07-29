@@ -13,8 +13,13 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
+  static int const EXIT_CODE_REBOOT;
+
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+
+ public slots:
+  void reboot();
 
  private:
   Ui::MainWindow *ui;

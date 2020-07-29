@@ -2,6 +2,8 @@
 
 #include "ui_mainwindow.h"
 
+int const MainWindow::EXIT_CODE_REBOOT = -123456789;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), scene(this) {
   ui->setupUi(this);
@@ -10,3 +12,5 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::reboot() { qApp->exit(MainWindow::EXIT_CODE_REBOOT); }

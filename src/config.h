@@ -7,8 +7,8 @@ namespace config {
 using tick = unsigned;
 
 static constexpr bool shortened = false;
-static constexpr int mapWidth  = 2*8*2;
-static constexpr int mapHeight = (shortened) ? 2*9 : 2*13;
+static constexpr int mapWidth = 2 * 8 * 2;
+static constexpr int mapHeight = (shortened) ? 2 * 9 : 2 * 13;
 static constexpr int borderYPos = (shortened) ? 17 : 25;
 static constexpr int playerYPos = (shortened) ? 16 : 24;
 static constexpr int hitIndicatorHeight = (shortened) ? 3 : 5;
@@ -23,7 +23,7 @@ extern tick time_between_shrink; /**< Number of ticks between the players move
 
 namespace chance {
 extern unsigned spawn_asteroide; /**< Avarage time between asteroide spawns */
-extern unsigned spawn_powerup; /**< Avarage time between powerup spawns */
+extern unsigned spawn_powerup;   /**< Avarage time between powerup spawns */
 }  // namespace chance
 
 namespace duration {
@@ -39,17 +39,17 @@ extern std::chrono::milliseconds
 extern std::chrono::milliseconds laser;
 }  // namespace duration
 
-namespace distance{
+namespace distance {
 extern double player_spawn_asteroide;
 extern double asteroide_evelation;
-}
+}  // namespace distance
 
 extern double missile_speed;
 
-namespace players{
-    extern unsigned max_life;
-    extern unsigned hurt_by_shot;
-}
+namespace players {
+extern unsigned max_life;
+extern unsigned hurt_by_shot;
+}  // namespace players
 
 tick operator"" _ms(unsigned long long ms); /**< Returns the number of tick for
                                                the wanted delay*/

@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QPropertyAnimation>
 #include <array>
+
 #include "collidingitem.h"
 
 /**

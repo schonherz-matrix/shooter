@@ -2,11 +2,13 @@
 #define MATRIXSCENE_H
 
 #include <muebtransmitter.h>
+
 #include <QGraphicsScene>
 #include <QImage>
 #include <QPainter>
 #include <QTimer>
 #include <SFML/Audio.hpp>
+
 #include "asteroid.h"
 #include "bar.h"
 #include "border.h"
@@ -40,11 +42,11 @@ class MatrixScene : public QGraphicsScene {
 
   QMap<QString, sf::SoundBuffer*> buffers;
 
-public:
+ public:
   Player lowerPlayer;
   Player upperPlayer;
 
-private:
+ private:
   Border lowerBorder;
   Border upperBorder;
 

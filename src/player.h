@@ -2,10 +2,12 @@
 #define Player_H
 
 #include <gainput/gainput.h>
+
 #include <QColor>
 #include <QPainter>
 #include <QtGamepad>
 #include <SFML/Audio.hpp>
+
 #include "bar.h"
 #include "collidingitem.h"
 #include "hitindicator.h"

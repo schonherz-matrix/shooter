@@ -5,6 +5,7 @@
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include <SFML/Audio.hpp>
+
 #include "collidingitem.h"
 
 class MatrixScene;

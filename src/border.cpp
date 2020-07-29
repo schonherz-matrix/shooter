@@ -1,6 +1,7 @@
 #include "border.h"
 
 #include <QPainter>
+
 #include "config.h"
 
 Border::Border(bool upper) {

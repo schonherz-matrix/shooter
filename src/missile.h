@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QPointF>
 #include <QPropertyAnimation>
+
 #include "collidingitem.h"
 
 class Player;

@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QRandomGenerator>
+
 #include "config.h"
 
 MatrixScene::MatrixScene(QObject *parent)
@@ -12,10 +13,8 @@ MatrixScene::MatrixScene(QObject *parent)
       player2HPBar(Qt::red, 1),
       player1PWBar(Qt::yellow, 0),
       player2PWBar(Qt::yellow, 0),
-      lowerPlayer(false, 0, &player1HPBar, &player1PWBar,
-                  this),
-      upperPlayer(true, 1, &player2HPBar, &player2PWBar,
-                  this),
+      lowerPlayer(false, 0, &player1HPBar, &player1PWBar, this),
+      upperPlayer(true, 1, &player2HPBar, &player2PWBar, this),
       lowerBorder(false),
       upperBorder(true),
       counter_to_shrink(0) {
@@ -83,10 +82,12 @@ void MatrixScene::endGame(bool upper) {
   gameOver = true;
   lowerPlayer.gameOver();
   upperPlayer.gameOver();
-  if(upper)
-    addPixmap(QPixmap((config::shortened) ? "data/p1_won_s.png" : "data/p1_won.png"));
+  if (upper)
+    addPixmap(
+        QPixmap((config::shortened) ? "data/p1_won_s.png" : "data/p1_won.png"));
   else
-    addPixmap(QPixmap((config::shortened) ? "data/p2_won_s.png" : "data/p2_won.png"));
+    addPixmap(
+        QPixmap((config::shortened) ? "data/p2_won_s.png" : "data/p2_won.png"));
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event) {
@@ -178,33 +179,30 @@ void MatrixScene::timerEvent(QTimerEvent *) {
   transmitter.sendFrame(frame);
 }
 
+QPointF MatrixScene::getRandomEdgePoint() {
+  using config::mapHeight;
+  using config::mapWidth;
 
-QPointF MatrixScene::getRandomEdgePoint(){
-    using config::mapWidth;
-    using config::mapHeight;
+  QPointF ret;
 
-    QPointF ret;
+  qreal l1 = QRandomGenerator::global()->bounded(
+      static_cast<quint32>((mapWidth + mapHeight) / 2));
 
-    qreal l1 = QRandomGenerator::global()->bounded(static_cast<quint32>((mapWidth + mapHeight)/2));
+  if (l1 > (mapWidth / 2.0)) {
+    ret.setX(mapWidth / 2.0);
+    ret.setY(l1 - (mapWidth / 2.0));
+  } else {
+    ret.setX(l1);
+    ret.setY(mapHeight / 2.0);
+  }
 
-    if(l1 > (mapWidth/2.0)){
-        ret.setX(mapWidth/2.0);
-        ret.setY(l1 - (mapWidth/2.0));
-    }
-    else{
-        ret.setX(l1);
-        ret.setY(mapHeight/2.0);
-    }
+  if (QRandomGenerator::global()->bounded(0, 2) == 1) ret.ry() *= -1;
 
-    if(QRandomGenerator::global()->bounded(0, 2) == 1)
-        ret.ry()*=-1;
+  if (QRandomGenerator::global()->bounded(0, 2) == 1) ret.rx() *= -1;
 
-    if(QRandomGenerator::global()->bounded(0, 2) == 1)
-        ret.rx()*=-1;
+  ret += QPointF{config::mapWidth / 2.0, config::mapHeight / 2.0};
 
-    ret+=QPointF{config::mapWidth/2.0, config::mapHeight/2.0};
+  qDebug() << ret;
 
-    qDebug() << ret;
-
-    return ret;
+  return ret;
 }

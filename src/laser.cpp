@@ -1,6 +1,7 @@
 #include "laser.hpp"
 
 #include <QPainter>
+
 #include "player.h"
 
 Laser::Laser(Player *const owner, bool direction_down)

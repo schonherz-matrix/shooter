@@ -2,13 +2,13 @@
 
 #include <QDebug>
 #include <QGraphicsScene>
+#include <cmath>
+
 #include "matrixscene.h"
 #include "missile.h"
-#include <cmath>
 #include "player.h"
 
-Asteroid::Asteroid(MatrixScene *MScene)
-    : anim(this, "pos") {
+Asteroid::Asteroid(MatrixScene *MScene) : anim(this, "pos") {
   this->life = Asteroid::MAXLIFE;
   this->look =
       static_cast<AsteroidType>(QRandomGenerator::global()->bounded(0, 3));
@@ -34,20 +34,22 @@ Asteroid::Asteroid(MatrixScene *MScene)
   QPointF end;
 
   auto height = pixmapItem.boundingRect().height();
-  auto width  = pixmapItem.boundingRect().width();
+  auto width = pixmapItem.boundingRect().width();
 
   qDebug() << height << width;
 
-  do{
-      start = MScene->getRandomEdgePoint() - QPointF{width, height};
-        end = MScene->getRandomEdgePoint();
+  do {
+    start = MScene->getRandomEdgePoint() - QPointF{width, height};
+    end = MScene->getRandomEdgePoint();
   } while (
-            ((start - MScene->upperPlayer.pos()).manhattanLength()) < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
-           ||
-            ((start - MScene->lowerPlayer.pos()).manhattanLength()) < (config::distance::player_spawn_asteroide + std::max(height, width) + std::max(Player::width, Player::height))
-           ||
-            std::abs((end-start).y()) < (config::distance::asteroide_evelation + height)
-           );
+      ((start - MScene->upperPlayer.pos()).manhattanLength()) <
+          (config::distance::player_spawn_asteroide + std::max(height, width) +
+           std::max(Player::width, Player::height)) ||
+      ((start - MScene->lowerPlayer.pos()).manhattanLength()) <
+          (config::distance::player_spawn_asteroide + std::max(height, width) +
+           std::max(Player::width, Player::height)) ||
+      std::abs((end - start).y()) <
+          (config::distance::asteroide_evelation + height));
 
   int time = QRandomGenerator::global()->bounded(5, 10);
 

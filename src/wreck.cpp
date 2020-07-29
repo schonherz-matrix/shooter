@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QGraphicsScene>
+
 #include "missile.h"
 
 Wreck::Wreck(QPointF pos, QColor color) : color(color), position(pos) {

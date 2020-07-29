@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QRandomGenerator>
+
 #include "collidingitem.h"
 
 class Wreck : public QGraphicsItem {

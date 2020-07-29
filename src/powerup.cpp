@@ -4,9 +4,10 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QRandomGenerator>
+
+#include "matrixscene.h"
 #include "missile.h"
 #include "player.h"
-#include "matrixscene.h"
 
 PowerUp::PowerUp(QGraphicsScene *scene) : anim(this, "pos") {
   size_t random_type_num =
@@ -26,20 +27,21 @@ PowerUp::PowerUp(QGraphicsScene *scene) : anim(this, "pos") {
   QPointF startPoint;
   QPointF endPoint;
 
-  do{
-      startPoint = static_cast<MatrixScene*>(scene)->getRandomEdgePoint();
-      endPoint = static_cast<MatrixScene*>(scene)->getRandomEdgePoint();
-  } while(
-          (startPoint - endPoint).manhattanLength() < 7
-          ||
-          (startPoint - static_cast<MatrixScene*>(scene)->upperPlayer.pos()).manhattanLength() < config::distance::player_spawn_asteroide
-          ||
-          (startPoint - static_cast<MatrixScene*>(scene)->lowerPlayer.pos()).manhattanLength() < config::distance::player_spawn_asteroide
-          );
+  do {
+    startPoint = static_cast<MatrixScene *>(scene)->getRandomEdgePoint();
+    endPoint = static_cast<MatrixScene *>(scene)->getRandomEdgePoint();
+  } while (
+      (startPoint - endPoint).manhattanLength() < 7 ||
+      (startPoint - static_cast<MatrixScene *>(scene)->upperPlayer.pos())
+              .manhattanLength() < config::distance::player_spawn_asteroide ||
+      (startPoint - static_cast<MatrixScene *>(scene)->lowerPlayer.pos())
+              .manhattanLength() < config::distance::player_spawn_asteroide);
 
   anim.setDuration(1000 * time);
-  anim.setStartValue(static_cast<MatrixScene*>(this->scene())->getRandomEdgePoint());
-  anim.setEndValue(static_cast<MatrixScene*>(this->scene())->getRandomEdgePoint());
+  anim.setStartValue(
+      static_cast<MatrixScene *>(this->scene())->getRandomEdgePoint());
+  anim.setEndValue(
+      static_cast<MatrixScene *>(this->scene())->getRandomEdgePoint());
   anim.start();
 }
 
@@ -63,9 +65,9 @@ QPainterPath PowerUp::shape() const {
 const std::array<std::pair<PowerUp::powerType, QColor>,
                  PowerUp::number_of_types>
     PowerUp::types = {
-        std::make_pair(PowerUp::powerType::HEALTH, qRgb(200,150,150)),
+        std::make_pair(PowerUp::powerType::HEALTH, qRgb(200, 150, 150)),
         std::make_pair(PowerUp::powerType::DOUBLE_SHOOT, Qt::yellow),
-        std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, qRgb(255,0,255)),
+        std::make_pair(PowerUp::powerType::TRIPLE_SHOOT, qRgb(255, 0, 255)),
         std::make_pair(PowerUp::powerType::LASER, Qt::blue)};
 
 void PowerUp::hit(Player *attacker) {

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QPainter>
+
 #include "config.h"
 #include "player.h"
 

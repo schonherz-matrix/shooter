@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <SFML/Window/Joystick.hpp>
+
 #include "config.h"
 #include "laser.hpp"
 #include "matrixscene.h"
@@ -22,7 +23,7 @@ Player::Player(bool upper, int gamepad, Bar *healthBar, Bar *powerUp,
       life(config::players::max_life),
       dead(false),
       power(PowerUp::NONE),
-canFire(true){
+      canFire(true) {
   if (upper) {
     color = Qt::red;
     setPos(15, 0);
@@ -42,9 +43,11 @@ canFire(true){
 
   // Add hit indicator
   if (upper)
-    hitIndicator = new HitIndicator(y(), 28, config::hitIndicatorHeight, color.dark());
+    hitIndicator =
+        new HitIndicator(y(), 28, config::hitIndicatorHeight, color.dark());
   else
-    hitIndicator = new HitIndicator(y() - config::hitIndicatorYOffset, 28, config::hitIndicatorHeight, color.dark());
+    hitIndicator = new HitIndicator(y() - config::hitIndicatorYOffset, 28,
+                                    config::hitIndicatorHeight, color.dark());
 
   MScene->addItem(hitIndicator);
   hitIndicator->hide();

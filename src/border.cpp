@@ -1,12 +1,13 @@
 #include "border.h"
 
 #include <QPainter>
+#include "config.h"
 
 Border::Border(bool upper) {
   if (upper)
     setPos(0, 0);
   else
-    setPos(0, 17);
+    setPos(0, config::borderYPos);
 
   setZValue(-1);
 }

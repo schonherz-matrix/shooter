@@ -6,8 +6,14 @@
 namespace config {
 using tick = unsigned;
 
+static constexpr bool shortened = false;
 static constexpr int mapWidth  = 2*8*2;
-static constexpr int mapHeight = 2*9;
+static constexpr int mapHeight = (shortened) ? 2*9 : 2*13;
+static constexpr int borderYPos = (shortened) ? 17 : 25;
+static constexpr int playerYPos = (shortened) ? 16 : 24;
+static constexpr int hitIndicatorHeight = (shortened) ? 3 : 5;
+static constexpr int hitIndicatorYOffset = (shortened) ? 1 : 3;
+static constexpr int shrinkAmount = (shortened) ? 6 : 10;
 
 namespace gameSpeed {
 const extern tick fps; /**< Number of frames calculated and displayed */

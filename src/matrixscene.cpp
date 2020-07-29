@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QRandomGenerator>
+#include "config.h"
 
 MatrixScene::MatrixScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -82,11 +83,10 @@ void MatrixScene::endGame(bool upper) {
   gameOver = true;
   lowerPlayer.gameOver();
   upperPlayer.gameOver();
-  addRect(0, 0, 32, 26, Qt::NoPen, (upper) ? Qt::green : Qt::red);
-  auto text = addText((upper) ? "P1" : "P2", QFont("Times", 10, QFont::Bold));
-  text->setPos(5, -5);
-  auto won = addText("WON!", QFont("Times", 9, QFont::Bold));
-  won->setPos(-4, 8);
+  if(upper)
+    addPixmap(QPixmap((config::shortened) ? "data/p1_won_s.png" : "data/p1_won.png"));
+  else
+    addPixmap(QPixmap((config::shortened) ? "data/p2_won_s.png" : "data/p2_won.png"));
 }
 
 void MatrixScene::keyPressEvent(QKeyEvent *event) {
@@ -133,7 +133,7 @@ void MatrixScene::timerEvent(QTimerEvent *) {
     // Move players closer
     counter_to_shrink++;
     if (counter_to_shrink == config::gameSpeed::time_between_shrink) {
-      if (upperPlayer.pos().y() < 6) {
+      if (upperPlayer.pos().y() < config::shrinkAmount) {
         upperPlayer.moveBy(0, 2);
         upperBorder.moveBy(0, 2);
         lowerPlayer.moveBy(0, -2);

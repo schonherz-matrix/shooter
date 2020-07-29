@@ -28,7 +28,7 @@ canFire(true){
     setPos(15, 0);
   } else {
     color = Qt::green;
-    setPos(15, 16);
+    setPos(15, config::playerYPos);
   }
 
   displayHealth();
@@ -42,9 +42,9 @@ canFire(true){
 
   // Add hit indicator
   if (upper)
-    hitIndicator = new HitIndicator(y(), 28, 3, color.dark());
+    hitIndicator = new HitIndicator(y(), 28, config::hitIndicatorHeight, color.dark());
   else
-    hitIndicator = new HitIndicator(y() - 1, 28, 3, color.dark());
+    hitIndicator = new HitIndicator(y() - config::hitIndicatorYOffset, 28, config::hitIndicatorHeight, color.dark());
 
   MScene->addItem(hitIndicator);
   hitIndicator->hide();

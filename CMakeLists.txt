@@ -20,13 +20,16 @@ find_package(
   Qt5
   COMPONENTS Widgets Multimedia Gamepad
   REQUIRED)
-find_package(SFML 2 COMPONENTS system window audio REQUIRED)
+find_package(
+  SFML 2
+  COMPONENTS system window audio
+  REQUIRED)
 find_package(libmueb 2.0 REQUIRED)
 
 add_subdirectory(extern/gainput)
 
 add_executable(
-  ${PROJECT_NAME}
+  ${PROJECT_NAME} WIN32
   src/asteroid.cpp
   src/asteroid.h
   src/bar.cpp

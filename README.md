@@ -1,5 +1,4 @@
-matrix-shooter
-===================
+# shooter
 
 This is a two player game designed to be run on the Schönherz Mátrix.
 
